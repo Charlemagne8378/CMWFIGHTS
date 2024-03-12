@@ -13,7 +13,7 @@ if (!isset($_SESSION['utilisateur_connecte'])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['modifier'])) {
     // Nouvelles données
     $utilisateur_email = $_SESSION['utilisateur_connecte']['Adresse_email'];
-    $stmt = $conn->prepare("UPDATE Utilisateurs SET Pseudo = :pseudo, Nom = :nom, Genre = :genre, Adresse_email = :nouveau_email, Mot_de_passe = :nouveau_mot_de_passe WHERE Adresse_email = :email");
+    $stmt = $pdo->prepare("UPDATE Utilisateurs SET Pseudo = :pseudo, Nom = :nom, Genre = :genre, Adresse_email = :nouveau_email, Mot_de_passe = :nouveau_mot_de_passe WHERE Adresse_email = :email");
 
     // Pseudo
     if (!empty($_POST['nouveau_pseudo'])) {
