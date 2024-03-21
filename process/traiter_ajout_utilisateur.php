@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mot_de_passe = password_hash($_POST['mot_de_passe'], PASSWORD_DEFAULT);
     $type = $_POST['type'];
 
-    $stmt = $pdo->prepare('INSERT INTO Utilisateurs (Pseudo, Nom, Adresse_email, Mot_de_passe, Type) VALUES (:pseudo, :nom, :email, :mot_de_passe, :type)');
+    $stmt = $pdo->prepare('INSERT INTO utilisateurs (Pseudo, Nom, Adresse_email, Mot_de_passe, Type) VALUES (:pseudo, :nom, :email, :mot_de_passe, :type)');
     $stmt->bindParam(':pseudo', $pseudo);
     $stmt->bindParam(':nom', $nom);
     $stmt->bindParam(':email', $email);

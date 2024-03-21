@@ -113,10 +113,10 @@ h1{
 
     <body>
 
-    <?php include'../pages/compo/header.php' ?>
+    <?php include'../../header.php' ?>
       
       <div class="separator"></div>
-      <h1>Classement Boxe MMA</h1>
+      <h1>Classement MMA</h1>
       <div class="separator"></div>
       
 
@@ -124,7 +124,7 @@ h1{
             <div class="category">
               <div class="category-title">Poids Plumes(-65kg)</div>
               <div class="champion">
-                <img class="champion-image" src="Images/randomwhite.png" alt="Champion MMA">
+                <img class="champion-image" src="/Images/randomwhite.png" alt="Champion MMA">
                 <div class="champion-name">#C NA</div>
               </div>
               <div class="fighters">
@@ -189,7 +189,7 @@ h1{
             <div class="category">
                 <div class="category-title">Poids Légers(-70kg)</div>
                 <div class="champion">
-                  <img class="champion-image" src="Images/randomwhite.png" alt="Champion Boxe">
+                  <img class="champion-image" src="/Images/randomwhite.png" alt="Champion Boxe">
                   <div class="champion-name">#C NA</div>
                 </div>
                 <div class="fighters">
@@ -204,7 +204,7 @@ h1{
               <div class="category">
                 <div class="category-title">Poids Mi-Moyens(-75kg)</div>
                 <div class="champion">
-                  <img class="champion-image" src="Images/randomwhite.png" alt="Champion MMA">
+                  <img class="champion-image" src="/Images/randomwhite.png" alt="Champion MMA">
                  <div class="champion-name">#C NA</div>
                 </div>
                 <div class="fighters">
@@ -280,7 +280,7 @@ h1{
               <div class="category">
                 <div class="category-title">Poids Super-Moyen(-85kg)</div>
                 <div class="champion">
-                  <img class="champion-image" src="Images/fadalchamp.png" alt="Champion MMA">
+                  <img class="champion-image" src="/Images/fadalchamp.png" alt="Champion MMA">
                   <div class="champion-name">#C Fadal 2-0-1</div>
                 </div>
                 <div class="fighters">
@@ -321,7 +321,7 @@ h1{
               <div class="category">
                 <div class="category-title">Poids Lourds(+90kg)</div>
                 <div class="champion">
-                  <img class="champion-image" src="Images/randomwhite.png" alt="Champion Boxe">
+                  <img class="champion-image" src="/Images/randomwhite.png" alt="Champion Boxe">
                   <div class="champion-name">#C NA</div>
                 </div>
                 <div class="fighters">
@@ -331,6 +331,6 @@ h1{
               </div>
 
           </div>
-          <?php include'../pages/compo/footer.php' ?>
+          <?php include'../../footer.php' ?>
     </body>
 </html>

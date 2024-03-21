@@ -1,152 +1,125 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Acceuil</title>
-        <meta charset="UTF-8">
-        <link rel="icon" type="image/png" sizes="64x64" href="Images/cmwicon.png">
-        <style>
-            /* Styles généraux */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page d'accueil</title>
+  <!-- Link vers Bootstrap CSS -->
+  <link rel="icon" type="image/png" sizes="64x64" href="../Images/cmwicon.png">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Style pour positionner header et footer fixe */
+   
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
+    .container h2{
+        color: white;
+    }
 
-h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
+   
 
-/* Styles de la section des actualités */
-.news {
-    margin-top: 200px;
-    background-color: #f9f9f9;
-    padding: 20px;
-}
+    /* Style pour ajuster la position du contenu pour éviter l'obstruction par le header et le footer */
+    body {
+      padding-top: 70px; /* Ajustez en fonction de la hauteur de votre en-tête */
+      padding-bottom: 70px; /* Ajustez en fonction de la hauteur de votre pied de page */
+      background-color: black;
+    }
 
-.news-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-}
+    /* Style pour centrer verticalement la bannière */
+    .banner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 500px; /* Ajustez la hauteur selon votre besoin */
+      background-color: black;
+    }
+  </style>
+</head>
+<body>
+<?php include'header.php' ?>
 
-.news-item {
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-}
+  <!-- Bannière avec image -->
+  <div class="banner">
+    <img src="Images/bannierefidirs0.png" alt="Bannière" class="img-fluid">
+  </div>
 
-.news-item img {
-    max-width: 100%;
-    border-radius: 5px;
-}
-
-.news-item h3 {
-    font-size: 18px;
-    margin-top: 10px;
-    margin-bottom: 5px;
-}
-
-.news-item p {
-    font-size: 14px;
-    color: #666;
-}
-
-/* Styles de la section des sponsors */
-.sponsors {
-    padding: 20px;
-}
-
-.sponsors-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.sponsor-item img {
-    max-width: 150px;
-    max-height: 100px;
-    border-radius: 5px;
-}
-
-        </style>
-    </head>
-
-    <body>
-        <?php include'header.php' ?>
-
-      <!-- Section News -->
-    <section class="news">
-        <h2>Les dernières actualités</h2>
-        <div class="news-container" id="newsContainer">
-            <!-- Contenu des actualités chargé dynamiquement par JavaScript -->
+  <!-- Section des nouvelles (avec 4 cartes) -->
+  <section class="news py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Dernières Nouvelles</h2>
+      <div class="row">
+        <!-- Carte 1 -->
+        <div class="col-md-3">
+          <div class="card">
+            <img src="Images/belaidfabio.png" class="card-img-top" alt="Image 1">
+            <div class="card-body">
+              <p class="card-text">Belaid sera présent sur la carte du 9 Février ! Il affrontera Fabio en co main-event</p>
+            </div>
+          </div>
         </div>
-    </section>
-
-    <!-- Section Sponsors -->
-    <section class="sponsors">
-        <h2>Nos sponsors</h2>
-        <div class="sponsors-container" id="sponsorsContainer">
-            <!-- Contenu des sponsors chargé dynamiquement par JavaScript -->
+        <!-- Carte 2 -->
+        <div class="col-md-3">
+          <div class="card">
+            <img src="Images/fidirs0.png" class="card-img-top" alt="Image 2">
+            <div class="card-body">
+              <p class="card-text">Le main-event entre FID et Irs0 est enfin officiel ! Il s'affronteront en Boxe anglaise le 9 février à fight room pour la ceinture des -75kg.</p>
+            </div>
+          </div>
         </div>
-    </section>
+        <!-- Carte 3 -->
+        <div class="col-md-3">
+          <div class="card">
+            <img src="Images/aliasilyas.png" class="card-img-top" alt="Image 3">
+            <div class="card-body">
+              <p class="card-text">Alias l'emporte à la décision unanime face à Ilyas et devient le nouveau champion des -65kg. Les deux combattants nous ont livrés un combat intense sur 5 round qui n'a pas déçu les supporters présent.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Carte 4 -->
+        <div class="col-md-3">
+          <div class="card">
+            <img src="Images/basileacceuil.png" class="card-img-top" alt="Image 4">
+            <div class="card-body">
+              <p class="card-text">Basile surprend encore ! Il vient de remporter son premier combat en boxe anglaise face au redoutable S2R à la décision Unanime.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    
-        <?php include'footer.php' ?>
-        <script>
-            // Fonction pour charger les actualités depuis le backend et les afficher sur la page
-function loadNews() {
-    fetch('adminacceuil.php?action=get_news')
-    .then(response => response.json())
-    .then(data => {
-        const newsContainer = document.getElementById('newsContainer');
-        newsContainer.innerHTML = ''; // Effacer le contenu précédent
-        data.forEach(news => {
-            const newsItem = document.createElement('div');
-            newsItem.classList.add('news-item');
-            newsItem.innerHTML = `
-                <img src="${news.image}" alt="${news.title}">
-                <h3>${news.title}</h3>
-                <p>${news.text}</p>
-            `;
-            newsContainer.appendChild(newsItem);
-        });
-    })
-    .catch(error => console.error('Erreur lors du chargement des actualités :', error));
-}
+  <!-- Section des sponsors -->
+  <section class="sponsors bg-light py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Nos Sponsors</h2>
+      <div class="row">
+        <!-- Colonne 1 -->
+        <div class="col-md-3">
+          <img src="sponsor1.jpg" alt="Sponsor 1" class="img-fluid">
+        </div>
+        <!-- Colonne 2 -->
+        <div class="col-md-3">
+          <img src="sponsor2.jpg" alt="Sponsor 2" class="img-fluid">
+        </div>
+        <!-- Colonne 3 -->
+        <div class="col-md-3">
+          <img src="sponsor3.jpg" alt="Sponsor 3" class="img-fluid">
+        </div>
+        <!-- Colonne 4 -->
+        <div class="col-md-3">
+          <img src="sponsor4.jpg" alt="Sponsor 4" class="img-fluid">
+        </div>
+      </div>
+    </div>
+  </section>
 
-// Fonction pour charger les sponsors depuis le backend et les afficher sur la page
-function loadSponsors() {
-    fetch('adminacceuil.php?action=get_sponsors')
-    .then(response => response.json())
-    .then(data => {
-        const sponsorsContainer = document.getElementById('sponsorsContainer');
-        sponsorsContainer.innerHTML = ''; // Effacer le contenu précédent
-        data.forEach(sponsor => {
-            const sponsorItem = document.createElement('div');
-            sponsorItem.classList.add('sponsor-item');
-            sponsorItem.innerHTML = `
-                <img src="${sponsor.logo}" alt="${sponsor.name}">
-            `;
-            sponsorsContainer.appendChild(sponsorItem);
-        });
-    })
-    .catch(error => console.error('Erreur lors du chargement des sponsors :', error));
-}
+  <!-- Pied de page -->
+  
 
-// Appeler les fonctions pour charger les actualités et les sponsors au chargement de la page
-window.onload = function() {
-    loadNews();
-    loadSponsors();
-};
+  <!-- Script Bootstrap JS (jQuery requis) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-        </script>
-    </body>
+  <?php include'footer.php' ?>
+</body>
 </html>

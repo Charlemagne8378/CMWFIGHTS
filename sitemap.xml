@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://www.cmwfight.fr/</loc>
+  <lastmod>2024-03-20T11:15:07+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://www.cmwfight.fr/pages/boxe/combattantboxe</loc>
+  <lastmod>2024-03-20T11:15:07+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.cmwfight.fr/pages/mma/combattantmma</loc>
+  <lastmod>2024-03-20T11:15:07+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.cmwfight.fr/pages/boxe/evenementboxe</loc>
+  <lastmod>2024-03-20T11:15:07+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.cmwfight.fr/pages/mma/evenementmma</loc>
+  <lastmod>2024-03-20T11:15:07+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.cmwfight.fr/pages/boxe/classementboxe</loc>
+  <lastmod>2024-03-20T11:15:07+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.cmwfight.fr/pages/mma/classementmma</loc>
+  <lastmod>2024-03-20T11:15:07+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.cmwfight.fr/index</loc>
+  <lastmod>2024-03-20T11:15:07+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.cmwfight.fr/auth/connexion.php</loc>
+  <lastmod>2024-03-20T11:15:07+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.cmwfight.fr/auth/inscription</loc>
+  <lastmod>2024-03-20T11:15:07+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+
+
+</urlset>

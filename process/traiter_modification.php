@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
 
     if ($email && $pseudo && $nom && $type) {
-        $stmt = $pdo->prepare("UPDATE Utilisateurs SET Pseudo = :pseudo, Nom = :nom, Type = :type, Mot_de_passe = IF(LENGTH(:mot_de_passe) > 0, :mot_de_passe, Mot_de_passe) WHERE Adresse_email = :email");
+        $stmt = $pdo->prepare("UPDATE utilisateurs SET Pseudo = :pseudo, Nom = :nom, Type = :type, Mot_de_passe = IF(LENGTH(:mot_de_passe) > 0, :mot_de_passe, Mot_de_passe) WHERE Adresse_email = :email");
         $stmt->bindParam(":pseudo", $pseudo);
         $stmt->bindParam(":nom", $nom);
         $stmt->bindParam(":type", $type);

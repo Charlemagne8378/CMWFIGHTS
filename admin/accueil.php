@@ -46,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['sponsor_name']) && iss
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="64x64" href="../Images/cmwicon.png">
     <title>Admin Acceuil</title>
     <style>
         /* Styles pour la page d'administration */

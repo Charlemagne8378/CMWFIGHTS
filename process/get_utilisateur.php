@@ -5,7 +5,7 @@ if (isset($_GET['email'])) {
     $email = filter_input(INPUT_GET, 'email', FILTER_VALIDATE_EMAIL);
 
     if ($email) {
-        $stmt = $pdo->prepare("SELECT * FROM Utilisateurs WHERE Adresse_email = :email");
+        $stmt = $pdo->prepare("SELECT * FROM utilisateurs WHERE Adresse_email = :email");
         $stmt->bindParam(":email", $email);
         $stmt->execute();
         $utilisateur = $stmt->fetch(PDO::FETCH_ASSOC);

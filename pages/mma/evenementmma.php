@@ -3,7 +3,7 @@
     <head>
         <title>Evenement-Boxe</title>
         <meta charset="UTF-8">
-        <link rel="icon" type="image/png" sizes="64x64" href="Images/cmwicon.png">
+        <link rel="icon" type="image/png" sizes="64x64" href="/Images/cmwicon.png">
         <style>
             body {
     font-family: Arial, sans-serif;
@@ -83,7 +83,7 @@ button a{
         </style>
     </head>
     <body>
-    <?php include'../pages/compo/header.php' ?>
+    <?php include'../../header.php' ?>
 
     <div class="separator"></div>
     <h1>Evenement MMA</h2>
@@ -93,9 +93,9 @@ button a{
         <h2>Poids Super-moyen (-85kg) Title Shot</h2>
         <h3>28 Août 2023</h3>
         <div class="combat-box">
-            <img src="Images/fadal.png" alt="Fadal">
+            <img src="/Images/fadal.png" alt="Fadal">
             <span class="versus">Fadal VS S2R</span>
-            <img src="Images/s2r.png" alt="S2R">
+            <img src="/Images/S2r.png" alt="S2R">
         </div>
         <button><a href="fadals2r.php">Voir la carte complète</a></button>
     </div>
@@ -104,9 +104,9 @@ button a{
         <h2>Poids Super-moyen (-85kg)</h2>
         <h3>6 Mars 2023</h3>
         <div class="combat-box">
-            <img src="Images/fadal.png" alt="Fadal">
+            <img src="/Images/fadal.png" alt="Fadal">
             <span class="versus">Fadal VS Wass</span>
-            <img src="Images/wass.png" alt="Wass">
+            <img src="/Images/wass.png" alt="Wass">
         </div>
         <button><a href="fadalwass.php">Voir la carte complète</a></button>
     </div>
@@ -115,9 +115,9 @@ button a{
         <h2>Poids Mi-moyen (-75kg)</h2>
         <h3>26 Avril 2023</h3>
         <div class="combat-box">
-            <img src="Images/fid.png" alt="FID">
+            <img src="/Images/fid.png" alt="FID">
             <span class="versus">FID VS Sada</span>
-            <img src="Images/sada.png" alt="Sada">
+            <img src="/Images/sada.png" alt="Sada">
         </div>
         <button><a href="fidsada.php">Voir la carte complète</a></button>
     </div>
@@ -126,9 +126,9 @@ button a{
         <h2>Poids Plumes (-65kg) Title Shot</h2>
         <h3>20 Mai 2023</h3>
         <div class="combat-box">
-            <img src="Images/belaid.png" alt="Belaid">
+            <img src="/Images/belaid.png" alt="Belaid">
             <span class="versus">Belaid VS S2R</span>
-            <img src="Images/s2r.png" alt="S2R">
+            <img src="/Images/S2r.png" alt="S2R">
         </div>
         <button><a href="belaids2r.php">Voir la carte complète</a></button>
     </div>
@@ -137,9 +137,9 @@ button a{
         <h2>Poids Mi-moyen (-75kg)</h2>
         <h3>16 Mars 2023</h3>
         <div class="combat-box">
-            <img src="Images/fid.png" alt="FID">
+            <img src="/Images/fid.png" alt="FID">
             <span class="versus">FID VS Comoco</span>
-            <img src="Images/comoco.png" alt="Comoco">
+            <img src="/Images/comoco.png" alt="Comoco">
         </div>
         <button><a href="fidcomoco.php">Voir la carte complète</a></button>
     </div>
@@ -148,9 +148,9 @@ button a{
         <h2>Poids Mi-moyen (-75kg)</h2>
         <h3>1 Mars 2023</h3>
         <div class="combat-box">
-            <img src="Images/fid.png" alt="FID">
+            <img src="/Images/fid.png" alt="FID">
             <span class="versus">FID VS Fadal</span>
-            <img src="Images/fadal.png" alt="Fadal">
+            <img src="/Images/fadal.png" alt="Fadal">
         </div>
         <button><a href="fidfadal.php">Voir la carte complète</a></button>
     </div>
@@ -159,12 +159,12 @@ button a{
         <h2>Poids Plumes (-65kg)</h2>
         <h3>23 Février 2023</h3>
         <div class="combat-box">
-            <img src="Images/belaid.png" alt="Belaid">
+            <img src="/Images/belaid.png" alt="Belaid">
             <span class="versus">Belaid VS Cheick</span>
-            <img src="Images/cheick.png" alt="Cheick">
+            <img src="/Images/cheick.png" alt="Cheick">
         </div>
         <button><a href="belaidcheick.php">Voir la carte complète</a></button>
     </div>
-    <?php include'../pages/compo/footer.php' ?>
+    <?php include'../../footer.php' ?>
     </body>
 </html>

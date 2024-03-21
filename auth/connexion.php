@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = isset($_POST["email"]) ? $_POST["email"] : '';
     $motDePasse = isset($_POST["mdp"]) ? $_POST["mdp"] : '';
 
-    $sql = "SELECT * FROM Utilisateurs WHERE Adresse_email = ?";
+    $sql = "SELECT * FROM utilisateurs WHERE Adresse_email = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$email]);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="fr">
 <head>
     <title>Connexion</title>
-    <link rel="icon" type="image/png" href="Images/cmwicon.png">
+    <link rel="icon" type="image/png" href="../Images/cmwicon.png">
     <meta charset="UTF-8">
     <style>
             *{
@@ -157,7 +157,7 @@ label[for=remember]{
     </style>
 </head>
 <body>
-<?php include '../pages/compo/header.php'; ?>
+<?php include'../header.php' ?>
 <div class="outerContainer">
     <form action="" method="post">
         <h2>Connexion</h2>
