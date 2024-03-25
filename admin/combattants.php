@@ -6,9 +6,13 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['type'] != 'admin') {
+    header('Location: ../auth/connexion');
+    exit();
+}
 // Définir les variables et initialiser avec des valeurs vides
-$image_url = $nom = $age = $poids = $taille = $category_id = $palmares = "";
-$image_url_err = $nom_err = $age_err = $poids_err = $taille_err = $category_id_err = $palmares_err = "";
+$image_url = $nom = $age = $poids = $taille = $category_id = $palmares_boxe = $palmares_mma = $discipline_id = "";
+$image_url_err = $nom_err = $age_err = $poids_err = $taille_err = $category_id_err = $palmares_boxe_err = $palmares_mma_err = $discipline_id_err = "";
 
 // Traitement du formulaire lorsque le formulaire est soumis
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -55,16 +59,28 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     
     // Valider le palmarès
-    if(empty(trim($_POST["palmares"]))){
-        $palmares_err = "Veuillez entrer le palmarès.";
+    if(empty(trim($_POST["palmares_boxe"]))){
+        $palmares_err = "Veuillez entrer le palmarès boxe.";
     } else{
-        $palmares = trim($_POST["palmares"]);
+        $palmares_boxe = trim($_POST["palmares_boxe"]);
+    }
+
+    if(empty(trim($_POST["palmares_mma"]))){
+        $palmares_err = "Veuillez entrer le palmarès mma.";
+    } else{
+        $palmares_mma = trim($_POST["palmares_mma"]);
+    }
+
+    if(empty(trim($_POST['discipline_id']))){
+        $discipline_id_err = "Veuillez entrer l'ID de discipline.";
+    } else{
+        $discipline_id = trim($_POST["discipline_id"]);
     }
     
     // Vérifier s'il n'y a pas d'erreurs de saisie avant d'insérer dans la base de données
-    if(empty($image_url_err) && empty($nom_err) && empty($age_err) && empty($poids_err) && empty($taille_err) && empty($category_id_err) && empty($palmares_err)){
+    if(empty($image_url_err) && empty($nom_err) && empty($age_err) && empty($poids_err) && empty($taille_err) && empty($category_id_err) && empty($palmares_boxe_err) && empty($palmares_mma_err) && empty($discipline_id_err)){
         // Préparer une instruction d'insertion
-        $sql = "INSERT INTO Combattant (image_url, nom, age, poids, taille, category_id, palmares) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO Combattant (image_url, nom, age, poids, taille, category_id, palmares_boxe, palmares_mma, discipline_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         if($stmt = $pdo->prepare($sql)){
             // Liaison des variables à l'instruction préparée en tant que paramètres
@@ -74,7 +90,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $stmt->bindParam(4, $param_poids);
             $stmt->bindParam(5, $param_taille);
             $stmt->bindParam(6, $param_category_id);
-            $stmt->bindParam(7, $param_palmares);
+            $stmt->bindParam(7, $param_palmares_boxe);
+            $stmt->bindParam(8, $param_palmares_mma);
+            $stmt->bindParam(9, $param_discipline_id);
             
             // Définir les valeurs des paramètres
             $param_image_url = $image_url;
@@ -83,12 +101,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $param_poids = $poids;
             $param_taille = $taille;
             $param_category_id = $category_id;
-            $param_palmares = $palmares;
+            $param_palmares_boxe = $palmares_boxe;
+            $param_palmares_mma = $palmares_mma;
+            $param_discipline_id = $discipline_id;
             
             // Exécuter la déclaration préparée
             if($stmt->execute()){
                 // Rediriger vers la page d'accueil
-                header("location: ../index");
+                header("location: combattants");
                 exit();
             } else{
                 echo "Quelque chose s'est mal passé. Veuillez réessayer plus tard.";
@@ -97,8 +117,29 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         
         // Fermer la déclaration
         unset($stmt);
-    }
     
+    }
+    //-----------------------------------------------------------------------------------------------------------------------------------
+
+    $combattant_id = $_GET['id'];
+
+// Récupérer les données du combattant depuis la base de données
+$sql = "SELECT * FROM Combattant WHERE id = ?";
+if($stmt = $pdo->prepare($sql)){
+    // Liaison des variables à l'instruction préparée en tant que paramètres
+    $stmt->bindParam(1, $combattant_id, PDO::PARAM_INT);
+    // Exécuter la déclaration préparée
+    if($stmt->execute()){
+        // Récupérer le résultat sous forme d'un tableau associatif
+        $combattant = $stmt->fetch(PDO::FETCH_ASSOC);
+    } else{
+        echo "Quelque chose s'est mal passé. Veuillez réessayer plus tard.";
+    }
+}
+
+// Fermer la déclaration
+unset($stmt);
+
     // Fermer la connexion
     unset($pdo);
 }
@@ -122,7 +163,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <div class="wrapper">
         <h2>Créer un combattant</h2>
         <p>Remplissez ce formulaire pour ajouter un nouveau combattant.</p>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
             <div class="form-group">
                 <label>Image URL</label>
                 <input type="text" name="image_url" class="form-control <?php echo (!empty($image_url_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $image_url; ?>">
@@ -154,13 +195,30 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <span class="invalid-feedback"><?php echo $category_id_err; ?></span>
             </div>
             <div class="form-group">
-                <label>Palmarès</label>
-                <textarea name="palmares" class="form-control <?php echo (!empty($palmares_err)) ? 'is-invalid' : ''; ?>"><?php echo $palmares; ?></textarea>
-                <span class="invalid-feedback"><?php echo $palmares_err; ?></span>
+                <label>Palmarès Boxe</label>
+                <textarea name="palmares_boxe" class="form-control <?php echo (!empty($palmares_boxe_err)) ? 'is-invalid' : ''; ?>"><?php echo $palmares_boxe; ?></textarea>
+                <span class="invalid-feedback"><?php echo $palmares_boxe_err; ?></span>
+            </div>
+            <div class="form-group">
+                <label>Palmarès MMA</label>
+                <textarea name="palmares_mma" class="form-control <?php echo (!empty($palmares_mma_err)) ? 'is-invalid' : ''; ?>"><?php echo $palmares_mma; ?></textarea>
+                <span class="invalid-feedback"><?php echo $palmares_mma_err; ?></span>
+            </div>
+            <div class="form-group">
+                <label>Discipline</label>
+                <select name="discipline_id" class="form-control">
+                    <option value="1">Boxe</option>
+                    <option value="2">MMA</option>
+                    <option value="3">Boxe/MMA</option>
+                </select>
             </div>
             <input type="submit" class="btn btn-primary" value="Ajouter">
             <a href="index.php" class="btn btn-secondary ml-2">Annuler</a>
+            <a href="delete_combattants.php" class="btn btn-default">Modifier les combattants</a>
         </form>
     </div>
+
+
+    
 </body>
 </html>

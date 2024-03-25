@@ -2,7 +2,7 @@
 require_once '../config/config.php';
 session_start();
 
-if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['Type'] != 'admin') {
+if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['type'] != 'admin') {
     header('Location: ../auth/connexion');
     exit();
 }

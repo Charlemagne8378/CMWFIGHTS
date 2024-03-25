@@ -8,9 +8,15 @@
     <style>
         body{
             background-color: black;
+            margin-top: 150px;
         }
         .category {
             margin-bottom: 30px;
+        }
+        h1{
+            color: white;
+            text-align: center;
+            margin-bottom: 50px;
         }
         h2{
             font-size: 24px;
@@ -22,32 +28,32 @@
         .combattant-cards {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
-            margin: 150px;
+            align-items: center;
         }
         .combattant-card {
             width: 300px;
-            background-color: #f9f9f9;
+            background-color: #2F4F4F;
             border: 1px solid #ddd;
             border-radius: 5px;
             padding: 20px;
-            margin-bottom: 20px;
-            margin-right: 20px;
+            margin: 35px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        .combattant-card p {
+        .combattant-card p  {
             margin-bottom: 10px;
-            text-align: center
+            text-align: center;
             color: white;
         }
         .combattant-card img {
             max-width: 100%;
             border-radius: 5px;
-            margin-left: 100px;
+            
         }
     </style>
 </head>
 <body>
+    <?php include'../../header.php' ?>
+    <h1>Liste des combattants</h1>
     <?php
     // Connexion à la base de données
     $servername = "localhost";
@@ -74,15 +80,27 @@
             $stmt_combattants->execute([$categorie['category_id']]);
             $combattants = $stmt_combattants->fetchAll(PDO::FETCH_ASSOC);
 
+           
+
             // Afficher les cartes de combattant
             foreach ($combattants as $combattant) {
                 echo '<div class="combattant-card">';
                 echo '<img src="' . $combattant['image_url'] . '" alt="' . $combattant['nom'] . '">';
-                echo '<p><strong>Nom: </strong>' . $combattant['nom'] . '</p>';
-                echo '<p><strong>Âge: </strong>' . $combattant['age'] . '</p>';
-                echo '<p><strong>Poids: </strong>' . $combattant['poids'] . '</p>';
-                echo '<p><strong>Taille: </strong>' . $combattant['taille'] . '</p>';
-                echo '<p><strong>Palmarès: </strong>' . $combattant['palmares'] . '</p>';
+                echo '<p><strong>' . $combattant['nom'] . '</strong></p>';
+                echo '<p><strong>Âge: </strong>' . $combattant['age'] . ' ans </p>';
+                echo '<p><strong>Poids: </strong>' . $combattant['poids'] . 'kg </p>';
+                echo '<p><strong>Taille: </strong>' . $combattant['taille'] . 'cm </p>';
+                echo '<p><strong>Palmarès Boxe: </strong>' . $combattant['palmares_boxe'] . '</p>';
+                echo '<p><strong>Palmarès MMA: </strong>' . $combattant['palmares_mma'] . '</p>';
+                echo '<p><strong>Discipline: </strong>';
+                if ($combattant['discipline_id'] == 1) {
+                    echo 'Boxe';
+                } elseif ($combattant['discipline_id'] == 2) {
+                    echo 'MMA';
+                } elseif ($combattant['discipline_id'] == 3) {
+                    echo 'Boxe et MMA';
+                }
+                echo '</p>';
                 echo '</div>';
             }
 

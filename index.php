@@ -3,9 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Page d'accueil</title>
+  <title>CMWFIGHT</title>
+  <meta name="description" content="Organisation amateur de street fight MMA et Boxe Anglaise.">
+  <meta name="robots" content="index, follow">
+
   <!-- Link vers Bootstrap CSS -->
-  <link rel="icon" type="image/png" sizes="64x64" href="../Images/cmwicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../Images/cmwicon.png">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
     /* Style pour positionner header et footer fixe */
@@ -120,6 +123,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-  <?php include'footer.php' ?>
+  <?php include'page/config/footer.php' ?>
 </body>
 </html>

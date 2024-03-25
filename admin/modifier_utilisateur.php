@@ -5,16 +5,16 @@ error_reporting(E_ALL);
 require_once '../config/config.php';
 
 session_start();
-if (!isset($_SESSION['utilisateur_connecte'])) {
+if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['type'] != 'admin') {
     header('Location: ../auth/connexion');
     exit();
 }
 
-$pseudo_utilisateur = $_GET['pseudo'] ?? $_SESSION['utilisateur_connecte']['Pseudo'];
+$pseudo_utilisateur = $_GET['pseudo'] ?? $_SESSION['utilisateur_connecte']['pseudo'];
 $user_to_edit = [];
 
 if (!empty($pseudo_utilisateur)) {
-    $query = "SELECT * FROM utilisateurs WHERE Pseudo = :pseudo";
+    $query = "SELECT * FROM UTILISATEUR WHERE pseudo = :pseudo";
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':pseudo', $pseudo_utilisateur);
     $stmt->execute();
@@ -35,13 +35,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($password) && $password !== $confirm_password) {
         $error = "Les mots de passe ne correspondent pas.";
     } else {
-        $query = "UPDATE utilisateurs SET Nom = :nom, Adresse_email = :email, Genre = :genre, Type = :type";
+        $query = "UPDATE UTILISATEUR SET nom = :nom, adresse_email = :email, genre = :genre, Type = :type";
 
         if (!empty($password)) {
             $query .= ", Mot_de_passe = :password";
         }
 
-        $query .= " WHERE Pseudo = :pseudo";
+        $query .= " WHERE pseudo = :pseudo";
         $stmt = $pdo->prepare($query);
 
         $stmt->bindParam(':nom', $nom);
@@ -57,11 +57,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $stmt->execute();
 
-        if ($_SESSION['utilisateur_connecte']['Pseudo'] === $pseudo) {
-            $_SESSION['utilisateur_connecte']['Nom'] = $nom;
-            $_SESSION['utilisateur_connecte']['Adresse_email'] = $email;
-            $_SESSION['utilisateur_connecte']['Genre'] = $genre;
-            $_SESSION['utilisateur_connecte']['Type'] = $type;
+        if ($_SESSION['utilisateur_connecte']['pseudo'] === $pseudo) {
+            $_SESSION['utilisateur_connecte']['nom'] = $nom;
+            $_SESSION['utilisateur_connecte']['adresse_email'] = $email;
+            $_SESSION['utilisateur_connecte']['genre'] = $genre;
+            $_SESSION['utilisateur_connecte']['type'] = $type;
         }
 
         header('Location: admin');
@@ -100,11 +100,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="mb-3">
                 <label for="nom" class="form-label">Nom:</label>
-                <input type="text" class="form-control" id="nom" name="nom" value="<?php echo htmlspecialchars($user_to_edit['Nom'] ?? ''); ?>">
+                <input type="text" class="form-control" id="nom" name="nom" value="<?php echo htmlspecialchars($user_to_edit['nom'] ?? ''); ?>">
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email:</label>
-                <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($user_to_edit['Adresse_email'] ?? ''); ?>">
+                <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($user_to_edit['adresse_email'] ?? ''); ?>">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Mot de passe:</label>
@@ -117,17 +117,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="mb-3">
                 <label for="genre" class="form-label">Genre:</label>
                 <select class="form-select" id="genre" name="genre">
-                    <option value="homme" <?php if ($user_to_edit['Genre'] === 'homme') echo 'selected'; ?>>Homme</option>
-                    <option value="femme" <?php if ($user_to_edit['Genre'] === 'femme') echo 'selected'; ?>>Femme</option>
-                    <option value="autre" <?php if ($user_to_edit['Genre'] === 'autre') echo 'selected'; ?>>Autre</option>
+                    <option value="homme" <?php if ($user_to_edit['genre'] === 'homme') echo 'selected'; ?>>Homme</option>
+                    <option value="femme" <?php if ($user_to_edit['genre'] === 'femme') echo 'selected'; ?>>Femme</option>
+                    <option value="autre" <?php if ($user_to_edit['genre'] === 'autre') echo 'selected'; ?>>Autre</option>
                 </select>
             </div>
             <div class="mb-3">
                 <label for="type" class="form-label">Type:</label>
                 <select class="form-select" id="type" name="type">
-                    <option value="admin" <?php if ($user_to_edit['Type'] === 'admin') echo 'selected'; ?>>Admin</option>
-                    <option value="moderateur" <?php if ($user_to_edit['Type'] === 'moderateur') echo 'selected'; ?>>Modérateur</option>
-                    <option value="utilisateur" <?php if ($user_to_edit['Type'] === 'utilisateur') echo 'selected'; ?>>Utilisateur</option>
+                    <option value="admin" <?php if ($user_to_edit['type'] === 'admin') echo 'selected'; ?>>Admin</option>
+                    <option value="moderateur" <?php if ($user_to_edit['type'] === 'moderateur') echo 'selected'; ?>>Modérateur</option>
+                    <option value="utilisateur" <?php if ($user_to_edit['type'] === 'utilisateur') echo 'selected'; ?>>Utilisateur</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Mettre à jour</button>

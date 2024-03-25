@@ -134,11 +134,7 @@ for ($i = 0; $i < substr_count($_SERVER['REQUEST_URI'], '/'); $i++) {
 <header>
     <div class="section-gauche">
         <div class="dropdown">
-            <a class="navbar" href="<?php echo $root; ?>#">Combattant</a>
-            <div class="dropdown-content">
-                <a href="<?php echo $root; ?>pages/boxe/combattantboxe">Boxe</a>
-                <a href="<?php echo $root; ?>pages/mma/combattantmma">MMA</a>
-            </div>
+            <a class="navbar" href="<?php echo $root; ?>pages/mma/combattantmma">Combattant</a>
         </div>
 
         <div class="dropdown">

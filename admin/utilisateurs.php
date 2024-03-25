@@ -5,16 +5,16 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['Type'] != 'admin') {
+if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['type'] != 'admin') {
     header('Location: ../auth/connexion');
     exit();
 }
 
-$stmt = $pdo->prepare('SELECT Pseudo, Nom, Adresse_email, Type FROM utilisateurs');
+$stmt = $pdo->prepare('SELECT pseudo, nom, adresse_email, type FROM UTILISATEUR');
 $stmt->execute();
 $utilisateurs = $stmt->fetchAll();
 
-$stmt = $pdo->prepare('SELECT COUNT(*) FROM utilisateurs WHERE Type != "invite"');
+$stmt = $pdo->prepare('SELECT COUNT(*) FROM UTILISATEUR WHERE type != "invite"');
 $stmt->execute();
 $utilisateurs_inscrits = $stmt->fetchColumn();
 
@@ -106,25 +106,25 @@ $pdo = null;
                 <?php foreach ($utilisateurs as $utilisateur): ?>
                     <tr>
                         <td>
-                            <span class="hidden"><?= htmlspecialchars($utilisateur['Pseudo']) ?></span>
-                            <?= htmlspecialchars($utilisateur['Pseudo']) ?>
+                            <span class="hidden"><?= htmlspecialchars($utilisateur['pseudo']) ?></span>
+                            <?= htmlspecialchars($utilisateur['pseudo']) ?>
                         </td>
                         <td>
-                            <span class="hidden"><?= htmlspecialchars($utilisateur['Nom']) ?></span>
-                            <?= htmlspecialchars($utilisateur['Nom']) ?>
+                            <span class="hidden"><?= htmlspecialchars($utilisateur['nom']) ?></span>
+                            <?= htmlspecialchars($utilisateur['nom']) ?>
                         </td>
                         <td>
-                            <span class="hidden"><?= htmlspecialchars($utilisateur['Adresse_email']) ?></span>
-                            <?= htmlspecialchars($utilisateur['Adresse_email']) ?>
+                            <span class="hidden"><?= htmlspecialchars($utilisateur['adresse_email']) ?></span>
+                            <?= htmlspecialchars($utilisateur['adresse_email']) ?>
                         </td>
                         <td>
-                            <span class="hidden"><?= htmlspecialchars($utilisateur['Type']) ?></span>
-                            <?= htmlspecialchars($utilisateur['Type']) ?>
+                            <span class="hidden"><?= htmlspecialchars($utilisateur['type']) ?></span>
+                            <?= htmlspecialchars($utilisateur['type']) ?>
                         </td>
                         <td class="actions-column">
-                            <?php if ($utilisateur['Type'] !== 'admin'): ?>
-                                <a href="modifier_utilisateur.php?pseudo=<?php echo urlencode($utilisateur['Pseudo']); ?>" class="btn btn-primary btn-sm">Modifier</a>
-                                <button type="button" class="btn btn-danger btn-sm supprimer-btn" data-email="<?= htmlspecialchars($utilisateur['Adresse_email']) ?>">Supprimer</button>
+                            <?php if ($utilisateur['type'] !== 'admin'): ?>
+                                <a href="modifier_utilisateur.php?pseudo=<?php echo urlencode($utilisateur['pseudo']); ?>" class="btn btn-primary btn-sm">Modifier</a>
+                                <button type="button" class="btn btn-danger btn-sm supprimer-btn" data-email="<?= htmlspecialchars($utilisateur['adresse_email']) ?>">Supprimer</button>
                             <?php endif; ?>
                         </td>
                     </tr>

@@ -51,4 +51,3 @@ ErrorDocument 408 /error/408.php
 ErrorDocument 500 /error/500.php
 ErrorDocument 502 /error/502.php
 ErrorDocument 503 /error/503.php
-

@@ -9,15 +9,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = isset($_POST["email"]) ? $_POST["email"] : '';
     $motDePasse = isset($_POST["mdp"]) ? $_POST["mdp"] : '';
 
-    $sql = "SELECT * FROM utilisateurs WHERE Adresse_email = ?";
+    $sql = "SELECT * FROM UTILISATEUR WHERE adresse_email = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$email]);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($result && password_verify($motDePasse, $result['Mot_de_passe'])) {
+    if ($result && password_verify($motDePasse, $result['mot_de_passe'])) {
         $_SESSION['utilisateur_connecte'] = $result;
-        $_SESSION['admin_type'] = $result['Type'];
-        if ($result['Type'] == 'admin') {
+        $_SESSION['admin_type'] = $result['type'];
+        if ($result['type'] == 'admin') {
             header('Location: ../admin/admin');
         } else {
             header('Location: ../index');
@@ -30,6 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
