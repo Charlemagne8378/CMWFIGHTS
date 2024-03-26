@@ -1,7 +1,10 @@
 <?php
-require '/var/www/html/vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+
+require '../phpmailer/src/Exception.php';
+require '../phpmailer/src/PHPMailer.php';
+require '../phpmailer/src/SMTP.php';
 
 function getRandomCaptchaQuestion($pdo)
 {
@@ -17,7 +20,9 @@ function sendEmail($to, $subject, $body)
 {
     $mail = new PHPMailer(true);
 
+
     try {
+        $mail->CharSet = 'UTF-8';
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
@@ -36,6 +41,7 @@ function sendEmail($to, $subject, $body)
         $mail->send();
         return true;
     } catch (Exception $e) {
+
         echo "Erreur lors de l'envoi du courriel : {$mail->ErrorInfo}";
         return false;
     }

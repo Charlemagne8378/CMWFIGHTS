@@ -1,14 +1,14 @@
 <?php
 require_once '../config/config.php';
 require_once '../function/function.php';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 
 session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-require '/var/www/html/vendor/autoload.php';
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
 
 if (!$pdo) {
     die("Échec de la connexion à la base de données : " . print_r(error_get_last(), true));
@@ -24,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
     $email = $_POST["Adresse_email"];
     $motDePasse = $_POST["Mot_de_passe"];
     $confirmerMotDePasse = $_POST["confirmpassword"];
+    $genre = $_POST["genre"];
     $captchaAnswer = $_POST["captchaAnswer"];
 
     if (empty($pseudo) || empty($nom) || empty($email) || empty($motDePasse) || empty($confirmerMotDePasse) || empty($captchaAnswer)) {
@@ -60,16 +61,17 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
     $motDePasseHash = password_hash($motDePasse, PASSWORD_DEFAULT);
     $verification_code = bin2hex(random_bytes(32));
 
-    $sql = "INSERT INTO UTILISATEUR (pseudo, nom, adresse_email, mot_de_passe, email_verifie, verification_code) VALUES (?, ?, ?, ?, 0, ?)";
+    $sql = "INSERT INTO UTILISATEUR (pseudo, nom, adresse_email, mot_de_passe, genre, email_verifie, verification_code) VALUES (?, ?, ?, ?, ?, 0, ?)";
     $stmt = $pdo->prepare($sql);
     $stmt->bindValue(1, $pseudo);
     $stmt->bindValue(2, $nom);
     $stmt->bindValue(3, $email);
     $stmt->bindValue(4, $motDePasseHash);
-    $stmt->bindValue(5, $verification_code);
+    $stmt->bindValue(5, $genre);
+    $stmt->bindValue(6, $verification_code);
 
     if ($stmt->execute()) {
-        $email_sent = sendEmail($email, 'Vérification d\'email', "Cliquez sur le lien suivant pour vérifier votre email :\n\n" . "http://51.38.177.164/auth/verifier-email.php?code=" . urlencode($verification_code) . "&pseudo=" . urlencode($pseudo));
+        $email_sent = sendEmail($email, 'Vérification d\'email', "Cliquez sur le lien suivant pour vérifier votre email :\n\n" . "https://www.cmwfight.fr/auth/verifier-email.php?code=" . urlencode($verification_code) . "&pseudo=" . urlencode($pseudo));
 
         if ($email_sent) {
             echo 'Inscription réussie ! Veuillez vérifier votre email pour activer votre compte.';

@@ -4,7 +4,7 @@ require_once '../config/config.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['Adresse_email'])) {
     $email = $_POST['Adresse_email'];
 
-    $stmt = $pdo->prepare('DELETE FROM utilisateurs WHERE Adresse_email = :email');
+    $stmt = $pdo->prepare('DELETE FROM UTILISATEUR WHERE adresse_email = :email');
     $stmt->bindParam(':email', $email);
 
     try {

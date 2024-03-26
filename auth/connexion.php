@@ -169,7 +169,7 @@ label[for=remember]{
             <label for="remember">
                 <input type="checkbox" checked="checked">Se rappeler de moi
             </label>
-            <a href="#" id="forgot-password">Mot de passe oublié ?</a>
+            <a href="mot_de_passe_oublie" id="forgot-password">Mot de passe oublié ?</a>
         </div>
         <div class="member">
             <button type="button" id="create-btn"><a href="inscription">S'inscrire</a></button>
