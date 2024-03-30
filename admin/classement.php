@@ -5,11 +5,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['type'] != 'admin') {
-    header('Location: ../auth/connexion');
-    exit();
-}
-
 // Récupérer la liste des combattants depuis la base de données
 $sql_combattants = "SELECT combattant_id, nom FROM Combattant";
 $stmt_combattants = $pdo->query($sql_combattants);
@@ -64,10 +59,10 @@ $categories = $stmt_categories->fetchAll(PDO::FETCH_ASSOC);
             </div>
             <div class="form-group">
                 <label>Ranking</label>
-                <input type="number" name="ranking" class="form-control" min="1">
+                <input type="number" name="ranking" class="form-control" min="0">
             </div>
             <input type="submit" class="btn btn-primary" value="Ajouter dans le classement">
-            <a href="backend.php" class="btn btn-secondary">Annuler</a>
+            <a href="admin.php" class="btn btn-secondary">Annuler</a>
             
             <a href="back_classementmma.php" class="btn btn-primary">Modifier classement MMA</a>
             <a href="back_classementboxe.php" class="btn btn-primary">Modifier classement Boxe</a>

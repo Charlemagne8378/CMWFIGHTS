@@ -5,16 +5,16 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Récupérer les données des classements MMA depuis la base de données
-$sql = "SELECT classementmma.classementmma_id, classementmma.classement_id, classementmma.combattant_id, classementmma.ranking, classement.classement_name AS classement_name, Combattant.nom AS combattant_name
-FROM classementmma
-JOIN classement ON classementmma.classement_id = classement.classement_id
-JOIN Combattant ON classementmma.combattant_id = Combattant.combattant_id
-ORDER BY classementmma.classement_id ASC, 
-         CASE WHEN classementmma.ranking = 'C' THEN 0 ELSE CAST(classementmma.ranking AS UNSIGNED) END ASC";
+// Récupérer les données des classements BOXE depuis la base de données
+$sql = "SELECT classementboxe.classementboxe_id, classementboxe.classement_id, classementboxe.combattant_id, classementboxe.ranking, classement.classement_name AS classement_name, Combattant.nom AS combattant_name
+FROM classementboxe
+JOIN classement ON classementboxe.classement_id = classement.classement_id
+JOIN Combattant ON classementboxe.combattant_id = Combattant.combattant_id
+ORDER BY classementboxe.classement_id ASC, 
+         CASE WHEN classementboxe.ranking = 'C' THEN 0 ELSE CAST(classementboxe.ranking AS UNSIGNED) END ASC";
 
 $stmt = $pdo->query($sql);
-$classementmma = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$classementboxe = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +22,7 @@ $classementmma = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Classement MMA</title>
+    <title>Classement BOXE</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .wrapper {
@@ -38,14 +38,14 @@ $classementmma = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
     <div class="wrapper">
-        <h2>Classement MMA</h2>
+        <h2>Classement BOXE</h2>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <?php
         // Initialiser la variable pour stocker l'ID de classement précédent
         $prev_classement_id = null;
 
         // Boucle à travers les données pour afficher les combattants dans des sections différentes
-        foreach ($classementmma as $row):
+        foreach ($classementboxe as $row):
             // Si l'ID de classement actuel est différent de l'ID de classement précédent
             if ($row['classement_id'] != $prev_classement_id):
                 // Afficher le titre de la section avec le nom du classement
@@ -65,11 +65,11 @@ $classementmma = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?php echo $row['combattant_name']; ?></td>
                     <td>
                         <input type="text" name="ranking[]" class="form-control" value="<?php echo $row['ranking']; ?>">
-                        <input type="hidden" name="classementmma_id[]" value="<?php echo $row['classementmma_id']; ?>">
+                        <input type="hidden" name="classementboxe_id[]" value="<?php echo $row['classementboxe_id']; ?>">
                     </td>
                     <td> <!-- Colonne pour le bouton de suppression -->
                 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                    <input type="hidden" name="delete_classementmma_id" value="<?php echo $row['classementmma_id']; ?>">
+                    <input type="hidden" name="delete_classementboxe_id" value="<?php echo $row['classementboxe_id']; ?>">
                     <button type="submit" class="btn btn-danger btn-sm" name="delete">Supprimer</button>
                 </form>
             </td>
@@ -90,13 +90,13 @@ $classementmma = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['delete'])) {
-        if (isset($_POST['delete_classementmma_id'])) {
-            $delete_classementmma_id = $_POST['delete_classementmma_id'];
+        if (isset($_POST['delete_classementboxe_id'])) {
+            $delete_classementboxe_id = $_POST['delete_classementboxe_id'];
 
             // Supprimer le combattant de la base de données
-            $sql = "DELETE FROM classementmma WHERE classementmma_id = :delete_classementmma_id";
+            $sql = "DELETE FROM classementboxe WHERE classementboxe_id = :delete_classementboxe_id";
             $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(':delete_classementmma_id', $delete_classementmma_id, PDO::PARAM_INT);
+            $stmt->bindParam(':delete_classementboxe_id', $delete_classementboxe_id, PDO::PARAM_INT);
             $stmt->execute();
 
             // Rafraîchir la page pour refléter les changements
@@ -110,25 +110,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['saveChanges'])) {
-        if (isset($_POST['classementmma_id']) && isset($_POST['ranking'])) {
-            $classementmma_ids = $_POST['classementmma_id'];
+        if (isset($_POST['classementboxe_id']) && isset($_POST['ranking'])) {
+            $classementboxe_ids = $_POST['classementboxe_id'];
             $rankings = $_POST['ranking'];
 
             // Boucle à travers les données et mettre à jour les classements dans la base de données
-            for ($i = 0; $i < count($classementmma_ids); $i++) {
-                $classementmma_id = $classementmma_ids[$i];
+            for ($i = 0; $i < count($classementboxe_ids); $i++) {
+                $classementboxe_id = $classementboxe_ids[$i];
                 $ranking = $rankings[$i];
 
                 // Mettre à jour le classement dans la base de données
-                $sql = "UPDATE classementmma SET ranking = :ranking WHERE classementmma_id = :classementmma_id";
+                $sql = "UPDATE classementboxe SET ranking = :ranking WHERE classementboxe_id = :classementboxe_id";
                 $stmt = $pdo->prepare($sql);
                 $stmt->bindParam(':ranking', $ranking, PDO::PARAM_INT);
-                $stmt->bindParam(':classementmma_id', $classementmma_id, PDO::PARAM_INT);
+                $stmt->bindParam(':classementboxe_id', $classementboxe_id, PDO::PARAM_INT);
                 $stmt->execute();
             }
 
             // Rafraîchir la page pour afficher les modifications
-            header("Location: back_classementmma.php");
+            header("Location: back_classementboxe.php");
 
 
         }

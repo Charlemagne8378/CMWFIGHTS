@@ -5,11 +5,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['type'] != 'admin') {
-    header('Location: ../auth/connexion');
-    exit();
-}
-
 // Vérifier si le formulaire a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupérer les données du formulaire
@@ -34,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt_insert->execute([$classement_id, $combattant_id, $ranking]);
 
         // Rediriger vers une page de confirmation ou autre
-        echo 'yes';
+        header('Location: classement.php');
         exit();
     } else {
         // Catégorie non trouvée dans le classement, afficher un message d'erreur
