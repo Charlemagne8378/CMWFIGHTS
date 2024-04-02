@@ -2,23 +2,29 @@
 require_once '../config/config.php';
 require_once '../function/function.php';
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // Récupérer les abonnés à la newsletter
 $stmt = $pdo->query("SELECT * FROM UTILISATEUR WHERE newsletter = 1");
 $users = $stmt->fetchAll();
 
 // Récupérer l'historique des newsletters
-$stmt = $pdo->query("SELECT * FROM UTILISATEUR WHERE newsletter = 1 ORDER BY id DESC");
+$stmt = $pdo->query("SELECT * FROM NEWSLETTER ORDER BY id DESC");
 $newsletters = $stmt->fetchAll();
 
 // Traiter le formulaire d'envoi de newsletter
 if (isset($_POST['send_newsletter'])) {
     $subject = $_POST['subject'];
     $content = $_POST['content'];
+    $sent_to = implode(',', array_column($users, 'id'));
 
     // Enregistrer la newsletter dans la base de données
-    $stmt = $pdo->prepare("INSERT INTO UTILISATEUR (sujet, contenu, newsletter) VALUES (:subject, :content, 1)");
+    $stmt = $pdo->prepare("INSERT INTO NEWSLETTER (sujet, contenu, date_envoi, envoye_a) VALUES (:subject, :content, NOW(), :sent_to)");
     $stmt->bindParam(':subject', $subject);
     $stmt->bindParam(':content', $content);
+    $stmt->bindParam(':sent_to', $sent_to);
     $stmt->execute();
 
     // Envoyer la newsletter aux abonnés
@@ -27,9 +33,23 @@ if (isset($_POST['send_newsletter'])) {
     }
 
     // Rediriger vers la page d'administration de la newsletter
-    header('Location: newsletter_admin.php');
+    header('Location: newsletters');
     exit();
 }
+
+// Traiter la demande de désabonnement
+if (isset($_GET['unsubscribe_email'])) {
+    $email = $_GET['unsubscribe_email'];
+
+    $query = "UPDATE UTILISATEUR SET newsletter = 0 WHERE adresse_email = :email";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':email', $email);
+    $stmt->execute();
+
+    echo "<p>Vous avez été désabonné de notre newsletter avec succès.</p>";
+    exit();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -65,7 +85,7 @@ if (isset($_POST['send_newsletter'])) {
         </table>
         <hr>
         <h2>Créer une nouvelle newsletter</h2>
-        <form action="newsletter_admin.php" method="post">
+        <form action="newsletters" method="post">
             <div class="form-group">
                 <label for="subject">Sujet</label>
                 <input type="text" class="form-control" id="subject" name="subject" required>
@@ -83,6 +103,8 @@ if (isset($_POST['send_newsletter'])) {
                 <tr>
                     <th>ID</th>
                     <th>Sujet</th>
+                    <th>Envoyé à</th>
+                    <th>Date d'envoi</th>
                 </tr>
             </thead>
             <tbody>
@@ -90,10 +112,23 @@ if (isset($_POST['send_newsletter'])) {
                     <tr>
                         <td><?php echo $newsletter['id']; ?></td>
                         <td><?php echo htmlspecialchars($newsletter['sujet']); ?></td>
+                        <td><?php echo htmlspecialchars($newsletter['envoye_a']); ?></td>
+                        <td><?php echo htmlspecialchars($newsletter['date_envoi']); ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <hr>
+        <p>
+            <a href="#" target="_blank">Suivez-nous sur les réseaux sociaux :</a>
+            <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+        </p>
+        <p>
+            <a href="privacy.html" target="_blank">Politique de confidentialité</a> | <a href="terms.html" target="_blank">Conditions d'utilisation</a>
+        </p>
     </div>
 </body>
 </html>

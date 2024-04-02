@@ -16,10 +16,9 @@ function getRandomCaptchaQuestion($pdo)
     return $result;
 }
 
-function sendEmail($to, $subject, $body)
+function sendEmail($to, $subject, $content)
 {
     $mail = new PHPMailer(true);
-
 
     try {
         $mail->CharSet = 'UTF-8';
@@ -36,14 +35,23 @@ function sendEmail($to, $subject, $body)
 
         $mail->isHTML(true);
         $mail->Subject = $subject;
-        $mail->Body    = $body;
+
+        $message = '<html><body>';
+        $message .= '<h2>' . htmlspecialchars($subject) . '</h2>';
+        $message .= '<p>' . htmlspecialchars($content) . '</p>';
+        $message .= '<p>Suivez-nous sur les réseaux sociaux : <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-f"></i></a> <a href="https://twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a> <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a> <a href="https://www.youtube.com/@CMWFIGHT" target="_blank"><i class="fab fa-youtube"></i></a></p>';
+        $message .= "<p><a href='privacy.html' target='_blank'>Politique de confidentialité</a> | <a href='terms.html' target='_blank'>Conditions d'utilisation</a></p>";
+        $message .= '<p><a href="newsletters?unsubscribe_email=' . urlencode($to) . '">Se désabonner</a></p>';
+        $message .= '</body></html>';
+
+        $mail->Body = $message;
 
         $mail->send();
         return true;
     } catch (Exception $e) {
-
         echo "Erreur lors de l'envoi du courriel : {$mail->ErrorInfo}";
         return false;
     }
 }
+
 ?>

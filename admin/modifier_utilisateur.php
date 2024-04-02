@@ -31,11 +31,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $confirm_password = $_POST['confirm_password'];
     $genre = $_POST['genre'];
     $type = $_POST['type'];
+    $newsletter = isset($_POST['newsletter']) ? 1 : 0;
 
     if (!empty($password) && $password !== $confirm_password) {
         $error = "Les mots de passe ne correspondent pas.";
     } else {
-        $query = "UPDATE UTILISATEUR SET nom = :nom, adresse_email = :email, genre = :genre, Type = :type";
+        $query = "UPDATE UTILISATEUR SET nom = :nom, adresse_email = :email, genre = :genre, Type = :type, newsletter = :newsletter";
 
         if (!empty($password)) {
             $query .= ", Mot_de_passe = :password";
@@ -48,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':genre', $genre);
         $stmt->bindParam(':type', $type);
+        $stmt->bindParam(':newsletter', $newsletter);
         $stmt->bindParam(':pseudo', $pseudo);
 
         if (!empty($password)) {
@@ -62,6 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['utilisateur_connecte']['adresse_email'] = $email;
             $_SESSION['utilisateur_connecte']['genre'] = $genre;
             $_SESSION['utilisateur_connecte']['type'] = $type;
+            $_SESSION['utilisateur_connecte']['newsletter'] = $newsletter;
         }
 
         header('Location: admin');
@@ -129,6 +132,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <option value="moderateur" <?php if ($user_to_edit['type'] === 'moderateur') echo 'selected'; ?>>Modérateur</option>
                     <option value="utilisateur" <?php if ($user_to_edit['type'] === 'utilisateur') echo 'selected'; ?>>Utilisateur</option>
                 </select>
+            </div>
+            <div class="mb-3">
+                <label for="newsletter" class="form-label">Newsletter:</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="newsletter" name="newsletter" <?php if ($user_to_edit['newsletter'] === 1) echo 'checked'; ?>>
+                    <label class="form-check-label" for="newsletter">
+                        S'inscrire à la newsletter
+                    </label>
+                </div>
             </div>
             <button type="submit" class="btn btn-primary">Mettre à jour</button>
             <a href="admin" class="btn btn-secondary">Retour</a>

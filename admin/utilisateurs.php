@@ -91,46 +91,36 @@ $pdo = null;
         <h2>Statistiques</h2>
         <p>Nombre total d'utilisateurs inscrits : <?= htmlspecialchars($utilisateurs_inscrits) ?></p>
 
-        <h2>Liste des utilisateurs</h2>
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th class="sortable" data-column="1">Pseudo</th>
-                    <th class="sortable" data-column="2">Nom</th>
-                    <th class="sortable" data-column="3">Adresse email</th>
-                    <th class="sortable" data-column="4">Type</th>
-                    <th class="actions-column">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($utilisateurs as $utilisateur): ?>
+        <h2 class="mb-3">Liste des utilisateurs</h2>
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="thead-dark">
                     <tr>
-                        <td>
-                            <span class="hidden"><?= htmlspecialchars($utilisateur['pseudo']) ?></span>
-                            <?= htmlspecialchars($utilisateur['pseudo']) ?>
-                        </td>
-                        <td>
-                            <span class="hidden"><?= htmlspecialchars($utilisateur['nom']) ?></span>
-                            <?= htmlspecialchars($utilisateur['nom']) ?>
-                        </td>
-                        <td>
-                            <span class="hidden"><?= htmlspecialchars($utilisateur['adresse_email']) ?></span>
-                            <?= htmlspecialchars($utilisateur['adresse_email']) ?>
-                        </td>
-                        <td>
-                            <span class="hidden"><?= htmlspecialchars($utilisateur['type']) ?></span>
-                            <?= htmlspecialchars($utilisateur['type']) ?>
-                        </td>
-                        <td class="actions-column">
-                            <?php if ($utilisateur['type'] !== 'admin'): ?>
-                                <a href="modifier_utilisateur.php?pseudo=<?php echo urlencode($utilisateur['pseudo']); ?>" class="btn btn-primary btn-sm">Modifier</a>
-                                <button type="button" class="btn btn-danger btn-sm supprimer-btn" data-email="<?= htmlspecialchars($utilisateur['adresse_email']) ?>">Supprimer</button>
-                            <?php endif; ?>
-                        </td>
+                        <th class="sortable" data-column="1">Pseudo</th>
+                        <th class="sortable" data-column="2">Nom</th>
+                        <th class="sortable" data-column="3">Adresse email</th>
+                        <th class="sortable" data-column="4">Type</th>
+                        <th class="text-center actions-column">Actions</th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php foreach ($utilisateurs as $utilisateur): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($utilisateur['pseudo']) ?></td>
+                            <td><?= htmlspecialchars($utilisateur['nom']) ?></td>
+                            <td><?= htmlspecialchars($utilisateur['adresse_email']) ?></td>
+                            <td><?= htmlspecialchars($utilisateur['type']) ?></td>
+                            <td class="text-center actions-column">
+                                <?php if ($utilisateur['type'] !== 'admin'): ?>
+                                    <a href="modifier_utilisateur.php?pseudo=<?php echo urlencode($utilisateur['pseudo']); ?>" class="btn btn-primary btn-sm">Modifier</a>
+                                    <button type="button" class="btn btn-danger btn-sm supprimer-btn" data-email="<?= htmlspecialchars($utilisateur['adresse_email']) ?>">Supprimer</button>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
 
         <div class="d-flex justify-content-center">
             <button type="button" class="btn btn-success" id="ajouter-utilisateur-btn">Ajouter un utilisateur</button>
@@ -166,15 +156,14 @@ $pdo = null;
                     </div>
                 </div>
                 <div class="form-row d-flex justify-content-center">
-                    <input type="submit" name="ajouter_utilisateur" value="Confirmer" class="btn btn-primary mt-3">
+                    <input type="submit" name="ajouter_utilisateur" value="Confirmer" class="btn btn-success mt-3">
                 </div>
             </form>
         </div>
     </div>
 
     <div id="confirmation-dialog" class="hidden">
-        <p>Entrez "SUPPRIMER" pour confirmer la suppression :</p>
-        <input type="text" id="confirmation-input">
+        <p><input type="text" class="w-50" id="confirmation-input"></p>
         <button type="button" id="confirm-btn" class="btn btn-danger btn-sm">Confirmer</button>
         <button type="button" id="cancel-btn" class="btn btn-secondary btn-sm">Annuler</button>
     </div>
@@ -239,6 +228,40 @@ $pdo = null;
                 console.error('Une erreur est survenue lors de la suppression de l\'utilisateur :', error);
             }
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const table = document.querySelector('table');
+            const headers = table.querySelectorAll('th.sortable');
+
+            headers.forEach(header => {
+                header.addEventListener('click', () => {
+                    const columnIndex = header.dataset.column;
+                    const rows = Array.from(table.querySelectorAll('tbody tr'));
+                    const isSortedAsc = header.classList.contains('sorted-asc');
+
+                    rows.sort((a, b) => {
+                        const aValue = a.children[columnIndex - 1].textContent.trim();
+                        const bValue = b.children[columnIndex - 1].textContent.trim();
+
+                        return isSortedAsc
+                            ? aValue.localeCompare(bValue)
+                            : bValue.localeCompare(aValue);
+                    });
+
+                    if (isSortedAsc) {
+                        header.classList.remove('sorted-asc');
+                        header.classList.add('sorted-desc');
+                    } else {
+                        header.classList.add('sorted-asc');
+                        header.classList.remove('sorted-desc');
+                    }
+
+                    const tbody = table.querySelector('tbody');
+                    tbody.innerHTML = '';
+                    rows.forEach(row => tbody.appendChild(row));
+                });
+            });
+        });
     </script>
 </body>
 </html>
