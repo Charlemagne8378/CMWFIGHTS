@@ -10,7 +10,7 @@ if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte
     exit();
 }
 
-$stmt = $pdo->prepare('SELECT pseudo, nom, adresse_email, type FROM UTILISATEUR');
+$stmt = $pdo->prepare('SELECT pseudo, nom, adresse_email, type, derniere_connexion FROM UTILISATEUR');
 $stmt->execute();
 $utilisateurs = $stmt->fetchAll();
 
@@ -100,24 +100,26 @@ $pdo = null;
                         <th class="sortable" data-column="2">Nom</th>
                         <th class="sortable" data-column="3">Adresse email</th>
                         <th class="sortable" data-column="4">Type</th>
+                        <th class="sortable" data-column="5">Dernière connexion</th>
                         <th class="text-center actions-column">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($utilisateurs as $utilisateur): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($utilisateur['pseudo']) ?></td>
-                            <td><?= htmlspecialchars($utilisateur['nom']) ?></td>
-                            <td><?= htmlspecialchars($utilisateur['adresse_email']) ?></td>
-                            <td><?= htmlspecialchars($utilisateur['type']) ?></td>
-                            <td class="text-center actions-column">
-                                <?php if ($utilisateur['type'] !== 'admin'): ?>
-                                    <a href="modifier_utilisateur.php?pseudo=<?php echo urlencode($utilisateur['pseudo']); ?>" class="btn btn-primary btn-sm">Modifier</a>
-                                    <button type="button" class="btn btn-danger btn-sm supprimer-btn" data-email="<?= htmlspecialchars($utilisateur['adresse_email']) ?>">Supprimer</button>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
+                <?php foreach ($utilisateurs as $utilisateur): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($utilisateur['pseudo']) ?></td>
+                        <td><?= htmlspecialchars($utilisateur['nom']) ?></td>
+                        <td><?= htmlspecialchars($utilisateur['adresse_email']) ?></td>
+                        <td><?= htmlspecialchars($utilisateur['type']) ?></td>
+                        <td><?= htmlspecialchars($utilisateur['derniere_connexion'] ?? '') ?></td>
+                        <td class="text-center actions-column">
+                            <?php if ($utilisateur['type'] !== 'admin'): ?>
+                                <a href="modifier_utilisateur.php?pseudo=<?php echo urlencode($utilisateur['pseudo']); ?>" class="btn btn-primary btn-sm">Modifier</a>
+                                <button type="button" class="btn btn-danger btn-sm supprimer-btn" data-email="<?= htmlspecialchars($utilisateur['adresse_email']) ?>">Supprimer</button>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
@@ -243,9 +245,18 @@ $pdo = null;
                         const aValue = a.children[columnIndex - 1].textContent.trim();
                         const bValue = b.children[columnIndex - 1].textContent.trim();
 
-                        return isSortedAsc
-                            ? aValue.localeCompare(bValue)
-                            : bValue.localeCompare(aValue);
+                        if (columnIndex === '5') {
+                            const aValueDate = new Date(aValue);
+                            const bValueDate = new Date(bValue);
+
+                            return isSortedAsc
+                                ? aValueDate.getTime() - bValueDate.getTime()
+                                : bValueDate.getTime() - aValueDate.getTime();
+                        } else {
+                            return isSortedAsc
+                                ? aValue.localeCompare(bValue)
+                                : bValue.localeCompare(aValue);
+                        }
                     });
 
                     if (isSortedAsc) {

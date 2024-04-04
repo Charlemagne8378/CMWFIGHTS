@@ -16,7 +16,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result && password_verify($motDePasse, $result['mot_de_passe'])) {
         $_SESSION['utilisateur_connecte'] = $result;
+        $_SESSION['id'] = $result['id'];
         $_SESSION['admin_type'] = $result['type'];
+        $date_derniere_connexion = date('Y-m-d H:i:s');
+        $sql = "UPDATE UTILISATEUR SET derniere_connexion = ? WHERE id = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$date_derniere_connexion, $result['id']]);
         if ($result['type'] == 'admin') {
             header('Location: ../admin/admin');
         } else {

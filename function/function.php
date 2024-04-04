@@ -39,7 +39,7 @@ function sendEmail($to, $subject, $content)
         $message = '<html><body>';
         $message .= '<h2>' . htmlspecialchars($subject) . '</h2>';
         $message .= '<p>' . htmlspecialchars($content) . '</p>';
-        $message .= '<p>Suivez-nous sur les réseaux sociaux : <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-f"></i></a> <a href="https://twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a> <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a> <a href="https://www.youtube.com/@CMWFIGHT" target="_blank"><i class="fab fa-youtube"></i></a></p>';
+        $message .= '<p>Suivez-nous sur les réseaux sociaux : <a href="https://twitter.com/" target="_blank"><img src="https://example.com/path/to/twitter-icon.png" alt="Twitter" width="32"></a> <a href="https://www.instagram.com/cmwfight/" target="_blank"><img src="https://www.cmwfight.fr/Images/instagram.png" alt="Instagram" width="32"></a> <a href="https://www.youtube.com/@CMWFIGHT" target="_blank"><img src="https://www.cmwfight.fr/Images/youtube-icon.png" alt="YouTube" width="32"></a></p>';
         $message .= "<p><a href='privacy.html' target='_blank'>Politique de confidentialité</a> | <a href='terms.html' target='_blank'>Conditions d'utilisation</a></p>";
         $message .= '<p><a href="newsletters?unsubscribe_email=' . urlencode($to) . '">Se désabonner</a></p>';
         $message .= '</body></html>';
@@ -53,5 +53,19 @@ function sendEmail($to, $subject, $content)
         return false;
     }
 }
+
+function envoyer_email($adresse_email)
+{
+    $sujet = 'Rappel de connexion';
+    $message = 'Bonjour,\n\nNous avons remarqué que vous ne vous êtes pas connecté à notre site depuis un certain temps. Nous vous rappelons que votre compte est toujours actif et que vous pouvez vous connecter en cliquant sur ce lien : http://example.com/\n\nCordialement,\nL\'équipe du site.';
+    $en_tetes = 'From: no-reply@example.com' . "\r\n" .
+        'Reply-To: no-reply@example.com' . "\r\n" .
+        'X-Mailer: PHP/' . phpversion();
+
+    mail($adresse_email, $sujet, $message, $en_tetes);
+}
+
+
+
 
 ?>

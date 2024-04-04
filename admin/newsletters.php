@@ -14,6 +14,19 @@ $users = $stmt->fetchAll();
 $stmt = $pdo->query("SELECT * FROM NEWSLETTER ORDER BY id DESC");
 $newsletters = $stmt->fetchAll();
 
+// Traiter la demande de suppression de newsletter
+if (isset($_POST['delete_newsletter'])) {
+    $newsletter_id = $_POST['delete_id'];
+
+    $query = "DELETE FROM NEWSLETTER WHERE id = :id";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':id', $newsletter_id);
+    $stmt->execute();
+
+    header('Location: newsletters');
+    exit();    
+}
+
 // Traiter le formulaire d'envoi de newsletter
 if (isset($_POST['send_newsletter'])) {
     $subject = $_POST['subject'];
@@ -60,6 +73,7 @@ if (isset($_GET['unsubscribe_email'])) {
     <title>Administration de la newsletter</title>
     <link rel="icon" type="image/png" href="../Images/cmwicon.png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <div class="container mt-5">
@@ -105,6 +119,7 @@ if (isset($_GET['unsubscribe_email'])) {
                     <th>Sujet</th>
                     <th>Envoyé à</th>
                     <th>Date d'envoi</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -114,21 +129,16 @@ if (isset($_GET['unsubscribe_email'])) {
                         <td><?php echo htmlspecialchars($newsletter['sujet']); ?></td>
                         <td><?php echo htmlspecialchars($newsletter['envoye_a']); ?></td>
                         <td><?php echo htmlspecialchars($newsletter['date_envoi']); ?></td>
+                        <td>
+                            <form action="newsletters" method="post">
+                                <input type="hidden" name="delete_id" value="<?php echo $newsletter['id']; ?>">
+                                <button type="submit" name="delete_newsletter" class="btn btn-danger btn-sm">Supprimer</button>
+                            </form>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <hr>
-        <p>
-            <a href="#" target="_blank">Suivez-nous sur les réseaux sociaux :</a>
-            <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
-            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
-        </p>
-        <p>
-            <a href="privacy.html" target="_blank">Politique de confidentialité</a> | <a href="terms.html" target="_blank">Conditions d'utilisation</a>
-        </p>
     </div>
 </body>
 </html>
