@@ -55,7 +55,7 @@
     <?php include'../../header.php' ?>
     <h1>Liste des combattants</h1>
     <?php
-    // Connexion à la base de données
+   
     $servername = "localhost";
     $username = "root";
     $password = "cmwfight75012";
@@ -65,24 +65,24 @@
         $pdo = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        // Sélectionner toutes les catégories
+        
         $stmt_categories = $pdo->query("SELECT * FROM Categories");
         $categories = $stmt_categories->fetchAll(PDO::FETCH_ASSOC);
 
-        // Afficher les combattants par catégorie
+        
         foreach ($categories as $categorie) {
             echo '<div class="category">';
             echo '<h2>' . $categorie['category_name'] . '</h2>';
             echo '<div class="combattant-cards">';
 
-            // Sélectionner les combattants de cette catégorie
+            
             $stmt_combattants = $pdo->prepare("SELECT * FROM Combattant WHERE category_id = ?");
             $stmt_combattants->execute([$categorie['category_id']]);
             $combattants = $stmt_combattants->fetchAll(PDO::FETCH_ASSOC);
 
            
 
-            // Afficher les cartes de combattant
+            
             foreach ($combattants as $combattant) {
                 echo '<div class="combattant-card">';
                 echo '<img src="' . $combattant['image_url'] . '" alt="' . $combattant['nom'] . '">';
@@ -104,8 +104,8 @@
                 echo '</div>';
             }
 
-            echo '</div>'; // fin de combattant-cards
-            echo '</div>'; // fin de la catégorie
+            echo '</div>';
+            echo '</div>'; 
         }
     } catch (PDOException $e) {
         echo "Erreur : " . $e->getMessage();
