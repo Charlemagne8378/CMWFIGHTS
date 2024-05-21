@@ -96,21 +96,70 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['sponsor_name']) && iss
     </style>
 </head>
 <body>
-<div class="sidebar p-3">
-    <div class="list-group">
-        <a href="accueil" class="list-group-item list-group-item-action py-2">Accueil</a>
-        <a href="billetterie" class="list-group-item list-group-item-action py-2">Billetterie</a>
-        <a href="captcha" class="list-group-item list-group-item-action py-2">Captcha</a>
-        <a href="classement" class="list-group-item list-group-item-action py-2">Classement</a>
-        <a href="combattants" class="list-group-item list-group-item-action py-2">Combattants</a>
-        <a href="evenements" class="list-group-item list-group-item-action py-2">Événements</a>
-        <a href="image" class="list-group-item list-group-item-action py-2">Image</a>
-        <a href="modifier_utilisateur" class="list-group-item list-group-item-action py-2">Modifier utilisateur</a>
-        <a href="newsletters" class="list-group-item list-group-item-action py-2">Newsletters</a>
-        <a href="service_client" class="list-group-item list-group-item-action py-2">Service client</a>
-        <a href="utilisateurs" class="list-group-item list-group-item-action py-2 active">Utilisateurs</a>
-    </div>
-</div>
+    <nav class="sidebar">
+        <div class="text-center mb-3">
+            <img src="../Images/cmwnoir.png" alt="Logo" style="width: 128px; height: 128px;">
+        </div>
+        <a class="nav-link" href="admin">
+            <i class="bi bi-house-door"></i>
+            <span class="ml-2 d-none d-sm-inline">Admin</span>
+        </a>
+        <a class="nav-link" href="utilisateurs">
+            <i class="bi bi-person-lines-fill"></i>
+            <span class="ml-2 d-none d-sm-inline">Utilisateurs</span>
+        </a>
+        <a class="nav-link" href="evenements">
+            <i class="bi bi-calendar-event"></i>
+            <span class="ml-2 d-none d-sm-inline">Événements</span>
+        </a>
+        <a class="nav-link" href="modifier_utilisateur">
+            <i class="bi bi-pencil-square"></i>
+            <span class="ml-2 d-none d-sm-inline">Modifier le compte</span>
+        </a>
+        <a class="nav-link" href="classement">
+            <i class="bi bi-bar-chart"></i>
+            <span class="ml-2 d-none d-sm-inline">Classement</span>
+        </a>
+        <a class="nav-link" href="combattants">
+            <i class="bi bi-people"></i>
+            <span class="ml-2 d-none d-sm-inline">Combattants</span>
+        </a>
+        <a class="nav-link" href="candidature">
+            <i class="bi bi-file-earmark-text"></i>
+            <span class="ml-2 d-none d-sm-inline">Candidature</span>
+        </a>
+        <a class="nav-link" href="billetterie">
+            <i class="bi bi-ticket"></i>
+            <span class="ml-2 d-none d-sm-inline">Billetterie</span>
+        </a>
+        <a class="nav-link" href="service_client">
+            <i class="bi bi-telephone"></i>
+            <span class="ml-2 d-none d-sm-inline">Service Client</span>
+        </a>
+        <a class="nav-link active" href="image">
+            <i class="bi bi-image"></i>
+            <span class="ml-2 d-none d-sm-inline">Image</span>
+        </a>
+        <a class="nav-link" href="newsletters">
+            <i class="bi bi-envelope"></i>
+            <span class="ml-2 d-none d-sm-inline">Newsletters</span>
+        </a>
+        <a class="nav-link" href="captcha">
+            <i class="bi bi-shield-lock"></i>
+            <span class="ml-2 d-none d-sm-inline">Captcha</span>
+        </a>
+        <a class="nav-link" href="accueil">
+            <i class="bi bi-house-door"></i>
+            <span class="ml-2 d-none d-sm-inline">Accueil</span>
+        </a>
+        <div class="account-box">
+            <a href="../compte/settings">Paramètres</a>
+            <a href="../auth/logout.php">Déconnexion</a>
+        </div>
+        <button class="btn btn-primary btn-block account-btn">
+            Compte
+        </button>
+    </nav>
     <h1>Administration Acceuil</h1>
 
     <!-- Formulaire pour modifier la bannière -->

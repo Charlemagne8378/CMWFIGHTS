@@ -33,7 +33,7 @@ $categories = $stmt_categories->fetchAll(PDO::FETCH_ASSOC);
 <body>
     <div class="wrapper">
         <h2>Ajouter un combattant dans un classement</h2>
-        <form action="process_classement.php" method="post">
+        <form action="../process/process_classement.php" method="post">
             <div class="form-group">
                 <label>Combattant</label>
                 <select name="combattant_id" class="form-control">
