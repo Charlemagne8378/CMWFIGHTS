@@ -248,6 +248,8 @@ $pdo = null;
             </a>
         </div>
         <div class="col-md-4">
+            <a href="logs" class="btn btn-logs btn-block mb-2 btn-square">
+                <i class="fas fa-clipboard fa-3x"></i><br>
                 Logs
             </a>
         </div>

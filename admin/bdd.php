@@ -24,8 +24,9 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toutes les Bases de Données</title>
     <link rel="icon" type="image/png" sizes="64x64" href="../Images/cmwicon.png">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <style>
         .sidebar {
                 position: fixed;
@@ -195,6 +196,19 @@ try {
             <i class="bi bi-house-door"></i>
             <span class="ml-2 d-none d-sm-inline">Accueil</span>
         </a>
+        <a class="nav-link" href="logs">
+        <i class="bi bi-journal"></i>
+        <span class="ml-2 d-none d-sm-inline">Logs</span>
+    </a>
+    <a class="nav-link" href="permissions">
+        <i class="bi bi-shield-lock"></i>
+        <span class="ml-2 d-none d-sm-inline">Permissions utilisateurs</span>
+    </a>
+    <a class="nav-link" href="bdd">
+        <i class="bi bi-gear"></i>
+        <span class="ml-2 d-none d-sm-inline">Base de données</span>
+    </a>
+
         <div class="account-box">
             <a href="../compte/settings">Paramètres</a>
             <a href="../auth/logout.php">Déconnexion</a>

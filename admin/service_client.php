@@ -178,6 +178,19 @@
             <i class="bi bi-house-door"></i>
             <span class="ml-2 d-none d-sm-inline">Accueil</span>
         </a>
+        <a class="nav-link" href="logs">
+            <i class="bi bi-journal"></i>
+            <span class="ml-2 d-none d-sm-inline">Logs</span>
+        </a>
+        <a class="nav-link" href="permissions">
+            <i class="bi bi-shield-lock"></i>
+            <span class="ml-2 d-none d-sm-inline">Permissions utilisateurs</span>
+        </a>
+        <a class="nav-link" href="bdd">
+            <i class="bi bi-gear"></i>
+            <span class="ml-2 d-none d-sm-inline">Base de données</span>
+        </a>
+
         <div class="account-box">
             <a href="../compte/settings">Paramètres</a>
             <a href="../auth/logout.php">Déconnexion</a>

@@ -1,24 +1,18 @@
 <?php
-// Inclusion du fichier config.php pour établir la connexion à la base de données
 require_once '../config/config.php';
 
-// Vérifier si l'utilisateur est connecté en tant qu'admin
 session_start();
 if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['type'] != 'admin') {
-    header('Location: ../auth/connexion'); // Rediriger vers la page de connexion si non connecté en tant qu'admin
+    header('Location: ../auth/connexion');
     exit();
 }
 
-// Vérifier si le nom de la base de données est présent dans l'URL
 if (isset($_GET['db'])) {
     $db = $_GET['db'];
     
     try {
-        // Connexion à la base de données sélectionnée
         $pdo = new PDO("mysql:host=$servername;dbname=$db", $username, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        
-        // Récupérer la liste des tables dans la base de données sélectionnée
         $stmt = $pdo->query("SHOW TABLES");
         $tables = $stmt->fetchAll(PDO::FETCH_COLUMN);
     } catch (PDOException $e) {
