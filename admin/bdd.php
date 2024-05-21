@@ -1,60 +1,20 @@
 <?php
 require_once '../config/config.php';
-require_once '../function/function.php';
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-$stmt = $pdo->query("SELECT * FROM UTILISATEUR WHERE newsletter = 1");
-$users = $stmt->fetchAll();
-
-$stmt = $pdo->query("SELECT * FROM NEWSLETTER ORDER BY id DESC");
-$newsletters = $stmt->fetchAll();
-
-if (isset($_POST['delete_newsletter'])) {
-    $newsletter_id = $_POST['delete_id'];
-
-    $query = "DELETE FROM NEWSLETTER WHERE id = :id";
-    $stmt = $pdo->prepare($query);
-    $stmt->bindParam(':id', $newsletter_id);
-    $stmt->execute();
-
-    header('Location: newsletters');
-    exit();    
-}
-
-if (isset($_POST['send_newsletter'])) {
-    $subject = $_POST['subject'];
-    $content = $_POST['content'];
-    $sent_to = implode(',', array_column($users, 'id'));
-
-    $stmt = $pdo->prepare("INSERT INTO NEWSLETTER (sujet, contenu, date_envoi, envoye_a) VALUES (:subject, :content, NOW(), :sent_to)");
-    $stmt->bindParam(':subject', $subject);
-    $stmt->bindParam(':content', $content);
-    $stmt->bindParam(':sent_to', $sent_to);
-    $stmt->execute();
-
-    foreach ($users as $user) {
-        sendEmail($user['adresse_email'], $subject, $content);
-    }
-
-    header('Location: newsletters');
+session_start();
+if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['type'] != 'admin') {
+    header('Location: ../auth/connexion');
     exit();
 }
 
-if (isset($_GET['unsubscribe_email'])) {
-    $email = $_GET['unsubscribe_email'];
-
-    $query = "UPDATE UTILISATEUR SET newsletter = 0 WHERE adresse_email = :email";
-    $stmt = $pdo->prepare($query);
-    $stmt->bindParam(':email', $email);
-    $stmt->execute();
-
-    echo "<p>Vous avez été désabonné de notre newsletter avec succès.</p>";
-    exit();
+try {
+    $pdo = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+    $databases = $pdo->query('SHOW DATABASES')->fetchAll(PDO::FETCH_COLUMN);
+} catch (PDOException $e) {
+    echo "Erreur de connexion à la base de données : " . $e->getMessage();
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -62,13 +22,12 @@ if (isset($_GET['unsubscribe_email'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administration de la newsletter</title>
-    <link rel="icon" type="image/png" href="../Images/cmwicon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Toutes les Bases de Données</title>
+    <link rel="icon" type="image/png" sizes="64x64" href="../Images/cmwicon.png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-.sidebar {
+        .sidebar {
                 position: fixed;
                 top: 0;
                 bottom: 0;
@@ -177,7 +136,7 @@ if (isset($_GET['unsubscribe_email'])) {
                     display: none;
                 }
             }
-    </style>
+        </style>
 </head>
 <body>
 <nav class="sidebar">
@@ -244,72 +203,20 @@ if (isset($_GET['unsubscribe_email'])) {
             Compte
         </button>
     </nav>
-    <div class="container mt-5">
-        <h1>Administration de la newsletter</h1>
-        <p>Nombre total d'abonnés : <?php echo count($users); ?></p>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Pseudo</th>
-                    <th>Adresse e-mail</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($users as $user) : ?>
-                    <tr>
-                        <td><?php echo $user['id']; ?></td>
-                        <td><?php echo htmlspecialchars($user['pseudo']); ?></td>
-                        <td><?php echo htmlspecialchars($user['adresse_email']); ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-        <hr>
-        <h2>Créer une nouvelle newsletter</h2>
-        <form action="newsletters" method="post">
-            <div class="form-group">
-                <label for="subject">Sujet</label>
-                <input type="text" class="form-control" id="subject" name="subject" required>
-            </div>
-            <div class="form-group">
-                <label for="content">Contenu</label>
-                <textarea class="form-control" id="content" name="content" rows="10" required></textarea>
-            </div>
-            <button type="submit" name="send_newsletter" class="btn btn-primary">Envoyer la newsletter</button>
-        </form>
-        <hr>
-        <h2>Historique des newsletters</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Sujet</th>
-                    <th>Envoyé à</th>
-                    <th>Date d'envoi</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($newsletters as $newsletter) : ?>
-                    <tr>
-                        <td><?php echo $newsletter['id']; ?></td>
-                        <td><?php echo htmlspecialchars($newsletter['sujet']); ?></td>
-                        <td><?php echo htmlspecialchars($newsletter['envoye_a']); ?></td>
-                      s  <td><?php echo htmlspecialchars($newsletter['date_envoi']); ?></td>
-                        <td>
-                            <form action="newsletters" method="post">
-                                <input type="hidden" name="delete_id" value="<?php echo $newsletter['id']; ?>">
-                                <button type="submit" name="delete_newsletter" class="btn btn-danger btn-sm">Supprimer</button>
-                            </form>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Toutes les Bases de Données</h2>
+    <div class="list-group">
+        <?php foreach ($databases as $database): ?>
+            <a href="tables.php?db=<?php echo urlencode($database); ?>" class="list-group-item list-group-item-action"><?php echo $database; ?></a>
+        <?php endforeach; ?>
     </div>
+    <div class="text-center mt-3">
+        <a href="admin" class="btn btn-primary">Retour à la Page d'Administration</a>
+    </div>
+</div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="http://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
             $(document).ready(function() {
@@ -318,5 +225,6 @@ if (isset($_GET['unsubscribe_email'])) {
                 });
             });
         </script>
+
 </body>
 </html>

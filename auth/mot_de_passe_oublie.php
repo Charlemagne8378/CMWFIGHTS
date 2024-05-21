@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bindValue(3, $email);
 
     if ($stmt->execute()) {
-        $email_sent = sendEmail($email, 'Réinitialisation de mot de passe', "Cliquez sur le lien suivant pour réinitialiser votre mot de passe :\n\n" . "https://www.cmwfight.fr/auth/reset_password.php?code=" . urlencode($verification_code) . "&email=" . urlencode($email));
+        $email_sent = sendEmail($email, 'Réinitialisation de mot de passe', "Cliquez sur le lien suivant pour réinitialiser votre mot de passe :\n\n" . "https://www.cmwfight.fr/auth/reset_password?code=" . urlencode($verification_code) . "&email=" . urlencode($email));
 
         if ($email_sent) {
             echo 'Un e-mail de réinitialisation de mot de passe a été envoyé à votre adresse e-mail.';

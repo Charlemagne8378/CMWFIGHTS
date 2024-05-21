@@ -53,60 +53,68 @@ $pdo = null;
         }
 
         .btn-users,
-.btn-events,
-.btn-password,
-.btn-ranking,
-.btn-fighter,
-.btn-application,
-.btn-ticketing,
-.btn-service-client,
-.btn-image,
-.btn-logout,
-.btn-newsletters,
-.btn-captcha,
-.btn-accueil {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 10px;
-    color: #fff;
-}
+        .btn-events,
+        .btn-password,
+        .btn-ranking,
+        .btn-fighter,
+        .btn-application,
+        .btn-ticketing,
+        .btn-service-client,
+        .btn-image,
+        .btn-logout,
+        .btn-newsletters,
+        .btn-captcha,
+        .btn-accueil,
+        .btn-logs,
+        .btn-permissions,
+        .btn-databases {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            color: #fff;
+        }
 
-body.dark-mode .btn-users,
-body.dark-mode .btn-events,
-body.dark-mode .btn-password,
-body.dark-mode .btn-ranking,
-body.dark-mode .btn-fighter,
-body.dark-mode .btn-application,
-body.dark-mode .btn-ticketing,
-body.dark-mode .btn-service-client,
-body.dark-mode .btn-image,
-body.dark-mode .btn-logout,
-body.dark-mode .btn-newsletters,
-body.dark-mode .btn-captcha,
-body.dark-mode .btn-accueil {
-    background-color: #6c757d;
-}
+        body.dark-mode .btn-users,
+        body.dark-mode .btn-events,
+        body.dark-mode .btn-password,
+        body.dark-mode .btn-ranking,
+        body.dark-mode .btn-fighter,
+        body.dark-mode .btn-application,
+        body.dark-mode .btn-ticketing,
+        body.dark-mode .btn-service-client,
+        body.dark-mode .btn-image,
+        body.dark-mode .btn-logout,
+        body.dark-mode .btn-newsletters,
+        body.dark-mode .btn-captcha,
+        body.dark-mode .btn-accueil,
+        body.dark-mode .btn-logs,
+        body.dark-mode .btn-permissions,
+        body.dark-mode .btn-databases {
+            background-color: #6c757d;
+        }
 
-body.dark-mode .btn-users:hover,
-body.dark-mode .btn-events:hover,
-body.dark-mode .btn-password:hover,
-body.dark-mode .btn-ranking:hover,
-body.dark-mode .btn-fighter:hover,
-body.dark-mode .btn-application:hover,
-body.dark-mode .btn-ticketing:hover,
-body.dark-mode .btn-service-client:hover,
-body.dark-mode .btn-image:hover,
-body.dark-mode .btn-logout:hover,
-body.dark-mode .btn-newsletters:hover,
-body.dark-mode .btn-captcha:hover,
-body.dark-mode .btn-accueil:hover {
-    background-color: #5a6268;
-}
-
+        body.dark-mode .btn-users:hover,
+        body.dark-mode .btn-events:hover,
+        body.dark-mode .btn-password:hover,
+        body.dark-mode .btn-ranking:hover,
+        body.dark-mode .btn-fighter:hover,
+        body.dark-mode .btn-application:hover,
+        body.dark-mode .btn-ticketing:hover,
+        body.dark-mode .btn-service-client:hover,
+        body.dark-mode .btn-image:hover,
+        body.dark-mode .btn-logout:hover,
+        body.dark-mode .btn-newsletters:hover,
+        body.dark-mode .btn-captcha:hover,
+        body.dark-mode .btn-accueil:hover,
+        body.dark-mode .btn-logs:hover,
+        body.dark-mode .btn-permissions:hover,
+        body.dark-mode .btn-databases:hover {
+            background-color: #5a6268;
+        }
 
         .btn-users { background-color: #3498db; color: #fff; }
         .btn-events { background-color: #2ecc71; color: #fff; }
@@ -121,6 +129,9 @@ body.dark-mode .btn-accueil:hover {
         .btn-newsletters { background-color: #4CAF50; color: #fff; }
         .btn-captcha { background-color: #007BFF; color: #fff; }
         .btn-accueil { background-color: #FFC107; color: #fff; }
+        .btn-logs { background-color: #8e44ad; color: #fff; }
+        .btn-permissions { background-color: #e67e22; color: #fff; }
+        .btn-databases { background-color: #d35400; color: #fff; }
 
         @media screen and (max-width: 770px) {
             .btn-users,
@@ -135,7 +146,10 @@ body.dark-mode .btn-accueil:hover {
             .btn-logout,
             .btn-newsletters,
             .btn-captcha,
-            .btn-accueil {
+            .btn-accueil,
+            .btn-logs,
+            .btn-permissions,
+            .btn-databases {
                 font-size: 14px;
                 margin-top: 5px;
             }
@@ -231,6 +245,22 @@ body.dark-mode .btn-accueil:hover {
             <a href="accueil" class="btn btn-accueil btn-block mb-2 btn-square">
                 <i class="fas fa-home fa-3x"></i><br>
                 Accueil
+            </a>
+        </div>
+        <div class="col-md-4">
+                Logs
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="permissions" class="btn btn-permissions btn-block mb-2 btn-square">
+                <i class="fas fa-user-lock fa-3x"></i><br>
+                Permissions Utilisateurs
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="bdd" class="btn btn-databases btn-block mb-2 btn-square">
+                <i class="fas fa-database fa-3x"></i><br>
+                Toutes les Bases de Données
             </a>
         </div>
     </div>
