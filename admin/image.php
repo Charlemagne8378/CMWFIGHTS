@@ -53,110 +53,87 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_FILES["image"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Importation d'images</title>
     <link rel="icon" type="image/png" sizes="64x64" href="../Images/cmwicon.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-    body {
-        font-family: 'Inter', sans-serif; 
-        background-image: url('../Images/wallpaper_admin.jpg');
-        background-size: cover;
-        background-repeat: no-repeat;
-        margin: 0;
-        padding: 20px;
-        text-align: center;
-        color: #000;
-        position: relative;
-        height: 100vh;
-        overflow: hidden;
-    }
-
-    body::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: url('../Images/wallpaper_admin.jpg');
-        background-size: cover;
-        background-repeat: no-repeat;
-        filter: blur(8px);
-        z-index: -1;
-    }
-
-    h1 {
-        color: #fff;
-    }
-
-    form {
-        max-width: 400px;
-        margin: 20px auto;
-        background-color: rgba(255, 255, 255, 1);
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        position: relative;
-        z-index: 1;
-    }
-
-    label {
-        display: block;
-        margin-bottom: 10px;
-        font-weight: bold;
-    }
-
-    input[type="file"],
-    input[type="text"],
-    input[type="submit"] {
-        width: 100%;
-        padding: 10px;
-        box-sizing: border-box;
-        margin-bottom: 20px;
-    }
-
-    input[type="submit"] {
-        background-color: #3498db;
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-    }
-
-    input[type="submit"]:hover {
-        background-color: #258cd1;
-    }
-
-    p.success,
-    p.error {
-        font-weight: bold;
-        color: #fff;
-    }
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 220px;
-            height: 100%;
-            z-index: 1000;
-        }
-</style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../style/sidebar.css">
 </head>
-<div class="sidebar p-3">
-    <div class="list-group">
-        <a href="accueil" class="list-group-item list-group-item-action py-2">Accueil</a>
-        <a href="billetterie" class="list-group-item list-group-item-action py-2">Billetterie</a>
-        <a href="captcha" class="list-group-item list-group-item-action py-2">Captcha</a>
-        <a href="classement" class="list-group-item list-group-item-action py-2">Classement</a>
-        <a href="combattants" class="list-group-item list-group-item-action py-2">Combattants</a>
-        <a href="evenements" class="list-group-item list-group-item-action py-2">Événements</a>
-        <a href="image" class="list-group-item list-group-item-action py-2">Image</a>
-        <a href="modifier_utilisateur" class="list-group-item list-group-item-action py-2">Modifier utilisateur</a>
-        <a href="newsletters" class="list-group-item list-group-item-action py-2">Newsletters</a>
-        <a href="service_client" class="list-group-item list-group-item-action py-2">Service client</a>
-        <a href="utilisateurs" class="list-group-item list-group-item-action py-2 active">Utilisateurs</a>
-    </div>
-</div>
+<nav class="sidebar">
+        <div class="text-center mb-3">
+            <img src="../Images/cmwnoir.png" alt="Logo" style="width: 128px; height: 128px;">
+        </div>
+        <a class="nav-link" href="admin">
+            <i class="bi bi-house-door"></i>
+            <span class="ml-2 d-none d-sm-inline">Admin</span>
+        </a>
+        <a class="nav-link" href="utilisateurs">
+            <i class="bi bi-person-lines-fill"></i>
+            <span class="ml-2 d-none d-sm-inline">Utilisateurs</span>
+        </a>
+        <a class="nav-link" href="evenements">
+            <i class="bi bi-calendar-event"></i>
+            <span class="ml-2 d-none d-sm-inline">Événements</span>
+        </a>
+        <a class="nav-link" href="modifier_utilisateur">
+            <i class="bi bi-pencil-square"></i>
+            <span class="ml-2 d-none d-sm-inline">Modifier le compte</span>
+        </a>
+        <a class="nav-link" href="classement">
+            <i class="bi bi-bar-chart"></i>
+            <span class="ml-2 d-none d-sm-inline">Classement</span>
+        </a>
+        <a class="nav-link" href="combattants">
+            <i class="bi bi-people"></i>
+            <span class="ml-2 d-none d-sm-inline">Combattants</span>
+        </a>
+        <a class="nav-link" href="candidature">
+            <i class="bi bi-file-earmark-text"></i>
+            <span class="ml-2 d-none d-sm-inline">Candidature</span>
+        </a>
+        <a class="nav-link" href="billetterie">
+            <i class="bi bi-ticket"></i>
+            <span class="ml-2 d-none d-sm-inline">Billetterie</span>
+        </a>
+        <a class="nav-link" href="service_client">
+            <i class="bi bi-telephone"></i>
+            <span class="ml-2 d-none d-sm-inline">Service Client</span>
+        </a>
+        <a class="nav-link active" href="image">
+            <i class="bi bi-image"></i>
+            <span class="ml-2 d-none d-sm-inline">Image</span>
+        </a>
+        <a class="nav-link" href="newsletters">
+            <i class="bi bi-envelope"></i>
+            <span class="ml-2 d-none d-sm-inline">Newsletters</span>
+        </a>
+        <a class="nav-link" href="captcha">
+            <i class="bi bi-shield-lock"></i>
+            <span class="ml-2 d-none d-sm-inline">Captcha</span>
+        </a>
+        <a class="nav-link" href="accueil">
+            <i class="bi bi-house-door"></i>
+            <span class="ml-2 d-none d-sm-inline">Accueil</span>
+        </a>
+        <a class="nav-link" href="logs">
+        <i class="bi bi-journal"></i>
+        <span class="ml-2 d-none d-sm-inline">Logs</span>
+    </a>
+    <a class="nav-link" href="permissions">
+        <i class="bi bi-shield-lock"></i>
+        <span class="ml-2 d-none d-sm-inline">Permissions utilisateurs</span>
+    </a>
+    <a class="nav-link" href="bdd">
+        <i class="bi bi-gear"></i>
+        <span class="ml-2 d-none d-sm-inline">Base de données</span>
+    </a>
+
+        <div class="account-box">
+            <a href="../compte/settings">Paramètres</a>
+            <a href="../auth/logout.php">Déconnexion</a>
+        </div>
+        <button class="btn btn-primary btn-block account-btn">
+            Compte
+        </button>
+    </nav>
 <body>
     <div class="container">
         <h1 class="mt-5 mb-4">Importation d'images</h1>
@@ -186,7 +163,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_FILES["image"])) {
         <a href="admin" class="btn btn-secondary mt-3">Retour</a>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('.modifier-question').click(function() {
+                    const questionId = $(this).data('id');
+                    const question = $(this).data('question');
+                    const answer = $(this).data('answer');
+
+                    $('#modal_question_id').val(questionId);
+                    $('#modal_question').val(question);
+                    $('#modal_answer').val(answer);
+                });
+
+                $('.account-btn').click(function() {
+                    $('.account-box').toggleClass('show');
+                });
+            });
+        </script>
     <script>
         function updateFilename() {
             var fileInput = document.getElementById('image');

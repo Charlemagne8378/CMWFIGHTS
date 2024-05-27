@@ -2,9 +2,9 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require '../phpmailer/src/Exception.php';
-require '../phpmailer/src/PHPMailer.php';
-require '../phpmailer/src/SMTP.php';
+require __DIR__ . '/../phpmailer/src/Exception.php';
+require __DIR__ . '/../phpmailer/src/PHPMailer.php';
+require __DIR__ . '/../phpmailer/src/SMTP.php';
 
 function getRandomCaptchaQuestion($pdo)
 {
@@ -35,12 +35,26 @@ function sendEmail($to, $subject, $content)
 
         $mail->isHTML(true);
         $mail->Subject = $subject;
-        $message = '<html><body>';
-        $message .= '<h2>' . htmlspecialchars($subject) . '</h2>';
-        $message .= '<p>' . htmlspecialchars($content) . '</p>';
-        $message .= '<p>Suivez-nous sur les réseaux sociaux : <a href="https://www.tiktok.com/@cmwfight" target="_blank"><img src="https://www.cmwfight.fr/Images/tiktok_icon.png" alt="Twitter" width="32"></a> <a href="https://www.instagram.com/cmwfight/" target="_blank"><img src="https://www.cmwfight.fr/Images/instagram_icon.png" alt="Instagram" width="32"></a> <a href="https://www.youtube.com/@CMWFIGHT" target="_blank"><img src="https://www.cmwfight.fr/Images/youtube-icon.png" alt="YouTube" width="32"></a></p>';
-        $message .= "<p><a href='privacy.html' target='_blank'>Politique de confidentialité</a> | <a href='terms.html' target='_blank'>Conditions d'utilisation</a></p>";
-        $message .= '<p><a href="https://www.cmwfight.fr/newsletters?unsubscribe_email=' . urlencode($to) . '">Se désabonner</a></p>';
+        $message = '<html><body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4;">';
+        $message .= '<div style="max-width: 600px; margin: 20px auto; background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 3px rgba(0,0,0,0.1);">';
+        $message .= '<div style="background-color: #ffffff; padding: 20px; text-align: center;">';
+        $message .= '<img src="https://www.cmwfight.fr/Images/cmwnoir.png" alt="CMWFIGHT" style="width: 100px; height: auto;">';
+        $message .= '</div>';
+        $message .= '<div style="padding: 20px;">';
+        $message .= '<h2 style="color: #333333;">' . htmlspecialchars($subject) . '</h2>';
+        $message .= '<p style="color: #555555;">' . nl2br(htmlspecialchars($content)) . '</p>';
+        $message .= '</div>';
+        $message .= '<div style="background-color: #f4f4f4; padding: 20px; text-align: center;">';
+        $message .= '<p>Suivez-nous sur les réseaux sociaux :</p>';
+        $message .= '<a href="https://www.tiktok.com/@cmwfight?'.time().'" target="_blank"><img src="https://www.cmwfight.fr/Images/icon-rs/tiktok_icon.png?'.time().'" alt="TikTok" width="32" style="margin: 0 10px;"></a>';
+        $message .= '<a href="https://www.instagram.com/cmwfight/?'.time().'" target="_blank"><img src="https://www.cmwfight.fr/Images/icon-rs/instagram_icon.png?'.time().'" alt="Instagram" width="32" style="margin: 0 10px;"></a>';
+        $message .= '<a href="https://www.youtube.com/@CMWFIGHT?'.time().'" target="_blank"><img src="https://www.cmwfight.fr/Images/icon-rs/youtube_icon.png?'.time().'" alt="YouTube" width="32" style="margin: 0 10px;"></a>';
+        $message .= '</div>';
+        $message .= '<div style="background-color: #ffffff; padding: 10px 20px; text-align: center; font-size: 12px; color: #888888;">';
+        $message .= '<p><a href="https://www.cmwfight.fr/privacy.html" target="_blank" style="color: #888888; text-decoration: none;">Politique de confidentialité</a> | <a href="https://www.cmwfight.fr/terms.html" target="_blank" style="color: #888888; text-decoration: none;">Conditions d\'utilisation</a></p>';
+        $message .= '<p>&copy; 2024 CMWFIGHT. Tous droits réservés.</p>';
+        $message .= '</div>';
+        $message .= '</div>';
         $message .= '</body></html>';
 
         $mail->Body = $message;
@@ -52,8 +66,4 @@ function sendEmail($to, $subject, $content)
         return false;
     }
 }
-
-
-
-
 ?>

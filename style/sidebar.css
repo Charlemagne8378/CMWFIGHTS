@@ -1,0 +1,109 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding: 16px 0;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
+    width: 280px;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+.sidebar .nav-link {
+    color: #333;
+    white-space: nowrap;
+    margin-bottom: 0.5rem;
+}
+
+.sidebar .nav-link i {
+    margin-right: 0px;
+}
+
+.sidebar.collapsed {
+    width: 60px;
+}
+
+.sidebar.collapsed .nav-link {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 0;
+    text-align: center;
+}
+
+.sidebar.collapsed .nav-link i {
+    margin-right: 0;
+    font-size: 18px;
+}
+
+.sidebar .nav-link.active {
+    color: #007bff;
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.main-content {
+    transition: margin-left 0.3s ease;
+    margin-left: 280px;
+}
+
+.main-content.collapsed {
+    margin-left: 60px;
+}
+
+.account-box {
+    position: absolute;
+    bottom: 60px; 
+    left: 0;
+    width: 100%;
+    background-color: #f8f9fa;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    display: none;
+}
+
+.account-box.show {
+    display: block;
+}
+
+.account-box a {
+    color: #333;
+    display: block;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.account-box a:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.account-btn {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 0;
+        padding: 0;
+    }
+
+    .sidebar.collapsed {
+        width: 0;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+}
+
+@media (min-width: 769px) {
+    .toggle-sidebar {
+        display: none;
+    }
+}

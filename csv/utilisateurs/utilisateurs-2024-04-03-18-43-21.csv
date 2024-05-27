@@ -1,9 +1,0 @@
-ID,Pseudo,Nom,"Adresse e-mail","Mot de passe",Genre,Type,"Email vérifié","Code de vérification",Newsletter
-1,Erwan,Erwan,erwan.luce.guedon@gmail.com,$2y$10$M1EOc/4hRdgtj1MihJ3qDex3btsyrT34uK45oNo.SwexUNrUEm51y,homme,admin,0,dca3107a2f37a5aec4645c9d1a3ec016041b8239ee36bec50e7eed6bebbbf061,1
-2,FID,François,francoisdia01@gmail.com,$2y$10$6bX2nLe1ootreqX0AAsSSeoACARflDEnWTc8ihJY0sGBGRshsapPa,homme,admin,1,,0
-17,dsqdsqd,erw,Charlemagne8378pro@gmail.com,$2y$10$uMGtxwd/v/1PH7T3q94BA.YnlClwhJtu9Ri0OeOAO58AlxIdyWqXW,autre,utilisateur,0,f9837f3410a5b3c638801b448d7dd663378ea203529e020369d705aae52bec2a,0
-18,admin,admin,erwanlg0@gmail.com,$2y$10$iCelgs7olHl/DouFEGrrDOPgx9FUmiM8s6vpj1UQ8ivjkmoGbZDIq,autre,utilisateur,1,,0
-19,eeeeeeeeeeeeeee,eeeeeeee,eee@test.gm,$2y$10$EHIY2AUeYFG43XLZ8Kz3suKFwK1N3szJdgUmQGfx4sMjcXF.i1JQm,femme,utilisateur,0,2f117a9491a1b40be8bd12d03d5f809bc69094d4987e57d06cd4c3993ad9f42b,0
-21,eazeaz,zezaeaz,erwan.luce.guedon@ezaeagmail.com,$2y$10$uW/pOSZJmOlgFzKtiRzGgudKF/edEEuEucby4RF0YZphNCI0ZJgSi,homme,moderateur,1,,0
-22,"Caca le francois","Francoise le caca",debutanimaux@gmail.com,$2y$10$gOmy37FPgUyHeWGjhVcLEOFXIA7UDSlzbx2YadfS5gqWYDdYuB6s6,homme,utilisateur,1,,0
-23,NANO,Grishik,grigorichamoyan@gmail.com,$2y$10$oRgD2YrWrZSzE7GwjKy37eW9J1wL4XvyNtUp3fVrFsk9H2rr1EZ2C,homme,utilisateur,1,,0
