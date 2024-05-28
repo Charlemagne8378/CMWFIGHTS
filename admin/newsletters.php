@@ -2,11 +2,10 @@
 require_once '../require/config/config.php';
 require_once '../require/function/function.php';
 require_once '../require/sidebar.php';
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-error_log("Mon message d'erreur", 3, "/var/log/error.log");
+
 
 $stmt = $pdo->query("SELECT * FROM UTILISATEUR WHERE newsletter = 1");
 $users = $stmt->fetchAll();

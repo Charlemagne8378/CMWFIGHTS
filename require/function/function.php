@@ -2,9 +2,9 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require __DIR__ . '/../require/phpmailer/src/Exception.php';
-require __DIR__ . '/../require/phpmailer/src/PHPMailer.php';
-require __DIR__ . '/../require/phpmailer/src/SMTP.php';
+require __DIR__ . '/../phpmailer/Exception.php';
+require __DIR__ . '/../phpmailer/PHPMailer.php';
+require __DIR__ . '/../phpmailer/SMTP.php';
 
 function getRandomCaptchaQuestion($pdo)
 {
