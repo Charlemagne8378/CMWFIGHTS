@@ -1,5 +1,5 @@
 <?php
-require_once '../config/config.php';
+require_once '../require/config/config.php';
 session_start();
 
 if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['type'] != 'admin') {

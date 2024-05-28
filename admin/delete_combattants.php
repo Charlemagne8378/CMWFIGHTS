@@ -1,6 +1,6 @@
 <?php
 // Inclure le fichier de configuration de la base de données
-require_once '../config/config.php';
+require_once '../require/config/config.php';
 session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);

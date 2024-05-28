@@ -1,6 +1,6 @@
 <?php
-require_once '../config/config.php';
-require_once '../function/function.php';
+require_once '../require/config/config.php';
+require_once '../require/function/function.php';
 
 $stmt = $pdo->query("SELECT * FROM NEWSLETTER WHERE brouillon = 0 AND programmer IS NOT NULL AND programmer <= NOW()");
 $newsletters_programmees = $stmt->fetchAll();

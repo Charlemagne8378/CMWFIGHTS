@@ -1,6 +1,6 @@
 <?php
-require_once '../config/config.php';
-require_once '../function/function.php';
+require_once '../require/config/config.php';
+require_once '../requirefunction/function.php';
 use PHPMailer\PHPMailer\PHPMailer;
 
 session_start();
@@ -68,17 +68,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Réinitialisation de mot de passe</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Réinitialisation de mot de passe</h1>
-    <?php if ($_SERVER["REQUEST_METHOD"] != "POST"): ?>
-        <form action="reset_password?code=<?php echo urlencode($verification_code); ?>&email=<?php echo urlencode($email); ?>" method="post">
-            <label for="new_password">Nouveau mot de passe:</label>
-            <input type="password" name="new_password" id="new_password" required><br>
-            <label for="confirm_password">Confirmer le mot de passe:</label>
-            <input type="password" name="confirm_password" id="confirm_password" required><br>
-            <input type="submit" value="Réinitialiser le mot de passe">
-        </form>
-    <?php endif; ?>
+<body class="bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h1 class="card-title">Réinitialisation de mot de passe</h1>
+                    </div>
+                    <div class="card-body">
+                        <?php if ($_SERVER["REQUEST_METHOD"] != "POST"): ?>
+                            <form action="reset_password?code=<?php echo urlencode($verification_code); ?>&email=<?php echo urlencode($email); ?>" method="post">
+                                <div class="form-group">
+                                    <label for="new_password">Nouveau mot de passe:</label>
+                                    <input type="password" name="new_password" id="new_password" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirm_password">Confirmer le mot de passe:</label>
+                                    <input type="password" name="confirm_password" id="confirm_password" class="form-control" required>
+                                </div>
+                                <div class="form-group text-center">
+                                    <input type="submit" value="Réinitialiser le mot de passe" class="btn btn-primary">
+                                </div>
+                            </form>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

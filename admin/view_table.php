@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../require/config/config.php';
+require_once '../require/sidebar.php';
 
 session_start();
 if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['type'] != 'admin') {
@@ -52,6 +53,7 @@ function getFirstColumn($pdo, $table) {
     <link rel="icon" type="image/png" sizes="64x64" href="../Images/cmwicon.png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../style/sidebar.css">
     <style>
         th a {
             color: inherit;

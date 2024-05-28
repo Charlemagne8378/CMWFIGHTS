@@ -1,5 +1,5 @@
 <?php
-require_once '../config/config.php';
+require_once '../require/config/config.php';
 
 if (!isset($_GET['code']) || !isset($_GET['pseudo'])) {
     die("Lien invalide. Veuillez vérifier votre lien de vérification d'e-mail.");

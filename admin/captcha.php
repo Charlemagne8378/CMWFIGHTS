@@ -1,5 +1,6 @@
     <?php
-    require_once '../config/config.php';
+    require_once '../require/config/config.php';
+    require_once '../require/sidebar.php';
     session_start();
 
     if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['type'] !== 'admin') {
@@ -17,7 +18,7 @@
                 $question = htmlspecialchars(trim($_POST["question"]));
                 $answer = htmlspecialchars(trim($_POST["answer"]));
 
-                $stmt = $pdo->prepare("INSERT INTO captcha (question, answer) VALUES (?, ?)");
+                $stmt = $pdo->prepare("INSERT INTO CAPTCHA (question, answer) VALUES (?, ?)");
 
                 if ($stmt->execute([$question, $answer])) {
                     $message = "La question a été ajoutée avec succès.";
@@ -47,82 +48,6 @@
     </head>
 
     <body>
-    <nav class="sidebar">
-        <div class="text-center mb-3">
-            <img src="../Images/cmwnoir.png" alt="Logo" style="width: 128px; height: 128px;">
-        </div>
-        <a class="nav-link" href="admin">
-            <i class="bi bi-house-door"></i>
-            <span class="ml-2 d-none d-sm-inline">Admin</span>
-        </a>
-        <a class="nav-link" href="utilisateurs">
-            <i class="bi bi-person-lines-fill"></i>
-            <span class="ml-2 d-none d-sm-inline">Utilisateurs</span>
-        </a>
-        <a class="nav-link" href="evenements">
-            <i class="bi bi-calendar-event"></i>
-            <span class="ml-2 d-none d-sm-inline">Événements</span>
-        </a>
-        <a class="nav-link" href="modifier_utilisateur">
-            <i class="bi bi-pencil-square"></i>
-            <span class="ml-2 d-none d-sm-inline">Modifier le compte</span>
-        </a>
-        <a class="nav-link" href="classement">
-            <i class="bi bi-bar-chart"></i>
-            <span class="ml-2 d-none d-sm-inline">Classement</span>
-        </a>
-        <a class="nav-link" href="combattants">
-            <i class="bi bi-people"></i>
-            <span class="ml-2 d-none d-sm-inline">Combattants</span>
-        </a>
-        <a class="nav-link" href="candidature">
-            <i class="bi bi-file-earmark-text"></i>
-            <span class="ml-2 d-none d-sm-inline">Candidature</span>
-        </a>
-        <a class="nav-link" href="billetterie">
-            <i class="bi bi-ticket"></i>
-            <span class="ml-2 d-none d-sm-inline">Billetterie</span>
-        </a>
-        <a class="nav-link" href="service_client">
-            <i class="bi bi-telephone"></i>
-            <span class="ml-2 d-none d-sm-inline">Service Client</span>
-        </a>
-        <a class="nav-link" href="image">
-            <i class="bi bi-image"></i>
-            <span class="ml-2 d-none d-sm-inline">Image</span>
-        </a>
-        <a class="nav-link" href="newsletters">
-            <i class="bi bi-envelope"></i>
-            <span class="ml-2 d-none d-sm-inline">Newsletters</span>
-        </a>
-        <a class="nav-link active" href="captcha">
-            <i class="bi bi-shield-lock"></i>
-            <span class="ml-2 d-none d-sm-inline">Captcha</span>
-        </a>
-        <a class="nav-link" href="accueil">
-            <i class="bi bi-house-door"></i>
-            <span class="ml-2 d-none d-sm-inline">Accueil</span>
-        </a>
-        <a class="nav-link" href="logs">
-        <i class="bi bi-journal"></i>
-        <span class="ml-2 d-none d-sm-inline">Logs</span>
-    </a>
-    <a class="nav-link" href="permissions">
-        <i class="bi bi-shield-lock"></i>
-        <span class="ml-2 d-none d-sm-inline">Permissions utilisateurs</span>
-    </a>
-    <a class="nav-link" href="bdd">
-        <i class="bi bi-gear"></i>
-        <span class="ml-2 d-none d-sm-inline">Base de données</span>
-    </a>
-
-        <div class="account-box">
-            <a href="../compte/settings">Paramètres</a>
-            <a href="../auth/logout.php">Déconnexion</a>
-        </div>
-        <button class="btn btn-primary btn-block account-btn">
-            Compte
-        </button>
     </nav>
         <div class="main-content">
             <div class="container">
@@ -160,7 +85,7 @@
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "SELECT id, question, answer FROM captcha";
+                            $sql = "SELECT id, question, answer FROM CAPTCHA";
                             $stmt = $pdo->query($sql);
 
                             if ($stmt->rowCount() > 0) {

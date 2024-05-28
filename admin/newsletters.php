@@ -1,6 +1,7 @@
 <?php
-require_once '../config/config.php';
-require_once '../function/function.php';
+require_once '../require/config/config.php';
+require_once '../require/function/function.php';
+require_once '../require/sidebar.php';
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -116,83 +117,6 @@ function handlePostRequests($pdo, $users) {
     <link rel="stylesheet" href="../style/sidebar.css">
 </head>
 <body>
-<nav class="sidebar">
-    <div class="text-center mb-3">
-        <img src="../Images/cmwnoir.png" alt="Logo" style="width: 128px; height: 128px;">
-    </div>
-    <a class="nav-link" href="admin">
-        <i class="bi bi-house-door"></i>
-        <span class="ml-2 d-none d-sm-inline">Admin</span>
-    </a>
-    <a class="nav-link" href="utilisateurs">
-        <i class="bi bi-person-lines-fill"></i>
-        <span class="ml-2 d-none d-sm-inline">Utilisateurs</span>
-    </a>
-    <a class="nav-link" href="evenements">
-        <i class="bi bi-calendar-event"></i>
-        <span class="ml-2 d-none d-sm-inline">Événements</span>
-    </a>
-    <a class="nav-link" href="modifier_utilisateur">
-        <i class="bi bi-pencil-square"></i>
-        <span class="ml-2 d-none d-sm-inline">Modifier le compte</span>
-    </a>
-    <a class="nav-link" href="classement">
-        <i class="bi bi-bar-chart"></i>
-        <span class="ml-2 d-none d-sm-inline">Classement</span>
-    </a>
-    <a class="nav-link" href="combattants">
-        <i class="bi bi-people"></i>
-        <span class="ml-2 d-none d-sm-inline">Combattants</span>
-    </a>
-    <a class="nav-link" href="candidature">
-        <i class="bi bi-file-earmark-text"></i>
-        <span class="ml-2 d-none d-sm-inline">Candidature</span>
-    </a>
-    <a class="nav-link" href="billetterie">
-        <i class="bi bi-ticket"></i>
-        <span class="ml-2 d-none d-sm-inline">Billetterie</span>
-    </a>
-    <a class="nav-link" href="service_client">
-        <i class="bi bi-telephone"></i>
-        <span class="ml-2 d-none d-sm-inline">Service Client</span>
-    </a>
-    <a class="nav-link" href="image">
-        <i class="bi bi-image"></i>
-        <span class="ml-2 d-none d-sm-inline">Image</span>
-    </a>
-    <a class="nav-link active" href="newsletters">
-        <i class="bi bi-envelope"></i>
-        <span class="ml-2 d-none d-sm-inline">Newsletters</span>
-    </a>
-    <a class="nav-link" href="captcha">
-        <i class="bi bi-shield-lock"></i>
-        <span class="ml-2 d-none d-sm-inline">Captcha</span>
-    </a>
-    <a class="nav-link" href="accueil">
-        <i class="bi bi-house-door"></i>
-        <span class="ml-2 d-none d-sm-inline">Accueil</span>
-    </a>
-    <a class="nav-link" href="logs">
-        <i class="bi bi-journal"></i>
-        <span class="ml-2 d-none d-sm-inline">Logs</span>
-    </a>
-    <a class="nav-link" href="permissions">
-        <i class="bi bi-shield-lock"></i>
-        <span class="ml-2 d-none d-sm-inline">Permissions utilisateurs</span>
-    </a>
-    <a class="nav-link" href="bdd">
-        <i class="bi bi-gear"></i>
-        <span class="ml-2 d-none d-sm-inline">Base de données</span>
-    </a>
-
-    <div class="account-box">
-        <a href="../compte/settings">Paramètres</a>
-        <a href="../auth/logout.php">Déconnexion</a>
-    </div>
-    <button class="btn btn-primary btn-block account-btn">
-        Compte
-    </button>
-</nav>
 <div class="container mt-5">
     <h1>Administration de la newsletter</h1>
     <p>Nombre total d'abonnés : <?php echo count($users); ?></p>
