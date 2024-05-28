@@ -6,6 +6,7 @@ require_once '../require/sidebar.php';
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+error_log("Mon message d'erreur", 3, "/var/log/error.log");
 
 $stmt = $pdo->query("SELECT * FROM UTILISATEUR WHERE newsletter = 1");
 $users = $stmt->fetchAll();
@@ -31,7 +32,7 @@ function handlePostRequests($pdo, $users) {
 
             $query = "DELETE FROM NEWSLETTER WHERE id = :id";
             $stmt = $pdo->prepare($query);
-            $stmt->bindParam(':id', $newsletter_id);
+            $stmt->bindValue(':sent_to', $sent_to, $sent_to === null ? PDO::PARAM_NULL : PDO::PARAM_STR);
             $stmt->execute();
 
             header('Location: newsletters');

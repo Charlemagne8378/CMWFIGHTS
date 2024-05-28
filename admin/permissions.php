@@ -1,5 +1,6 @@
 <?php
 require_once '../require/sidebar.php';
+require_once '../config/config.php';
 
 ?>
 <!DOCTYPE html>
@@ -19,7 +20,6 @@ require_once '../require/sidebar.php';
     <div class="container mt-5">
         <h1>Gestion des Permissions</h1>
         <?php
-        require_once '../config/config.php';
 
         // Connexion à la base de données
         $conn = new mysqli($servername, $username, $password, $dbname);
