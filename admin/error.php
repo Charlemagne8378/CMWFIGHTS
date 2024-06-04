@@ -4,38 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Affichage du fichier error.log</title>
-    <!-- Inclusion de Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../style/sidebar.css">
+    <style>
+        .pre-scrollable {
+            max-height: 500px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <div class="card">
-            <div class="card-header bg-danger text-white">
-                Contenu du fichier error.log
+    <div class="container-fluid mt-5">
+        <div class="row">
+            <div class="col-md-3">
+                <?php require_once '../require/sidebar.php'; ?>
             </div>
-            <div class="card-body">
-                <?php
-                // Vérifier si le fichier error.log existe et est accessible en lecture
-                if (file_exists('/var/log/apache2/error.log') && is_readable('/var/log/apache2/error.log')) {
-                    // Lire le contenu du fichier error.log
-                    $errorLog = file_get_contents('/var/log/apache2/error.log');
-                    // Afficher le contenu du fichier error.log dans une balise pre
-                    echo '<pre class="pre-scrollable bg-light p-3 border">';
-                    echo htmlspecialchars($errorLog);
-                    echo '</pre>';
-                } else {
-                    // Afficher un message d'erreur si le fichier error.log n'existe pas ou n'est pas accessible en lecture
-                    echo '<div class="alert alert-danger" role="alert">';
-                    echo 'Le fichier error.log n\'existe pas ou n\'est pas accessible en lecture.';
-                    echo '</div>';
-                }
-                ?>
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header bg-danger text-white">
+                        Contenu du fichier error.log
+                    </div>
+                    <div class="card-body">
+                        <?php
+                        if (file_exists('/var/log/apache2/error.log') && is_readable('/var/log/apache2/error.log')) {
+                            $errorLog = file_get_contents('/var/log/apache2/error.log');
+                            echo '<pre class="pre-scrollable bg-light p-3 border">';
+                            echo htmlspecialchars($errorLog);
+                            echo '</pre>';
+                        } else {
+                            echo '<div class="alert alert-danger" role="alert">';
+                            echo 'Le fichier error.log n\'existe pas ou n\'est pas accessible en lecture.';
+                            echo '</div>';
+                        }
+                        ?>
+                    </div>
+                    <div class="card-footer">
+                        <form action="../process/delete_log.php" method="post">
+                            <button type="submit" class="btn btn-danger" name="delete_log">Supprimer le contenu du fichier error.log</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <!-- Inclusion de Bootstrap JS (optionnel) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="http://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.account-btn').click(function() {
+            $('.account-box').toggleClass('show');
+        });
+    });
+</script>
 </body>
 </html>

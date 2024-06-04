@@ -1,320 +1,294 @@
 <?php
 require_once '../require/config/config.php';
 session_start();
-
-
 $pdo = null;
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page d'Administration</title>
     <link rel="icon" type="image/png" sizes="64x64" href="../Images/cmwicon.png">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    min-height: 100vh;
+    margin: 0;
+}
 
-        .btn-square {
-            height: 100px;
-            margin-bottom: 10px;
-        }
+.btn-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 10px;
+}
 
-        .btn-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-evenly;
-            margin: 10px;
-        }
+.btn-container .col-md-4 {
+    flex: 0 0 33.33333%;
+    max-width: 33.33333%;
+    text-align: center;
+    padding: 10px;
+}
 
-        .btn-container .col-md-4 {
-            flex: 0 0 33.33333%;
-            max-width: 33.33333%;
-            text-align: center;
-        }
+.logout-btn-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
 
-        .logout-btn-container {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 10px;
-        }
+.btn-users,
+.btn-events,
+.btn-password,
+.btn-ranking,
+.btn-fighter,
+.btn-application,
+.btn-ticketing,
+.btn-service-client,
+.btn-image,
+.btn-logout,
+.btn-newsletters,
+.btn-captcha,
+.btn-accueil,
+.btn-logs,
+.btn-permissions,
+.btn-databases {
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #fff;
+    transition: box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
-        .btn-users,
-        .btn-events,
-        .btn-password,
-        .btn-ranking,
-        .btn-fighter,
-        .btn-application,
-        .btn-ticketing,
-        .btn-service-client,
-        .btn-image,
-        .btn-logout,
-        .btn-newsletters,
-        .btn-captcha,
-        .btn-accueil,
-        .btn-logs,
-        .btn-permissions,
-        .btn-databases {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 10px;
-            color: #fff;
-        }
+.btn-users { background-color: #3498db; }
+.btn-events { background-color: #2ecc71; }
+.btn-password { background-color: #e74c3c; }
+.btn-ranking { background-color: #9b59b6; }
+.btn-fighter { background-color: #f39c12; }
+.btn-application { background-color: #c0392b; }
+.btn-ticketing { background-color: #1abc9c; }
+.btn-service-client { background-color: #7f8c8d; }
+.btn-image { background-color: #34495e; }
+.btn-logout { background-color: #95a5a6; }
+.btn-newsletters { background-color: #4CAF50; }
+.btn-captcha { background-color: #007BFF; }
+.btn-accueil { background-color: #FFC107; }
+.btn-logs { background-color: #8e44ad; }
+.btn-permissions { background-color: #e67e22; }
+.btn-databases { background-color: #d35400; }
 
-        body.dark-mode .btn-users,
-        body.dark-mode .btn-events,
-        body.dark-mode .btn-password,
-        body.dark-mode .btn-ranking,
-        body.dark-mode .btn-fighter,
-        body.dark-mode .btn-application,
-        body.dark-mode .btn-ticketing,
-        body.dark-mode .btn-service-client,
-        body.dark-mode .btn-image,
-        body.dark-mode .btn-logout,
-        body.dark-mode .btn-newsletters,
-        body.dark-mode .btn-captcha,
-        body.dark-mode .btn-accueil,
-        body.dark-mode .btn-logs,
-        body.dark-mode .btn-permissions,
-        body.dark-mode .btn-databases {
-            background-color: #6c757d;
-        }
+.btn-users:hover,
+.btn-events:hover,
+.btn-password:hover,
+.btn-ranking:hover,
+.btn-fighter:hover,
+.btn-application:hover,
+.btn-ticketing:hover,
+.btn-service-client:hover,
+.btn-image:hover,
+.btn-logout:hover,
+.btn-newsletters:hover,
+.btn-captcha:hover,
+.btn-accueil:hover,
+.btn-logs:hover,
+.btn-permissions:hover,
+.btn-databases:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
 
-        body.dark-mode .btn-users:hover,
-        body.dark-mode .btn-events:hover,
-        body.dark-mode .btn-password:hover,
-        body.dark-mode .btn-ranking:hover,
-        body.dark-mode .btn-fighter:hover,
-        body.dark-mode .btn-application:hover,
-        body.dark-mode .btn-ticketing:hover,
-        body.dark-mode .btn-service-client:hover,
-        body.dark-mode .btn-image:hover,
-        body.dark-mode .btn-logout:hover,
-        body.dark-mode .btn-newsletters:hover,
-        body.dark-mode .btn-captcha:hover,
-        body.dark-mode .btn-accueil:hover,
-        body.dark-mode .btn-logs:hover,
-        body.dark-mode .btn-permissions:hover,
-        body.dark-mode .btn-databases:hover {
-            background-color: #5a6268;
-        }
+.btn-users:hover { background-color: #3498db; }
+.btn-events:hover { background-color: #2ecc71; }
+.btn-password:hover { background-color: #e74c3c; }
+.btn-ranking:hover { background-color: #9b59b6; }
+.btn-fighter:hover { background-color: #f39c12; }
+.btn-application:hover { background-color: #c0392b; }
+.btn-ticketing:hover { background-color: #1abc9c; }
+.btn-service-client:hover { background-color: #7f8c8d; }
+.btn-image:hover { background-color: #34495e; }
+.btn-logout:hover { background-color: #95a5a6; }
+.btn-newsletters:hover { background-color: #4CAF50; }
+.btn-captcha:hover { background-color: #007BFF; }
+.btn-accueil:hover { background-color: #FFC107; }
+.btn-logs:hover { background-color: #8e44ad; }
+.btn-permissions:hover { background-color: #e67e22; }
+.btn-databases:hover { background-color: #d35400; }
 
-        .btn-users { background-color: #3498db; color: #fff; }
-        .btn-events { background-color: #2ecc71; color: #fff; }
-        .btn-password { background-color: #e74c3c; color: #fff; }
-        .btn-ranking { background-color: #9b59b6; color: #fff; }
-        .btn-fighter { background-color: #f39c12; color: #fff; }
-        .btn-application { background-color: #c0392b; color: #fff; }
-        .btn-ticketing { background-color: #1abc9c; color: #fff; }
-        .btn-service-client { background-color: #7f8c8d; color: #fff; }
-        .btn-image { background-color: #34495e; color: #fff; }
-        .btn-logout { background-color: #95a5a6; color: #fff; }
-        .btn-newsletters { background-color: #4CAF50; color: #fff; }
-        .btn-captcha { background-color: #007BFF; color: #fff; }
-        .btn-accueil { background-color: #FFC107; color: #fff; }
-        .btn-logs { background-color: #8e44ad; color: #fff; }
-        .btn-permissions { background-color: #e67e22; color: #fff; }
-        .btn-databases { background-color: #d35400; color: #fff; }
+@media screen and (max-width: 770px) {
+    .btn-users,
+    .btn-events,
+    .btn-password,
+    .btn-ranking,
+    .btn-fighter,
+    .btn-application,
+    .btn-ticketing,
+    .btn-service-client,
+    .btn-image,
+    .btn-logout,
+    .btn-newsletters,
+    .btn-captcha,
+    .btn-accueil,
+    .btn-logs,
+    .btn-permissions,
+    .btn-databases {
+        font-size: 14px;
+        margin-top: 5px;
+    }
 
-        @media screen and (max-width: 770px) {
-            .btn-users,
-            .btn-events,
-            .btn-password,
-            .btn-ranking,
-            .btn-fighter,
-            .btn-application,
-            .btn-ticketing,
-            .btn-service-client,
-            .btn-image,
-            .btn-logout,
-            .btn-newsletters,
-            .btn-captcha,
-            .btn-accueil,
-            .btn-logs,
-            .btn-permissions,
-            .btn-databases {
-                font-size: 14px;
-                margin-top: 5px;
-            }
-            body {
-                min-height: auto;
-            }
-        }
-        body.dark-mode {
-            background-color: #343a40;
-            color: #fff;
-        }
-
-        body.dark-mode .btn-secondary {
-            color: #fff;
-            background-color: #6c757d;
-            border-color: #6c757d;
-        }
+    body {
+        min-height: auto;
+    }
+}
 
     </style>
 </head>
+
 <body>
 
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Page d'Administration</h2>
-    <div class="btn-container">
-        <div class="col-md-4">
-            <a href="utilisateurs" class="btn btn-users btn-block mb-2 btn-square">
-                <i class="fas fa-users fa-3x"></i><br>
-                Utilisateurs
-            </a>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Page d'Administration</h2>
+        <div class="btn-container">
+            <div class="col-md-4">
+                <a href="utilisateurs" class="btn btn-users btn-block mb-2 btn-square">
+                    <i class="fas fa-users fa-3x"></i>
+                    <span>Utilisateurs</span>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="evenements" class="btn btn-events btn-block mb-2 btn-square">
+                    <i class="fas fa-calendar-alt fa-3x"></i>
+                    <span>Événements</span>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="modifier_utilisateur" class="btn btn-password btn-block mb-2 btn-square">
+                    <i class="fas fa-key fa-3x"></i>
+                    <span>Modifier le compte</span>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="classement" class="btn btn-ranking btn-block mb-2 btn-square">
+                    <i class="fas fa-trophy fa-3x"></i>
+                    <span>Classement</span>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="combattants" class="btn btn-fighter btn-block mb-2 btn-square">
+                    <i class="fas fa-fist-raised fa-3x"></i>
+                    <span>Combattant</span>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="back_candidature" class="btn btn-application btn-block mb-2 btn-square">
+                    <i class="fas fa-file-alt fa-3x"></i>
+                    <span>Candidature</span>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="billetterie" class="btn btn-ticketing btn-block mb-2 btn-square">
+                    <i class="fas fa-ticket-alt fa-3x"></i>
+                    <span>Billetterie</span>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="service_client" class="btn btn-service-client btn-block mb-2 btn-square">
+                    <i class="fas fa-headset fa-3x"></i>
+                    <span>Service Client</span>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="image" class="btn btn-image btn-block mb-2 btn-square">
+                    <i class="fas fa-image fa-3x"></i>
+                    <span>Image</span>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="newsletters" class="btn btn-newsletters btn-block mb-2 btn-square">
+                    <i class="fas fa-envelope fa-3x"></i>
+                    <span>Newsletters</span>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="captcha" class="btn btn-captcha btn-block mb-2 btn-square">
+                    <i class="fas fa-robot fa-3x"></i>
+                    <span>Captcha</span>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="accueil" class="btn btn-accueil btn-block mb-2 btn-square">
+                    <i class="fas fa-home fa-3x"></i>
+                    <span>Accueil</span>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="logs" class="btn btn-logs btn-block mb-2 btn-square">
+                    <i class="fas fa-clipboard fa-3x"></i>
+                    <span>Logs</span>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="permissions" class="btn btn-permissions btn-block mb-2 btn-square">
+                    <i class="fas fa-user-lock fa-3x"></i>
+                    <span>Permissions Utilisateurs</span>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="bdd" class="btn btn-databases btn-block mb-2 btn-square">
+                    <i class="fas fa-database fa-3x"></i>
+                    <span>Bases de Données</span>
+                </a>
+            </div>
         </div>
-        <div class="col-md-4">
-            <a href="evenements" class="btn btn-events btn-block mb-2 btn-square">
-                <i class="fas fa-calendar-alt fa-3x"></i><br>
-                Événements
-            </a>
-        </div>
-        <div class="col-md-4">
-            <a href="modifier_utilisateur" class="btn btn-password btn-block mb-2 btn-square">
-                <i class="fas fa-key fa-3x"></i><br>
-                Modifier le compte
-            </a>
-        </div>
-        <div class="col-md-4">
-            <a href="classement" class="btn btn-ranking btn-block mb-2 btn-square">
-                <i class="fas fa-trophy fa-3x"></i><br>
-                Classement
-            </a>
-        </div>
-        <div class="col-md-4">
-            <a href="combattants" class="btn btn-fighter btn-block mb-2 btn-square">
-                <i class="fas fa-fist-raised fa-3x"></i><br>
-                Combattant
-            </a>
-        </div>
-        <div class="col-md-4">
-            <a href="back_candidature" class="btn btn-application btn-block mb-2 btn-square">
-                <i class="fas fa-file-alt fa-3x"></i><br>
-                Candidature
-            </a>
-        </div>
-        <div class="col-md-4">
-            <a href="billetterie" class="btn btn-ticketing btn-block mb-2 btn-square">
-                <i class="fas fa-ticket-alt fa-3x"></i><br>
-                Billetterie
-            </a>
-        </div>
-        <div class="col-md-4">
-            <a href="service_client" class="btn btn-service-client btn-block mb-2 btn-square">
-                <i class="fas fa-headset fa-3x"></i><br>
-                Service Client
-            </a>
-        </div>
-        <div class="col-md-4">
-            <a href="image" class="btn btn-image btn-block mb-2 btn-square">
-                <i class="fas fa-image fa-3x"></i><br>
-                Image
-            </a>
-        </div>
-        <div class="col-md-4">
-            <a href="newsletters" class="btn btn-newsletters btn-block mb-2 btn-square">
-                <i class="fas fa-envelope fa-3x"></i><br>
-                Newsletters
-            </a>
-        </div>
-        <div class="col-md-4">
-            <a href="captcha" class="btn btn-captcha btn-block mb-2 btn-square">
-                <i class="fas fa-robot fa-3x"></i><br>
-                Captcha
-            </a>
-        </div>
-        <div class="col-md-4">
-            <a href="accueil" class="btn btn-accueil btn-block mb-2 btn-square">
-                <i class="fas fa-home fa-3x"></i><br>
-                Accueil
-            </a>
-        </div>
-        <div class="col-md-4">
-            <a href="logs" class="btn btn-logs btn-block mb-2 btn-square">
-                <i class="fas fa-clipboard fa-3x"></i><br>
-                Logs
-            </a>
-        </div>
-        <div class="col-md-4">
-            <a href="permissions" class="btn btn-permissions btn-block mb-2 btn-square">
-                <i class="fas fa-user-lock fa-3x"></i><br>
-                Permissions Utilisateurs
-            </a>
-        </div>
-        <div class="col-md-4">
-            <a href="bdd" class="btn btn-databases btn-block mb-2 btn-square">
-                <i class="fas fa-database fa-3x"></i><br>
-                Toutes les Bases de Données
+        <div class="logout-btn-container">
+            <a href="/auth/logout.php" class="btn btn-logout btn-square">
+                <i class="fas fa-sign-out-alt fa-3x"></i>
+                <span>Se déconnecter</span>
             </a>
         </div>
     </div>
-    <div class="logout-btn-container">
-        <a href="/auth/logout.php" class="btn btn-logout btn-square">
-            <i class="fas fa-sign-out-alt fa-3x"></i><br>
-            Se déconnecter
-        </a>
-    </div>
-</div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
 
-<script>
-    const userBtn = document.getElementById('userBtn');
-    const eventBtn = document.getElementById('eventBtn');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const passwordBtn = document.getElementById('passwordBtn');
-    const rankingBtn = document.getElementById('rankingBtn');
-    const fighterBtn = document.getElementById('fighterBtn');
-    const applicationBtn = document.getElementById('applicationBtn');
-    const ticketingBtn = document.getElementById('ticketingBtn');
-    const serviceClientBtn = document.getElementById('serviceClientBtn');
-    const imageBtn = document.getElementById('imageBtn');
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const darkModeBtn = document.getElementById('darkModeBtn');
-        const lightModeBtn = document.getElementById('lightModeBtn');
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const darkModeBtn = document.getElementById('darkModeBtn');
+            const lightModeBtn = document.getElementById('lightModeBtn');
 
-        darkModeBtn.addEventListener('click', () => {
-            document.body.classList.add('dark-mode');
-            document.body.classList.remove('light-mode');
-            localStorage.setItem('theme', 'dark');
-        });
+            darkModeBtn.addEventListener('click', () => {
+                document.body.classList.add('dark-mode');
+                document.body.classList.remove('light-mode');
+                localStorage.setItem('theme', 'dark');
+            });
 
-        lightModeBtn.addEventListener('click', () => {
-            document.body.classList.add('light-mode');
-            document.body.classList.remove('dark-mode');
-            localStorage.setItem('theme', 'light');
-        });
+            lightModeBtn.addEventListener('click', () => {
+                document.body.classList.add('light-mode');
+                document.body.classList.remove('dark-mode');
+                localStorage.setItem('theme', 'light');
+            });
 
-        const storedTheme = localStorage.getItem('theme');
-        if (storedTheme) {
-            if (storedTheme === 'dark') {
-                darkModeBtn.click();
-            } else {
-                lightModeBtn.click();
+            const storedTheme = localStorage.getItem('theme');
+            if (storedTheme) {
+                if (storedTheme === 'dark') {
+                    darkModeBtn.click();
+                } else {
+                    lightModeBtn.click();
+                }
             }
-        }
-    });
-</script>
-
-
-
+        });
+    </script>
 </body>
+
 </html>
