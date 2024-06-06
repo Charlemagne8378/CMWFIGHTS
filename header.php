@@ -5,181 +5,193 @@ for ($i = 0; $i < substr_count($_SERVER['REQUEST_URI'], '/'); $i++) {
     $root .= '../';
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
 
-        header {
-            background-color: black;
-            padding: 5px 30px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-        }
+header {
+    background-color: #000;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        .logo img {
-            max-width: 80%;
-            width: 150px;
-            height: auto;
-        }
+header .logo img {
+    height: 50px;
+}
 
-        .section-gauche, .section-droite {
-            display: flex;
-            align-items: center;
-        }
+nav {
+    display: flex;
+    align-items: center;
+}
 
-        .section-droite a{
-            text-decoration: none;
-            color: white;
-            margin: 20px;
-        }
+nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
 
-        .dropdown{
-            margin-right: 30px;
-        }
+nav ul li {
+    margin: 0 15px;
+    position: relative; 
+}
 
-        .dropdown a{
-            text-decoration: none;
-            color: white;
-        }
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+}
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #060606;
-            border:solid 1px #fff;
-            min-width: 120px;
-            z-index: 1;
-        }
+nav ul li .dropdown-menu {
+    display: none; 
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #000;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 150px;
+}
 
-        .dropdown-content a {
-            color: #fff;
-            padding: 10px;
-            text-decoration: none;
-            display: block;
-        }
+nav ul li .dropdown-menu li {
+    margin: 0;
+}
 
-        .dropdown-content a:hover {
-            background-color: #555;
-        }
+nav ul li .dropdown-menu li a {
+    padding: 10px;
+    display: block;
+    text-decoration: none;
+    color: #fff;
+}
 
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
+nav ul li:hover .dropdown-menu {
+    display: block; 
+}
 
-        .search-bar {
-            position: relative;
-            margin-left: 20px;
-        }
 
-        .search-bar input[type="text"], .search-bar input[type="submit"] {
-            border: none;
-            padding: 10px;
-            border-radius: 20px;
-            outline: none;
-        }
+#nav_check {
+    display: none;
+}
 
-        .search-bar input[type="text"] {
-            background-color: #fcfbfb;
-            color: #000000;
-            width: 150px;
-            transition: width 0.4s ease-in-out;
-        }
+.menu_icon {
+    display: none;
+}
 
-        .search-bar input[type="text"]:focus {
-            width: 200px;
-        }
 
-        .search-bar input[type="submit"] {
-            background-color: #ccc;
-            color: #333;
-            cursor: pointer;
-            margin-right: 50px;
-        }
+@media (max-width: 768px) {
+    nav ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: #000;
+        position: absolute;
+        top: 60px;
+        left: 0;
+    }
 
-        @media screen and (max-width: 600px) {
-            .search-bar input[type="text"] {
-                width: 100px;
-            }
-            .search-bar input[type="text"]:focus {
-                width: 150px;
-            }
-        }
+    nav ul li {
+        margin: 10px 0;
+        text-align: center;
+    }
 
-        .navbar a {
-            color: #f2f2f2;
-            text-decoration: none;
-            padding: 14px 16px;
-            display: block;
-        }
+    nav ul li .dropdown-menu {
+        position: static; 
+        width: 100%; 
+    }
 
-        .navbar a:hover {
-            background-color: #555;
-        }
+    nav ul li.active .dropdown-menu {
+        display: block; 
+    }
+
+    nav ul li a {
+        font-size: 20px;
+    }
+
+    header .logo {
+        margin: 0 auto;
+    }
+
+    .menu_icon {
+        display: block;
+        cursor: pointer;
+    }
+
+    .menu_icon img {
+        height: 30px;
+    }
+
+    #nav_check:checked + nav ul {
+        display: flex;
+    }
+
+    .dropdown-menu.show {
+        display: block; 
+    }
+}
 
     </style>
 </head>
 <body>
-
-<header>
-    <div class="section-gauche">
-        <div class="dropdown">
-            <a class="navbar" href="<?php echo $root; ?>pages/mma/combattantmma">Combattant</a>
+    <header>
+        <div class="logo">
+            <img src="Images/cmwblanc.png" alt="logo">
         </div>
+        <input type="checkbox" id="nav_check" hidden>
+        <label for="nav_check" class="menu_icon">
+            <img src="Images/cmwicon.png" alt="menu">
+        </label>
+        <nav>
+            <ul>
+                <li><a href="pages/mma/combattantmma">Combattant</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Evenement</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="pages/mma/evenementmma">MMA</a></li>
+                        <li><a href="pages/boxe/evenementboxe">BOXE</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Classement</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="pages/mma/classementmma">MMA</a></li>
+                        <li><a href="pages/boxe/classementboxe">BOXE</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Candidature</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Login/Register</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="auth/connexion.php">Login</a></li>
+                        <li><a href="auth/inscription">Register</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
 
-        <div class="dropdown">
-            <a class="navbar" href="<?php echo $root; ?>#">Evenement</a>
-            <div class="dropdown-content">
-                <a href="<?php echo $root; ?>pages/boxe/evenementboxe">Boxe</a>
-                <a href="<?php echo $root; ?>pages/mma/evenementmma">MMA</a>
-            </div>
-        </div>
-
-        <div class="dropdown">
-            <a class="navbar" href="<?php echo $root; ?>#">Classement</a>
-            <div class="dropdown-content">
-                <a href="<?php echo $root; ?>pages/boxe/classementboxe">Boxe</a>
-                <a href="<?php echo $root; ?>pages/mma/classementmma">MMA</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="logo">
-        <a href="<?php echo $root; ?>index">
-            <img src="<?php echo $root; ?>Images/cmwblanc.png" alt="Logocmw" width="150">
-        </a>
-    </div>
-
-    <div class="section-droite">
-        <a class="navbar" href="<?php echo $root; ?>about">About</a>
-        <?php if (isset($_SESSION['utilisateur_connecte'])): ?>
-            <a class="navbar" href="<?php echo $root; ?>auth/logout">Logout</a>
-            <a class="navbar" href="<?php echo $root; ?>settings">Settings</a>
-        <?php else: ?>
-            <div class="dropdown">
-                <a class="navbar" href="#">Login/Register</a>
-                <div class="dropdown-content">
-                    <a href="<?php echo $root; ?>auth/connexion.php">Se connecter</a>
-                    <a href="<?php echo $root; ?>auth/inscription">S'inscrire</a>
-                </div>
-            </div>
-        <?php endif; ?>
-        <div class="search-bar">
-            <input type="text" placeholder="Rechercher...">
-            <input type="submit" value="Rechercher">
-        </div>
-    </div>
-</header>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropdowns = document.querySelectorAll('.dropdown-toggle');
+            dropdowns.forEach(dropdown => {
+                dropdown.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const parent = this.parentElement;
+                    parent.classList.toggle('active');
+                    parent.querySelector('.dropdown-menu').classList.toggle('show');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
