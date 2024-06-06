@@ -1,5 +1,5 @@
 <?php
-require_once '../config/config.php';
+require_once '../require/config/config.php';
 session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -24,7 +24,7 @@ $pdo = null;
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Administration</title>
     <link rel="icon" type="image/png" sizes="64x64" href="../Images/cmwicon.png">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
 <body>
     <div class="container mt-4">

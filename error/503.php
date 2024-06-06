@@ -7,18 +7,12 @@
     <link rel="icon" type="image/png" sizes="64x64" href="../Images/cmwicon.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-..." crossorigin="anonymous">
 </head>
-<body>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="text-center">
-                    <h1 class="display-1 mt-5">503</h1>
-                    <h2 class="mb-4">Service indisponible</h2>
-                    <p class="lead">Le serveur est temporairement indisponible en raison d'une maintenance ou d'une surcharge. Veuillez réessayer plus tard ou contacter l'administrateur du site pour obtenir de l'aide.</p>
-                    <a href="/" class="btn btn-primary">Retourner à la page d'accueil</a>
-                </div>
-            </div>
-        </div>
+<body class="bg-light d-flex justify-content-center align-items-center vh-100">
+    <div class="container bg-white p-5 rounded shadow text-center" style="max-width: 400px;">
+        <h1 class="display-1 text-dark">503</h1>
+        <h2 class="mb-4">Service indisponible</h2>
+        <p class="lead text-secondary">Le serveur est temporairement indisponible. Veuillez réessayer plus tard.</p>
+        <a href="/" class="btn btn-dark btn-lg">Retourner à la page d'accueil</a>
     </div>
 </body>
 </html>

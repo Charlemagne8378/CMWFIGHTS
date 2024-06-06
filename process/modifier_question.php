@@ -1,5 +1,5 @@
 <?php
-require_once '../config/config.php';
+require_once '../require/config/config.php';
 
 if (!isset($_POST['question_id']) || !is_numeric($_POST['question_id'])) {
     header("Location: ../index.php"); 

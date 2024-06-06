@@ -12,8 +12,8 @@ error_reporting(E_ALL);
 
 date_default_timezone_set('Europe/Paris');
 
-require_once '../config/config.php';
-require_once '../fpdf/fpdf.php';
+require_once '../require/config/config.php';
+require_once '../require/fpdf/fpdf.php';
 
 $user_id = $_SESSION['id'];
 

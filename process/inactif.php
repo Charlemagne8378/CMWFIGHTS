@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../function/function.php'; 
-require_once __DIR__ . '/../config/config.php'; 
+require_once __DIR__ . '/../require/function/function.php'; 
+require_once __DIR__ . '/../require/config/config.php'; 
 
 $duree_inactivite = 30;
 

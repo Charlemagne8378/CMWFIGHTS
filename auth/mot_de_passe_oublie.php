@@ -1,6 +1,6 @@
 <?php
-require_once '../config/config.php';
-require_once '../function/function.php';
+require_once '../require/config/config.php';
+require_once '../require/function/function.php';
 use PHPMailer\PHPMailer\PHPMailer;
 
 session_start();
@@ -67,13 +67,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mot de passe oublié</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Mot de passe oublié</h1>
-    <form action="mot_de_passe_oublie" method="post">
-        <label for="email">Adresse e-mail:</label>
-        <input type="email" name="email" id="email" required><br>
-        <input type="submit" value="Envoyer le lien de réinitialisation">
-    </form>
+<body class="bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h1 class="card-title">Mot de passe oublié</h1>
+                    </div>
+                    <div class="card-body">
+                        <form action="mot_de_passe_oublie" method="post">
+                            <div class="form-group">
+                                <label for="email">Adresse e-mail:</label>
+                                <input type="email" name="email" id="email" class="form-control" required>
+                            </div>
+                            <div class="form-group text-center">
+                                <input type="submit" value="Envoyer le lien de réinitialisation" class="btn btn-primary">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
