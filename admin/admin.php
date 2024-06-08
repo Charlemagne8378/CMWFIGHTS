@@ -1,6 +1,13 @@
 <?php
 require_once '../require/config/config.php';
 session_start();
+
+session_start();
+if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['type'] != 'admin') {
+    header('Location: ../auth/connexion');
+    exit();
+}
+
 $pdo = null;
 ?>
 

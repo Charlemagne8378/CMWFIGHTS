@@ -47,7 +47,7 @@
                         <?php
                         if (file_exists('/var/log/apache2/error.log') && is_readable('/var/log/apache2/error.log')) {
                             $errorLog = file_get_contents('/var/log/apache2/error.log');
-                            echo '<pre class="pre-scrollable bg-light p-3 border">';
+                            echo '<pre class="pre-scrollable bg-light p-3 border" style="color: #000000;">';
                             echo htmlspecialchars($errorLog);
                             echo '</pre>';
                         } else {

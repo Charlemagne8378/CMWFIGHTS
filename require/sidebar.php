@@ -38,11 +38,30 @@
         }
         ?>
     </ul>
-    <div class="account-box" id="account-box">
+    <div class="form-check form-switch d-flex justify-content-center align-items-center">
+        <i class="bi bi-sun-fill text-warning me-2"></i>
+        <input class="form-check-input" type="checkbox" id="darkModeToggle">
+        <i class="bi bi-moon-fill text-dark ms-2"></i>
+    </div>
+
+    <div class="account-box collapse" id="account-box">
         <a href="../pages/compte/settings">Paramètres</a>
         <a href="../auth/logout.php">Déconnexion</a>
     </div>
-    <button class="btn btn-primary btn-block account-btn">
+    <button class="btn btn-primary btn-block account-btn" data-bs-toggle="collapse" data-bs-target="#account-box">
         Compte
     </button>
 </nav>
+
+<script>
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    
+
+    darkModeToggle.addEventListener('change', () => {
+        if (darkModeToggle.checked) {
+            document.documentElement.setAttribute('data-bs-theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('data-bs-theme', 'light');
+        }
+    });
+</script>
