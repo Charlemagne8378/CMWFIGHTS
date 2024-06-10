@@ -9,7 +9,26 @@
     <link rel="stylesheet" href="../style/sidebar.css">
     <style>
         .pre-scrollable {
-            max-height: 500px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .card {
+            margin: 20px auto;
+            max-width: 95%;
+            margin-left: 2.5%;
+        }
+        .card-footer {
+            display: flex;
+            justify-content: flex-end;
+        }
+        @media (max-width: 768px) {
+            .pre-scrollable {
+                max-height: 50vh;
+            }
+            .card {
+                max-width: 90%;
+                margin-left: 5%;
+            }
         }
     </style>
 </head>
@@ -28,7 +47,7 @@
                         <?php
                         if (file_exists('/var/log/apache2/error.log') && is_readable('/var/log/apache2/error.log')) {
                             $errorLog = file_get_contents('/var/log/apache2/error.log');
-                            echo '<pre class="pre-scrollable bg-light p-3 border">';
+                            echo '<pre class="pre-scrollable bg-light p-3 border" style="color: #000000;">';
                             echo htmlspecialchars($errorLog);
                             echo '</pre>';
                         } else {
@@ -49,14 +68,14 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="http://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('.account-btn').click(function() {
-            $('.account-box').toggleClass('show');
+    <script src="http://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.account-btn').click(function() {
+                $('.account-box').toggleClass('show');
+            });
         });
-    });
-</script>
+    </script>
 </body>
 </html>

@@ -23,7 +23,7 @@ $pdo = null;
 ?>
 
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -31,7 +31,6 @@ $pdo = null;
     <link rel="icon" type="image/png" sizes="64x64" href="../Images/cmwicon.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
     <link rel="stylesheet" href="../style/sidebar.css">
     <style>
         #confirmation-dialog {
@@ -39,9 +38,9 @@ $pdo = null;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: #fff;
+            background-color: var(--bs-body-bg);
             padding: 20px;
-            border: 1px solid #ccc;
+            border: 1px solid var(--bs-border-color);
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             z-index: 9999;
@@ -180,9 +179,7 @@ $pdo = null;
             <button type="button" id="confirm-btn" class="btn btn-danger btn-sm">Confirmer</button>
             <button type="button" id="cancel-btn" class="btn btn-secondary btn-sm">Annuler</button>
         </div>
-        <div class="d-flex justify-content-center mt-3">
-            <a href="admin" class="btn btn-secondary">Retour</a>
-        </div>
+
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

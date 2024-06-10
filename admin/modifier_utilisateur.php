@@ -2,10 +2,11 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+session_start();
 require_once '../require/config/config.php';
 require_once '../require/sidebar.php';
 
-session_start();
 if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['type'] != 'admin') {
     header('Location: ../auth/connexion');
     exit();

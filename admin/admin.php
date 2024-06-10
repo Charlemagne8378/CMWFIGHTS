@@ -1,6 +1,13 @@
 <?php
 require_once '../require/config/config.php';
 session_start();
+
+session_start();
+if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['type'] != 'admin') {
+    header('Location: ../auth/connexion');
+    exit();
+}
+
 $pdo = null;
 ?>
 
@@ -16,142 +23,128 @@ $pdo = null;
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; 
-    min-height: 100vh;
-    margin: 0;
-}
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
 
-.btn-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 10px;
-}
+        .btn-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 10px;
+        }
 
-.btn-container .col-md-4 {
-    flex: 0 0 33.33333%;
-    max-width: 33.33333%;
-    text-align: center;
-    padding: 10px;
-}
+        .btn-container .col-md-4 {
+            flex: 0 0 33.33333%;
+            max-width: 33.33333%;
+            text-align: center;
+            padding: 10px;
+        }
 
-.logout-btn-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 10px;
-}
+        .logout-btn-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
 
-.btn-users,
-.btn-events,
-.btn-password,
-.btn-ranking,
-.btn-fighter,
-.btn-application,
-.btn-ticketing,
-.btn-service-client,
-.btn-image,
-.btn-logout,
-.btn-newsletters,
-.btn-captcha,
-.btn-accueil,
-.btn-logs,
-.btn-permissions,
-.btn-databases {
-    width: 100%;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    color: #fff;
-    transition: box-shadow 0.3s;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
+        .btn-users,
+        .btn-events,
+        .btn-password,
+        .btn-ranking,
+        .btn-fighter,
+        .btn-application,
+        .btn-ticketing,
+        .btn-service-client,
+        .btn-image,
+        .btn-logout,
+        .btn-newsletters,
+        .btn-captcha,
+        .btn-accueil,
+        .btn-logs,
+        .btn-permissions,
+        .btn-databases,
+        .btn-error {
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #fff;
+            transition: box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
 
-.btn-users { background-color: #3498db; }
-.btn-events { background-color: #2ecc71; }
-.btn-password { background-color: #e74c3c; }
-.btn-ranking { background-color: #9b59b6; }
-.btn-fighter { background-color: #f39c12; }
-.btn-application { background-color: #c0392b; }
-.btn-ticketing { background-color: #1abc9c; }
-.btn-service-client { background-color: #7f8c8d; }
-.btn-image { background-color: #34495e; }
-.btn-logout { background-color: #95a5a6; }
-.btn-newsletters { background-color: #4CAF50; }
-.btn-captcha { background-color: #007BFF; }
-.btn-accueil { background-color: #FFC107; }
-.btn-logs { background-color: #8e44ad; }
-.btn-permissions { background-color: #e67e22; }
-.btn-databases { background-color: #d35400; }
+        .btn-users { background-color: #3498db; }
+        .btn-events { background-color: #2ecc71; }
+        .btn-password { background-color: #e74c3c; }
+        .btn-ranking { background-color: #9b59b6; }
+        .btn-fighter { background-color: #f39c12; }
+        .btn-application { background-color: #c0392b; }
+        .btn-ticketing { background-color: #1abc9c; }
+        .btn-service-client { background-color: #7f8c8d; }
+        .btn-image { background-color: #34495e; }
+        .btn-logout { background-color: #95a5a6; }
+        .btn-newsletters { background-color: #4CAF50; }
+        .btn-captcha { background-color: #007BFF; }
+        .btn-accueil { background-color: #FFC107; }
+        .btn-logs { background-color: #8e44ad; }
+        .btn-permissions { background-color: #e67e22; }
+        .btn-databases { background-color: #d35400; }
+        .btn-error { background-color: #e74c3c; }
 
-.btn-users:hover,
-.btn-events:hover,
-.btn-password:hover,
-.btn-ranking:hover,
-.btn-fighter:hover,
-.btn-application:hover,
-.btn-ticketing:hover,
-.btn-service-client:hover,
-.btn-image:hover,
-.btn-logout:hover,
-.btn-newsletters:hover,
-.btn-captcha:hover,
-.btn-accueil:hover,
-.btn-logs:hover,
-.btn-permissions:hover,
-.btn-databases:hover {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-}
+        .btn-users:hover,
+        .btn-events:hover,
+        .btn-password:hover,
+        .btn-ranking:hover,
+        .btn-fighter:hover,
+        .btn-application:hover,
+        .btn-ticketing:hover,
+        .btn-service-client:hover,
+        .btn-image:hover,
+        .btn-logout:hover,
+        .btn-newsletters:hover,
+        .btn-captcha:hover,
+        .btn-accueil:hover,
+        .btn-logs:hover,
+        .btn-permissions:hover,
+        .btn-databases:hover,
+        .btn-error:hover {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
 
-.btn-users:hover { background-color: #3498db; }
-.btn-events:hover { background-color: #2ecc71; }
-.btn-password:hover { background-color: #e74c3c; }
-.btn-ranking:hover { background-color: #9b59b6; }
-.btn-fighter:hover { background-color: #f39c12; }
-.btn-application:hover { background-color: #c0392b; }
-.btn-ticketing:hover { background-color: #1abc9c; }
-.btn-service-client:hover { background-color: #7f8c8d; }
-.btn-image:hover { background-color: #34495e; }
-.btn-logout:hover { background-color: #95a5a6; }
-.btn-newsletters:hover { background-color: #4CAF50; }
-.btn-captcha:hover { background-color: #007BFF; }
-.btn-accueil:hover { background-color: #FFC107; }
-.btn-logs:hover { background-color: #8e44ad; }
-.btn-permissions:hover { background-color: #e67e22; }
-.btn-databases:hover { background-color: #d35400; }
+        @media screen and (max-width: 770px) {
+            .btn-users,
+            .btn-events,
+            .btn-password,
+            .btn-ranking,
+            .btn-fighter,
+            .btn-application,
+            .btn-ticketing,
+            .btn-service-client,
+            .btn-image,
+            .btn-logout,
+            .btn-newsletters,
+            .btn-captcha,
+            .btn-accueil,
+            .btn-logs,
+            .btn-permissions,
+            .btn-databases,
+            .btn-error {
+                font-size: 14px;
+                margin-top: 5px;
+            }
 
-@media screen and (max-width: 770px) {
-    .btn-users,
-    .btn-events,
-    .btn-password,
-    .btn-ranking,
-    .btn-fighter,
-    .btn-application,
-    .btn-ticketing,
-    .btn-service-client,
-    .btn-image,
-    .btn-logout,
-    .btn-newsletters,
-    .btn-captcha,
-    .btn-accueil,
-    .btn-logs,
-    .btn-permissions,
-    .btn-databases {
-        font-size: 14px;
-        margin-top: 5px;
-    }
-
-    body {
-        min-height: auto;
-    }
-}
-
+            body {
+                min-height: auto;
+            }
+        }
     </style>
 </head>
 
@@ -248,6 +241,12 @@ $pdo = null;
                 <a href="bdd" class="btn btn-databases btn-block mb-2 btn-square">
                     <i class="fas fa-database fa-3x"></i>
                     <span>Bases de Données</span>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="error" class="btn btn-error btn-block mb-2 btn-square">
+                    <i class="fas fa-exclamation-triangle fa-3x"></i>
+                    <span>Error</span>
                 </a>
             </div>
         </div>

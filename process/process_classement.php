@@ -13,11 +13,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $discipline = $_POST["discipline"];
     $ranking = $_POST["ranking"];
 
-    // Déterminer le nom de la table en fonction de la discipline sélectionnée
-    $table_name = ($discipline == "mma") ? "classementmma" : "classementboxe";
+    
+    $table_name = ($discipline == "mma") ? "CLASSEMENTMMA" : "CLASSEMENTBOXE";
 
     // Vérifier si la catégorie existe dans la table classement
-    $sql_check_category = "SELECT classement_id FROM classement WHERE category_id = ?";
+    $sql_check_category = "SELECT classement_id FROM CLASSEMENT WHERE category_id = ?";
     $stmt_check_category = $pdo->prepare($sql_check_category);
     $stmt_check_category->execute([$category_id]);
     $classement_id = $stmt_check_category->fetchColumn();
