@@ -161,7 +161,7 @@ for ($i = 0; $i < substr_count($_SERVER['REQUEST_URI'], '/'); $i++) {
     </div>
 
     <div class="section-droite">
-        <a class="navbar" href="<?php echo $root; ?>about">About</a>
+        <a class="navbar" href="<?php echo $root; ?>pages/candidature">Candidature</a>
         <?php if (isset($_SESSION['utilisateur_connecte'])): ?>
             <a class="navbar" href="<?php echo $root; ?>auth/logout">Logout</a>
             <a class="navbar" href="<?php echo $root; ?>settings">Settings</a>

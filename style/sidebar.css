@@ -11,7 +11,6 @@
 }
 
 .sidebar.dark-mode {
-  /* Add your dark mode styles here */
   background-color: #333;
   color: #fff;
 }
@@ -29,6 +28,11 @@
 .sidebar.collapsed {
   width: 60px;
 }
+
+.main-content.collapsed {
+  margin-left: 600px;
+}
+
 
 .sidebar.collapsed .nav-link {
   padding-left: 0.5rem;
@@ -108,10 +112,10 @@
 }
 .main-content {
   transition: margin-left 0.3s ease;
-  margin-left: 250px; /* Width of the sidebar */
+  margin-left: 250px;
 }
 
 .main-content.collapsed {
-  margin-left: 600px; /* Width of the collapsed sidebar */
+  margin-left: 600px;
 }
 

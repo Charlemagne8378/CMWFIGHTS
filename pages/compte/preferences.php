@@ -79,7 +79,7 @@
                         <i class="bi bi-ruler"></i> Pouces
                     </button>
                 </div>
-                <button type="button" class="btn btn-primary mt-3" onclick="window.location.href='../process/download_data'">Télécharger les données utilisateur</button>
+                <button type="button" class="btn btn-primary mt-3" onclick="window.location.href='../../process/download_data'">Télécharger les données utilisateur</button>
             </div>
         </div>
     </div>

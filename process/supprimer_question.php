@@ -16,7 +16,7 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["question_id"])) {
     $question_id = (int) $_POST["question_id"];
 
-    $sql = "DELETE FROM captcha WHERE id = ?";
+    $sql = "DELETE FROM CAPTCHA WHERE id = ?";
     $stmt = $pdo->prepare($sql);
 
     if ($stmt) {

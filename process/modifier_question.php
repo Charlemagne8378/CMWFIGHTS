@@ -14,7 +14,7 @@ try {
     $question = htmlspecialchars(strip_tags(trim($_POST["question"])));
     $answer = htmlspecialchars(strip_tags(trim($_POST["answer"])));
 
-    $sql = "UPDATE captcha SET question = ?, answer = ? WHERE id = ?";
+    $sql = "UPDATE CAPTCHA SET question = ?, answer = ? WHERE id = ?";
     $stmt = $pdo->prepare($sql);
 
     if ($stmt) {

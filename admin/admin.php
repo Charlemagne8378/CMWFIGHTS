@@ -2,15 +2,31 @@
 require_once '../require/config/config.php';
 session_start();
 
-session_start();
 if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['type'] != 'admin') {
     header('Location: ../auth/connexion');
     exit();
 }
 
-$pdo = null;
-?>
+$menuItems = [
+    'utilisateurs' => ['label' => 'Utilisateurs', 'icon' => 'fas fa-users', 'color' => 'btn-users'],
+    'evenements' => ['label' => 'Événements', 'icon' => 'fas fa-calendar-alt', 'color' => 'btn-events'],
+    'modifier_utilisateur' => ['label' => 'Modifier le compte', 'icon' => 'fas fa-key', 'color' => 'btn-password'],
+    'classement' => ['label' => 'Classement', 'icon' => 'fas fa-trophy', 'color' => 'btn-ranking'],
+    'combattants' => ['label' => 'Combattant', 'icon' => 'fas fa-fist-raised', 'color' => 'btn-fighter'],
+    'back_candidature' => ['label' => 'Candidature', 'icon' => 'fas fa-file-alt', 'color' => 'btn-application'],
+    'billetterie' => ['label' => 'Billetterie', 'icon' => 'fas fa-ticket-alt', 'color' => 'btn-ticketing'],
+    'service_client' => ['label' => 'Service Client', 'icon' => 'fas fa-headset', 'color' => 'btn-service-client'],
+    'image' => ['label' => 'Image', 'icon' => 'fas fa-image', 'color' => 'btn-image'],
+    'newsletters' => ['label' => 'Newsletters', 'icon' => 'fas fa-envelope', 'color' => 'btn-newsletters'],
+    'captcha' => ['label' => 'Captcha', 'icon' => 'fas fa-robot', 'color' => 'btn-captcha'],
+    'accueil' => ['label' => 'Accueil', 'icon' => 'fas fa-home', 'color' => 'btn-accueil'],
+    'logs' => ['label' => 'Logs', 'icon' => 'fas fa-clipboard', 'color' => 'btn-logs'],
+    'permissions' => ['label' => 'Permissions Utilisateurs', 'icon' => 'fas fa-user-lock', 'color' => 'btn-permissions'],
+    'bdd' => ['label' => 'Bases de Données', 'icon' => 'fas fa-database', 'color' => 'btn-databases'],
+    'error' => ['label' => 'Error', 'icon' => 'fas fa-exclamation-triangle', 'color' => 'btn-error'],
+];
 
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -99,25 +115,6 @@ $pdo = null;
         .btn-databases { background-color: #d35400; }
         .btn-error { background-color: #e74c3c; }
 
-        .btn-users:hover,
-        .btn-events:hover,
-        .btn-password:hover,
-        .btn-ranking:hover,
-        .btn-fighter:hover,
-        .btn-application:hover,
-        .btn-ticketing:hover,
-        .btn-service-client:hover,
-        .btn-image:hover,
-        .btn-logout:hover,
-        .btn-newsletters:hover,
-        .btn-captcha:hover,
-        .btn-accueil:hover,
-        .btn-logs:hover,
-        .btn-permissions:hover,
-        .btn-databases:hover,
-        .btn-error:hover {
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
 
         @media screen and (max-width: 770px) {
             .btn-users,
@@ -153,102 +150,14 @@ $pdo = null;
     <div class="container mt-5">
         <h2 class="text-center mb-4">Page d'Administration</h2>
         <div class="btn-container">
-            <div class="col-md-4">
-                <a href="utilisateurs" class="btn btn-users btn-block mb-2 btn-square">
-                    <i class="fas fa-users fa-3x"></i>
-                    <span>Utilisateurs</span>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="evenements" class="btn btn-events btn-block mb-2 btn-square">
-                    <i class="fas fa-calendar-alt fa-3x"></i>
-                    <span>Événements</span>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="modifier_utilisateur" class="btn btn-password btn-block mb-2 btn-square">
-                    <i class="fas fa-key fa-3x"></i>
-                    <span>Modifier le compte</span>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="classement" class="btn btn-ranking btn-block mb-2 btn-square">
-                    <i class="fas fa-trophy fa-3x"></i>
-                    <span>Classement</span>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="combattants" class="btn btn-fighter btn-block mb-2 btn-square">
-                    <i class="fas fa-fist-raised fa-3x"></i>
-                    <span>Combattant</span>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="back_candidature" class="btn btn-application btn-block mb-2 btn-square">
-                    <i class="fas fa-file-alt fa-3x"></i>
-                    <span>Candidature</span>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="billetterie" class="btn btn-ticketing btn-block mb-2 btn-square">
-                    <i class="fas fa-ticket-alt fa-3x"></i>
-                    <span>Billetterie</span>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="service_client" class="btn btn-service-client btn-block mb-2 btn-square">
-                    <i class="fas fa-headset fa-3x"></i>
-                    <span>Service Client</span>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="image" class="btn btn-image btn-block mb-2 btn-square">
-                    <i class="fas fa-image fa-3x"></i>
-                    <span>Image</span>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="newsletters" class="btn btn-newsletters btn-block mb-2 btn-square">
-                    <i class="fas fa-envelope fa-3x"></i>
-                    <span>Newsletters</span>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="captcha" class="btn btn-captcha btn-block mb-2 btn-square">
-                    <i class="fas fa-robot fa-3x"></i>
-                    <span>Captcha</span>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="accueil" class="btn btn-accueil btn-block mb-2 btn-square">
-                    <i class="fas fa-home fa-3x"></i>
-                    <span>Accueil</span>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="logs" class="btn btn-logs btn-block mb-2 btn-square">
-                    <i class="fas fa-clipboard fa-3x"></i>
-                    <span>Logs</span>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="permissions" class="btn btn-permissions btn-block mb-2 btn-square">
-                    <i class="fas fa-user-lock fa-3x"></i>
-                    <span>Permissions Utilisateurs</span>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="bdd" class="btn btn-databases btn-block mb-2 btn-square">
-                    <i class="fas fa-database fa-3x"></i>
-                    <span>Bases de Données</span>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="error" class="btn btn-error btn-block mb-2 btn-square">
-                    <i class="fas fa-exclamation-triangle fa-3x"></i>
-                    <span>Error</span>
-                </a>
-            </div>
+            <?php foreach ($menuItems as $page => $item): ?>
+                <div class="col-md-4">
+                    <a href="<?= htmlspecialchars($page) ?>" class="btn <?= htmlspecialchars($item['color']) ?> btn-block mb-2 btn-square">
+                        <i class="<?= htmlspecialchars($item['icon']) ?> fa-3x"></i>
+                        <span><?= htmlspecialchars($item['label']) ?></span>
+                    </a>
+                </div>
+            <?php endforeach; ?>
         </div>
         <div class="logout-btn-container">
             <a href="/auth/logout.php" class="btn btn-logout btn-square">
