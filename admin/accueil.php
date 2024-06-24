@@ -18,7 +18,7 @@ try {
             echo "L'URL de l'image saisie est : " . $img;
 
             // Insertion de l'URL de l'image dans la base de données
-            $pdo->exec("INSERT INTO img (image_url) VALUES ('$img')");
+            $pdo->exec("INSERT INTO IMG (image_url) VALUES ('$img')");
 
             exit();
         }
@@ -28,7 +28,7 @@ try {
         $newImageUrl = $_POST["new_image_url"];
 
         // Mettre à jour l'URL de l'image pour l'ID 1
-        $sql = "UPDATE img SET image_url = :newImageUrl WHERE id = 1";
+        $sql = "UPDATE IMG SET image_url = :newImageUrl WHERE id = 1";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':newImageUrl', $newImageUrl);
         $stmt->execute();
@@ -40,7 +40,7 @@ try {
         $newImageUrl1 = $_POST["new_image_url1"];
 
         // Mettre à jour l'URL de l'image pour l'ID 2
-        $sql = "UPDATE img SET image_url = :newImageUrl1 WHERE id = 2";
+        $sql = "UPDATE IMG SET image_url = :newImageUrl1 WHERE id = 2";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':newImageUrl1', $newImageUrl1);
         $stmt->execute();
@@ -52,7 +52,7 @@ try {
         $newImageUrl2 = $_POST["new_image_url2"];
 
         // Mettre à jour l'URL de l'image pour l'ID 3
-        $sql = "UPDATE img SET image_url = :newImageUrl2 WHERE id = 3";
+        $sql = "UPDATE IMG SET image_url = :newImageUrl2 WHERE id = 3";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':newImageUrl2', $newImageUrl2);
         $stmt->execute();
@@ -60,7 +60,7 @@ try {
         echo "L'URL de l'image pour l'ID 3 a été modifiée avec succès.". '<br>';
     }
 
-    $sql =  "SELECT * FROM img";
+    $sql =  "SELECT * FROM IMG";
     $req = $pdo->query($sql);
     $results = $req->fetchAll();
 
@@ -68,13 +68,13 @@ try {
         echo "L'URL de l'image  : " . $rep['image_url'] . '<br>';
     }
 
-    $sql1 = "SELECT image_url FROM img WHERE id = '1'";
+    $sql1 = "SELECT image_url FROM IMG WHERE id = '1'";
     $img1 = $pdo->query($sql1)->fetch();
     $image_fond = $img1['image_url'];
-    $sql2 = "SELECT image_url FROM img WHERE id = '2'";
+    $sql2 = "SELECT image_url FROM IMG WHERE id = '2'";
     $img2 = $pdo->query($sql2)->fetch();
     $image1 = $img2['image_url'];
-    $sql3 = "SELECT image_url FROM img WHERE id = '3'";
+    $sql3 = "SELECT image_url FROM IMG WHERE id = '3'";
     $img3 = $pdo->query($sql3)->fetch();
     $image2 = $img3['image_url'];
 
@@ -88,7 +88,7 @@ try {
 
         $newsId = 1;
 
-        $sql = "UPDATE news SET title = :newTitle, content = :newContent, image_url = :newImageUrl WHERE id = :newsId";
+        $sql = "UPDATE NEWS SET title = :newTitle, content = :newContent, image_url = :newImageUrl WHERE id = :newsId";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':newTitle', $newTitle);
         $stmt->bindParam(':newContent', $newContent);
@@ -106,7 +106,7 @@ try {
 
         $newsId = 2;
 
-        $sql = "UPDATE news SET title = :newTitle, content = :newContent, image_url = :newImageUrl WHERE id = :newsId";
+        $sql = "UPDATE NEWS SET title = :newTitle, content = :newContent, image_url = :newImageUrl WHERE id = :newsId";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':newTitle', $newTitle);
         $stmt->bindParam(':newContent', $newContent);
@@ -124,7 +124,7 @@ try {
 
         $newsId = 3;
 
-        $sql = "UPDATE news SET title = :newTitle, content = :newContent, image_url = :newImageUrl WHERE id = :newsId";
+        $sql = "UPDATE NEWS SET title = :newTitle, content = :newContent, image_url = :newImageUrl WHERE id = :newsId";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':newTitle', $newTitle);
         $stmt->bindParam(':newContent', $newContent);
