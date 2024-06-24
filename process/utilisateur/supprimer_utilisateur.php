@@ -1,5 +1,5 @@
 <?php
-require_once '../require/config/config.php';
+require_once '../../require/config/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['Adresse_email'])) {
     $email = $_POST['Adresse_email'];

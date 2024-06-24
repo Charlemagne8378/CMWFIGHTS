@@ -58,7 +58,7 @@
                         ?>
                     </div>
                     <div class="card-footer">
-                        <form action="../process/delete_log.php" method="post">
+                        <form action="../process/supprimer_erreur.php" method="post">
                             <button type="submit" class="btn btn-danger" name="delete_log">Supprimer le contenu du fichier error.log</button>
                         </form>
                     </div>

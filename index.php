@@ -57,7 +57,12 @@ try {
 catch (PDOException $e) {
     echo "Erreur : " . $e->getMessage();
 }
+session_start();
 
+if (isset($_SESSION['utilisateur_connecte']) && $_SESSION['utilisateur_connecte']['type'] === 'banni') {
+  header('Location:banni');
+  exit();
+}
 
 ?>
 <!DOCTYPE html>
@@ -67,7 +72,6 @@ catch (PDOException $e) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Acceuil</title>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <?php include'../../header.php' ?>
   <style>
 
     body{

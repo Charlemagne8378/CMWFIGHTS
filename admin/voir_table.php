@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../require/config/config.php';
+require_once '../require/config/config.php';
 require_once '../require/sidebar.php';
 
 session_start();
@@ -115,7 +115,7 @@ function getFirstColumn($pdo, $table) {
         <p class="text-center">Aucune donnée trouvée dans la table <?php echo htmlspecialchars($table); ?></p>
     <?php endif; ?>
     <div class="text-center mt-3">
-        <a href="tables.php?db=<?php echo urlencode($db); ?>" class="btn btn-primary">Retour à la Liste des Tables</a>
+        <a href="tables?db=<?php echo urlencode($db); ?>" class="btn btn-primary">Retour à la Liste des Tables</a>
     </div>
 </div>
 

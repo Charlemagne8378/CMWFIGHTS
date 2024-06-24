@@ -24,7 +24,7 @@
             'logs' => ['label' => 'Logs', 'icon' => 'bi bi-journal'],
             'permissions' => ['label' => 'Permissions utilisateurs', 'icon' => 'bi bi-shield-lock'],
             'bdd' => ['label' => 'Base de données', 'icon' => 'bi bi-gear'],
-            'error' => ['label' => 'Log d\'erreur', 'icon' => 'bi bi-exclamation-circle'],
+            'erreur' => ['label' => 'Log d\'erreur', 'icon' => 'bi bi-exclamation-circle'],
         ];
 
         foreach ($menuItems as $page => $item) {
@@ -45,6 +45,7 @@
     </div>
 
     <div class="account-box collapse" id="account-box">
+        <a href="/">Page Utilisateur</a>
         <a href="../pages/compte/settings">Paramètres</a>
         <a href="../auth/logout.php">Déconnexion</a>
     </div>

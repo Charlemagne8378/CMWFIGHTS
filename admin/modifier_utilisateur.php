@@ -136,8 +136,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <option value="admin" <?php if ($user_to_edit['type'] === 'admin') echo 'selected'; ?>>Admin</option>
                     <option value="moderateur" <?php if ($user_to_edit['type'] === 'moderateur') echo 'selected'; ?>>Modérateur</option>
                     <option value="utilisateur" <?php if ($user_to_edit['type'] === 'utilisateur') echo 'selected'; ?>>Utilisateur</option>
+                    <?php if ($user_to_edit['type'] === 'banni') : ?>
+                        <option value="banni" selected>Banni</option>
+                    <?php endif; ?>
                 </select>
             </div>
+
             <div class="mb-3">
                 <label for="newsletter" class="form-label">Newsletter:</label>
                 <div class="form-check">
