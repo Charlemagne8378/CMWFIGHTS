@@ -8,56 +8,61 @@ try {
   $pdo = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-  $sql1 = "SELECT image_url FROM img WHERE id = '1'";
+  $sql1 = "SELECT image_url FROM IMG WHERE id = '1'";
   $img1 = $pdo->query($sql1)->fetch();
   $image_fond = $img1['image_url'];
-  $sql2 = "SELECT image_url FROM img WHERE id = '2'";
+  $sql2 = "SELECT image_url FROM IMG WHERE id = '2'";
   $img2 = $pdo->query($sql2)->fetch();
   $image1 = $img2['image_url'];
-  $sql3 = "SELECT image_url FROM img WHERE id = '3'";
+  $sql3 = "SELECT image_url FROM IMG WHERE id = '3'";
   $img3 = $pdo->query($sql3)->fetch();
   $image2 = $img3['image_url'];
 
-  $sql4 = "SELECT title FROM news WHERE id = '1'";
+  $sql4 = "SELECT title FROM NEWS WHERE id = '1'";
   $title1 = $pdo->query($sql4)->fetch();
   $titre1 = $title1['title'];
 
-  $sql5 = "SELECT title FROM news WHERE id = '2'";
+  $sql5 = "SELECT title FROM NEWS WHERE id = '2'";
   $title2 = $pdo->query($sql5)->fetch();
   $titre2 = $title2['title'];
 
-  $sql6 = "SELECT title FROM news WHERE id = '3'";
+  $sql6 = "SELECT title FROM NEWS WHERE id = '3'";
   $title3 = $pdo->query($sql6)->fetch();
   $titre3 = $title3['title'];
 
-  $sql7 = "SELECT content FROM news WHERE id = '1'";
+  $sql7 = "SELECT content FROM NEWS WHERE id = '1'";
   $content1 = $pdo->query($sql7)->fetch();
   $texte1 = $content1['content'];
 
-  $sql8 = "SELECT content FROM news WHERE id = '2'";
+  $sql8 = "SELECT content FROM NEWS WHERE id = '2'";
   $content2 = $pdo->query($sql8)->fetch();
   $texte2 = $content2['content'];
 
-  $sql9 = "SELECT content FROM news WHERE id = '3'";
+  $sql9 = "SELECT content FROM NEWS WHERE id = '3'";
   $content3 = $pdo->query($sql9)->fetch();
   $texte3 = $content3['content'];
 
-  $sql10 = "SELECT image_url FROM news WHERE id = '1'";
+  $sql10 = "SELECT image_url FROM NEWS WHERE id = '1'";
   $image_url1 = $pdo->query($sql10)->fetch();
   $imag1 = $image_url1['image_url'];
 
-  $sql11 = "SELECT image_url FROM news WHERE id = '2'";
+  $sql11 = "SELECT image_url FROM NEWS WHERE id = '2'";
   $image_url2 = $pdo->query($sql11)->fetch();
   $imag2 = $image_url2['image_url'];
 
-  $sql12 = "SELECT image_url FROM news WHERE id = '3'";
+  $sql12 = "SELECT image_url FROM NEWS WHERE id = '3'";
   $image_url3 = $pdo->query($sql12)->fetch();
   $imag3 = $image_url3['image_url'];
 }
 catch (PDOException $e) {
     echo "Erreur : " . $e->getMessage();
 }
+session_start();
 
+if (isset($_SESSION['utilisateur_connecte']) && $_SESSION['utilisateur_connecte']['type'] === 'banni') {
+  header('Location:banni');
+  exit();
+}
 
 ?>
 <!DOCTYPE html>
@@ -67,7 +72,6 @@ catch (PDOException $e) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Acceuil</title>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <?php include'../../header.php' ?>
   <style>
 
     body{

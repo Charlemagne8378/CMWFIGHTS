@@ -124,7 +124,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $combattant_id = $_GET['id'];
 
 // Récupérer les données du combattant depuis la base de données
-$sql = "SELECT * FROM Combattant WHERE id = ?";
+$sql = "SELECT * FROM COMBATTANT WHERE id = ?";
 if($stmt = $pdo->prepare($sql)){
     // Liaison des variables à l'instruction préparée en tant que paramètres
     $stmt->bindParam(1, $combattant_id, PDO::PARAM_INT);

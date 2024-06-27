@@ -5,7 +5,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_log'])) {
         $handle = fopen($errorLogFile, 'w');
         if ($handle !== false) {
             fclose($handle);
-            header("Location: ../admin/error");
+            header("Location: ../admin/erreur");
             exit;
         } else {
             echo '<div class="alert alert-danger" role="alert">Erreur : Impossible d\'ouvrir le fichier error.log pour écriture.</div>';

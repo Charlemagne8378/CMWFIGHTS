@@ -35,7 +35,7 @@ try {
     <h2 class="text-center mb-4">Toutes les Bases de Données</h2>
     <div class="list-group">
         <?php foreach ($databases as $database): ?>
-            <a href="tables.php?db=<?php echo urlencode($database); ?>" class="list-group-item list-group-item-action"><?php echo $database; ?></a>
+            <a href="tables?db=<?php echo urlencode($database); ?>" class="list-group-item list-group-item-action"><?php echo $database; ?></a>
         <?php endforeach; ?>
     </div>
     <div class="text-center mt-3">

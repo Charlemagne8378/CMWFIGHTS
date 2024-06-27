@@ -1,18 +1,12 @@
 .sidebar {
+  width: 250px;
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
-  box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
-  width: 250px;
-  background-color: #f8f9fa;
+  z-index: 100;
+  padding-top: 3.5rem;
   transition: all 0.3s ease;
-  overflow-x: hidden;
-}
-
-.sidebar.dark-mode {
-  background-color: #333;
-  color: #fff;
 }
 
 .sidebar .nav-link {
@@ -25,44 +19,12 @@
   margin-right: 0.5rem;
 }
 
-.sidebar.collapsed {
-  width: 60px;
-}
-
-.main-content.collapsed {
-  margin-left: 600px;
-}
-
-
-.sidebar.collapsed .nav-link {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  text-align: center;
-}
-
-.sidebar.collapsed .nav-link i {
-  font-size: 1.5rem;
-}
-
 .sidebar .nav-link.active {
   color: #007bff;
   background-color: rgba(0, 123, 255, 0.1);
 }
 
-.main-content {
-  transition: margin-left 0.3s ease;
-  margin-left: 200px;
-}
-
-.main-content.collapsed {
-  margin-left: 60px;
-}
-
-.sidebar-content {
-  height: calc(100vh - 128px - 3rem - 2rem);
-}
-
-.account-box {
+.sidebar .account-box {
   position: absolute;
   bottom: 3rem;
   left: 0;
@@ -71,11 +33,11 @@
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.account-box.show {
+.sidebar .account-box.show {
   display: block;
 }
 
-.account-box a {
+.sidebar .account-box a {
   color: #333;
   display: block;
   padding: 0.5rem 1rem;
@@ -83,11 +45,11 @@
   transition: all 0.3s ease;
 }
 
-.account-box a:hover {
+.sidebar .account-box a:hover {
   background-color: rgba(0, 123, 255, 0.1);
 }
 
-.account-btn {
+.sidebar .account-btn {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -100,22 +62,26 @@
   .sidebar {
     width: 0;
     padding: 0;
+    overflow-x: hidden;
+  }
+
+  .sidebar.collapsed {
+    width: 250px;
   }
 
   .main-content {
     margin-left: 0;
   }
 
-  .account-box {
-    bottom: 63px;
+  .sidebar-toggle {
+    display: block;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1100;
+  }
+
+  .main-content.collapsed {
+    margin-left: 250px;
   }
 }
-.main-content {
-  transition: margin-left 0.3s ease;
-  margin-left: 250px;
-}
-
-.main-content.collapsed {
-  margin-left: 600px;
-}
-

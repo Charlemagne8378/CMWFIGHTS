@@ -1,336 +1,110 @@
+<?php
+require_once '../../require/config/config.php';
+session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Récupérer les données des classements MMA depuis la base de données
+$sql = "SELECT CLASSEMENTMMA.classementmma_id, CLASSEMENTMMA.classement_id, CLASSEMENTMMA.combattant_id, CLASSEMENTMMA.ranking, CLASSEMENT.classement_name AS classement_name, COMBATTANT.nom AS combattant_name, COMBATTANT.palmares_mma AS combattant_palmares, COMBATTANT.image_url AS combattant_photo
+FROM CLASSEMENTMMA
+JOIN CLASSEMENT ON CLASSEMENTMMA.classement_id = CLASSEMENT.classement_id
+JOIN COMBATTANT ON CLASSEMENTMMA.combattant_id = COMBATTANT.combattant_id
+ORDER BY CLASSEMENTMMA.classement_id ASC, 
+         CASE WHEN CLASSEMENTMMA.ranking = 0 THEN 0 ELSE CAST(CLASSEMENTMMA.ranking AS UNSIGNED) END ASC";
+
+$stmt = $pdo->query($sql);
+$classementmma = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Classement</title>
-        <meta charset="UTF-8">
-        <link rel="icon" type="image/png" sizes="64x64" href="Images/cmwicon.png">
-        <style>
-            body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #242222;
-}
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classement MMA</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+        }
+        .wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .section-title {
+            margin-top: 40px;
+            font-size: 28px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-bottom: 2px solid #f8f9fa;
+            padding-bottom: 10px;
+        }
+        .champion-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #f8f9fa;
+            margin-bottom: 20px;
+        }
+        .table {
+            color: #ffffff;
+            background-color: #1f1f1f;
+            margin-top: 20px;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    margin-left: 200px;
-}
+        h2{
+            margin-top : 150px;
+        }
+    </style>
+</head>
+<body>
+    <?php include '../../header.php' ?>
+    <div class="wrapper">
+        <h2 class="text-center">Classement MMA</h2>
+        <?php
+        $prev_classement_id = null;
+        $champion = null;
 
-.category {
-    margin-bottom: 20px;
-    display: inline-block;
-    width: calc(33.33% - 100px);
-    vertical-align: top;
-    margin-right: 50px;
-}
+        foreach ($classementmma as $row):
+            if ($row['classement_id'] != $prev_classement_id):
+                if ($prev_classement_id !== null):
+                    echo '</tbody></table>';
+                endif;
 
-.category:nth-child(3n){
-    margin-right: 0;
-}
-
-.category-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #f3f2f2;
-    margin-bottom: 10px;
-}
-
-.champion {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-}
-
-.champion-image {
-    width: 300px;
-    height: 200px;
-    margin-bottom: 10px;
-}
-
-.champion-name {
-    font-size: 20px;
-    color: rgb(0, 0, 0);
-    background: gold;
-    padding: 10px;
-    border-radius: 10px;
-    width: 100%;
-    font-weight: bold;
-}
-
-.fighters {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between; /* Répartir les combattants dans l'espace disponible */
-    flex-direction: column;
-}
-
-.fighter {
-    width: 100%;
-    margin-bottom: 5px;
-    background-color: #f1f5f1;
-    padding: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-}
-
-.fighter-name {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-}
-
-.fighter-record {
-    font-size: 14px;
-    color: #666;
-    margin-left: 15px;
-}
-
-.rank {
-    margin-right: 10px;
-    font-weight: bold;
-}
-
-h1{
-    color: #f1f5f1;
-    text-align: center;
-    margin-bottom: 10px;
-    margin-top: 10px;
-}
-
-.separator{
-    height: 10px;
-    background-color: #ffffff;
-    margin: 20px;
-    margin: 50px;
-}
-        </style>
-    </head>
-
-    <body>
-
-    <?php include'../../header.php' ?>
-      
-      <div class="separator"></div>
-      <h1>Classement MMA</h1>
-      <div class="separator"></div>
-      
-
-        <div class="container">
-            <div class="category">
-              <div class="category-title">Poids Plumes(-65kg)</div>
-              <div class="champion">
-                <img class="champion-image" src="/Images/randomwhite.png" alt="Champion MMA">
-                <div class="champion-name">#C NA</div>
-              </div>
-              <div class="fighters">
-               
-                <div class="fighter">
-                  <div class="rank">#1</div>  
-                  <div class="fighter-name">Mahmoud</div>
-                  <div class="fighter-record">1-0-0</div>
-                </div>
+                echo '<div class="section-title">' . $row['classement_name'] . '</div>';
                 
-                  <div class="fighter">
-                    <div class="rank">#2</div>
-                    <div class="fighter-name">Belaid</div>
-                    <div class="fighter-record">1-2-0</div>
-                  </div>
+                if ($row['ranking'] == 0):
+                    echo '<div class="text-center"><img src="' . $row['combattant_photo'] . '" class="champion-photo" alt="Champion"><br><h3>' . $row['combattant_name'] . '</h3></div>';
+                endif;
 
-                  <div class="fighter">
-                    <div class="rank">#3</div>
-                    <div class="fighter-name">Cheick</div>
-                    <div class="fighter-record">0-1-0</div>
-                  </div>
+                echo '<table class="table table-dark table-striped">';
+                echo '<thead><tr><th>Ranking</th><th>Combattant</th><th>Palmarès</th></tr></thead><tbody>';
+                
+                $prev_classement_id = $row['classement_id'];
+            endif;
 
-                  <div class="fighter">
-                    <div class="rank">#4</div>
-                    <div class="fighter-name">Fabio</div>
-                    <div class="fighter-record">0-0-0</div>
-                  </div>
-
-                  <div class="fighter">
-                    <div class="rank">#5</div>
-                    <div class="fighter-name">Oscar</div>
-                    <div class="fighter-record">0-0-0</div>
-                  </div>
-
-                  <div class="fighter">
-                    <div class="rank">#6</div>
-                    <div class="fighter-name">2ez</div>
-                    <div class="fighter-record">0-0-0</div>
-                  </div>
-
-                  <div class="fighter">
-                    <div class="rank">#7</div>
-                    <div class="fighter-name">Alias</div>
-                    <div class="fighter-record">0-0-0</div>
-                  </div>
-
-                  <div class="fighter">
-                    <div class="rank">#8</div>
-                    <div class="fighter-name">Jawad</div>
-                    <div class="fighter-record">0-0-0</div>
-                  </div>
-
-                  <div class="fighter">
-                    <div class="rank">#9</div>
-                    <div class="fighter-name">Mohamed Ali</div>
-                    <div class="fighter-record">0-0-0</div>
-                  </div>
-              </div>
-            </div>
-
-
-            <div class="category">
-                <div class="category-title">Poids Légers(-70kg)</div>
-                <div class="champion">
-                  <img class="champion-image" src="/Images/randomwhite.png" alt="Champion Boxe">
-                  <div class="champion-name">#C NA</div>
-                </div>
-                <div class="fighters">
-                    <div class="fighter">
-                      <div class="rank">#1</div>
-                      <div class="fighter-name">Aslan</div>
-                      <div class="fighter-record">0-0-0</div>
-                    </div>
-                </div>
-              </div>
-          
-              <div class="category">
-                <div class="category-title">Poids Mi-Moyens(-75kg)</div>
-                <div class="champion">
-                  <img class="champion-image" src="/Images/randomwhite.png" alt="Champion MMA">
-                 <div class="champion-name">#C NA</div>
-                </div>
-                <div class="fighters">
-                 
-                  <div class="fighter">
-                    <div class="rank">#1</div>  
-                    <div class="fighter-name">FID</div>
-                    <div class="fighter-record">2-0-1</div>
-                  </div>
-                  
-                    <div class="fighter">
-                      <div class="rank">#2</div>
-                      <div class="fighter-name">Basile</div>
-                      <div class="fighter-record">1-1-0</div>
-                    </div>
-  
-                    <div class="fighter">
-                      <div class="rank">#3</div>
-                      <div class="fighter-name">Irs0</div>
-                      <div class="fighter-record">1-0-0</div>
-                    </div>
-  
-                    <div class="fighter">
-                      <div class="rank">#4</div>
-                      <div class="fighter-name">Lanzoo</div>
-                      <div class="fighter-record">1-1-0</div>
-                    </div>
-  
-                    <div class="fighter">
-                      <div class="rank">#5</div>
-                      <div class="fighter-name">NANO</div>
-                      <div class="fighter-record">1-1-0</div>
-                    </div>
-
-                    <div class="fighter">
-                      <div class="rank">#6</div>
-                      <div class="fighter-name">Comoco</div>
-                      <div class="fighter-record">1-2-0</div>
-                    </div>
-
-                    <div class="fighter">
-                      <div class="rank">#7</div>
-                      <div class="fighter-name">Sada</div>
-                      <div class="fighter-record">0-1-0</div>
-                    </div>
-
-                    <div class="fighter">
-                      <div class="rank">#8</div>
-                      <div class="fighter-name">Noé</div>
-                      <div class="fighter-record">0-1-0</div>
-                    </div>
-
-                    <div class="fighter">
-                      <div class="rank">#9</div>
-                      <div class="fighter-name">Zackaria</div>
-                      <div class="fighter-record">0-0-0</div>
-                    </div>
-
-                    <div class="fighter">
-                      <div class="rank">#10</div>
-                      <div class="fighter-name">Bilal</div>
-                      <div class="fighter-record">0-0-0</div>
-                    </div>
-
-                    <div class="fighter">
-                      <div class="rank">#11</div>
-                      <div class="fighter-name">Habib</div>
-                      <div class="fighter-record">0-0-0</div>
-                    </div>
-                </div>
-              </div>
-
-              <div class="category">
-                <div class="category-title">Poids Super-Moyen(-85kg)</div>
-                <div class="champion">
-                  <img class="champion-image" src="/Images/fadalchamp.png" alt="Champion MMA">
-                  <div class="champion-name">#C Fadal 2-0-1</div>
-                </div>
-                <div class="fighters">
-                 
-                  <div class="fighter">
-                    <div class="rank">#1</div>  
-                    <div class="fighter-name">S2R</div>
-                    <div class="fighter-record">1-1-0</div>
-                  </div>
-                  
-                    <div class="fighter">
-                      <div class="rank">#2</div>
-                      <div class="fighter-name">Wass</div>
-                      <div class="fighter-record">0-1-0</div>
-                    </div>
-
-                    <div class="fighter">
-                      <div class="rank">#3</div>
-                      <div class="fighter-name">Tristan</div>
-                      <div class="fighter-record">0-0-0</div>
-                    </div>
-
-                    <div class="fighter">
-                      <div class="rank">#4</div>
-                      <div class="fighter-name">Mo2a</div>
-                      <div class="fighter-record">0-0-0</div>
-                    </div>
-
-                    <div class="fighter">
-                        <div class="rank">#5</div>
-                        <div class="fighter-name">Jugurtha</div>
-                        <div class="fighter-record">0-0-0</div>
-                    </div>
-
-                </div>
-              </div>
-
-              <div class="category">
-                <div class="category-title">Poids Lourds(+90kg)</div>
-                <div class="champion">
-                  <img class="champion-image" src="/Images/randomwhite.png" alt="Champion Boxe">
-                  <div class="champion-name">#C NA</div>
-                </div>
-                <div class="fighters">
-                 
-                    
-                </div>
-              </div>
-
-          </div>
-          <?php include'../../footer.php' ?>
-    </body>
+            if ($row['ranking'] != 0):
+        ?>
+        <tr>
+            <td><?php echo $row['ranking']; ?></td>
+            <td><?php echo $row['combattant_name']; ?></td>
+            <td><?php echo $row['combattant_palmares']; ?></td>
+        </tr>
+        <?php
+            endif;
+        endforeach;
+        if ($prev_classement_id !== null):
+            echo '</tbody></table>';
+        endif;
+        ?>
+    </div>
+</body>
 </html>

@@ -43,7 +43,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
     $combattant_id = trim($_GET["id"]);
 
     // Préparer une instruction SELECT pour récupérer les informations du combattant à éditer
-    $sql = "SELECT * FROM Combattant WHERE combattant_id = ?";
+    $sql = "SELECT * FROM COMBATTANT WHERE combattant_id = ?";
     
     if($stmt = $pdo->prepare($sql)){
         // Liaison des variables à l'instruction préparée en tant que paramètres

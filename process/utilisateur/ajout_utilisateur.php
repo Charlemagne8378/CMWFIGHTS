@@ -1,5 +1,5 @@
 <?php
-require_once '../require/config/config.php';
+require_once '../../require/config/config.php';
 session_start();
 
 if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['type'] != 'admin') {
@@ -25,13 +25,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         $stmt->execute();
-        header('Location: ../admin/utilisateurs');
+        header('Location: ../../admin/utilisateurs');
         exit();
     } catch (PDOException $e) {
         echo 'Erreur : ' . $e->getMessage();
     }
 } else {
-    header('Location: ../admin/utilisateurs');
+    header('Location: ../../admin/utilisateurs');
     exit();
 }
 

@@ -10,7 +10,7 @@ if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte
     exit();
 }
 
-$stmt = $pdo->prepare('SELECT nom, prenom, pseudo, email, poids, taille, experience FROM Candidature');
+$stmt = $pdo->prepare('SELECT nom, prenom, pseudo, email, poids, taille, experience FROM CANDIDATURE');
 $stmt->execute();
 $candidat = $stmt->fetchAll();
 

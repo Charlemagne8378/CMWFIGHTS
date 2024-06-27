@@ -2,10 +2,10 @@
 require_once '../require/config/config.php';
 session_start();
 
-if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['type'] != 'admin') {
-    header('Location: ../auth/connexion');
+if (isset($_SESSION['utilisateur_connecte']) && $_SESSION['utilisateur_connecte']['type'] === 'banni') {
+    header('Location: banni');
     exit();
-}
+  }
 
 $menuItems = [
     'utilisateurs' => ['label' => 'Utilisateurs', 'icon' => 'fas fa-users', 'color' => 'btn-users'],
@@ -23,7 +23,7 @@ $menuItems = [
     'logs' => ['label' => 'Logs', 'icon' => 'fas fa-clipboard', 'color' => 'btn-logs'],
     'permissions' => ['label' => 'Permissions Utilisateurs', 'icon' => 'fas fa-user-lock', 'color' => 'btn-permissions'],
     'bdd' => ['label' => 'Bases de Données', 'icon' => 'fas fa-database', 'color' => 'btn-databases'],
-    'error' => ['label' => 'Error', 'icon' => 'fas fa-exclamation-triangle', 'color' => 'btn-error'],
+    'erreur' => ['label' => 'Error', 'icon' => 'fas fa-exclamation-triangle', 'color' => 'btn-error'],
 ];
 
 ?>

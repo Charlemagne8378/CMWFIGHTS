@@ -6,16 +6,64 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // Récupérer les données des classements MMA depuis la base de données
-$sql = "SELECT classementmma.classementmma_id, classementmma.classement_id, classementmma.combattant_id, classementmma.ranking, classement.classement_name AS classement_name, Combattant.nom AS combattant_name
-FROM classementmma
-JOIN classement ON classementmma.classement_id = classement.classement_id
-JOIN Combattant ON classementmma.combattant_id = Combattant.combattant_id
-ORDER BY classementmma.classement_id ASC, 
-         CASE WHEN classementmma.ranking = 'C' THEN 0 ELSE CAST(classementmma.ranking AS UNSIGNED) END ASC";
+$sql = "SELECT CLASSEMENTMMA.classementmma_id, CLASSEMENTMMA.classement_id, CLASSEMENTMMA.combattant_id, CLASSEMENTMMA.ranking, CLASSEMENT.classement_name AS classement_name, COMBATTANT.nom AS combattant_name
+FROM CLASSEMENTMMA
+JOIN CLASSEMENT ON CLASSEMENTMMA.classement_id = CLASSEMENT.classement_id
+JOIN COMBATTANT ON CLASSEMENTMMA.combattant_id = COMBATTANT.combattant_id
+ORDER BY CLASSEMENTMMA.classement_id ASC, 
+         CASE WHEN CLASSEMENTMMA.ranking = 'C' THEN 0 ELSE CAST(CLASSEMENTMMA.ranking AS UNSIGNED) END ASC";
 
 $stmt = $pdo->query($sql);
 $classementmma = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['delete'])) {
+        if (isset($_POST['delete_classementmma_id'])) {
+            $delete_classementmma_id = $_POST['delete_classementmma_id'];
+
+            // Supprimer le combattant de la base de données
+            $sql = "DELETE FROM CLASSEMENTMMA WHERE classementmma_id = :delete_classementmma_id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':delete_classementmma_id', $delete_classementmma_id, PDO::PARAM_INT);
+            $stmt->execute();
+
+            // Rafraîchir la page pour refléter les changements
+            header("Refresh:0");
+        }
+    }
+}
+?>
+
+
+
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['saveChanges'])) {
+        if (isset($_POST['classementmma_id']) && isset($_POST['ranking'])) {
+            $classementmma_ids = $_POST['classementmma_id'];
+            $rankings = $_POST['ranking'];
+
+            // Boucle à travers les données et mettre à jour les classements dans la base de données
+            for ($i = 0; $i < count($classementmma_ids); $i++) {
+                $classementmma_id = $classementmma_ids[$i];
+                $ranking = $rankings[$i];
+
+                // Mettre à jour le classement dans la base de données
+                $sql = "UPDATE CLASSEMENTMMA SET ranking = :ranking WHERE classementmma_id = :classementmma_id";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(':ranking', $ranking, PDO::PARAM_INT);
+                $stmt->bindParam(':classementmma_id', $classementmma_id, PDO::PARAM_INT);
+                $stmt->execute();
+            }
+
+            // Rafraîchir la page pour afficher les modifications
+            header("Location: back_classementmma.php");
+
+
+        }
+    }
+    ?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -85,54 +133,5 @@ $classementmma = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <a href="classement.php">Retour</a>
     </div>
     </form>
-
-
-    <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['delete'])) {
-        if (isset($_POST['delete_classementmma_id'])) {
-            $delete_classementmma_id = $_POST['delete_classementmma_id'];
-
-            // Supprimer le combattant de la base de données
-            $sql = "DELETE FROM classementmma WHERE classementmma_id = :delete_classementmma_id";
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(':delete_classementmma_id', $delete_classementmma_id, PDO::PARAM_INT);
-            $stmt->execute();
-
-            // Rafraîchir la page pour refléter les changements
-            header("Refresh:0");
-        }
-    }
-}
-?>
-
-
-
-    <?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['saveChanges'])) {
-        if (isset($_POST['classementmma_id']) && isset($_POST['ranking'])) {
-            $classementmma_ids = $_POST['classementmma_id'];
-            $rankings = $_POST['ranking'];
-
-            // Boucle à travers les données et mettre à jour les classements dans la base de données
-            for ($i = 0; $i < count($classementmma_ids); $i++) {
-                $classementmma_id = $classementmma_ids[$i];
-                $ranking = $rankings[$i];
-
-                // Mettre à jour le classement dans la base de données
-                $sql = "UPDATE classementmma SET ranking = :ranking WHERE classementmma_id = :classementmma_id";
-                $stmt = $pdo->prepare($sql);
-                $stmt->bindParam(':ranking', $ranking, PDO::PARAM_INT);
-                $stmt->bindParam(':classementmma_id', $classementmma_id, PDO::PARAM_INT);
-                $stmt->execute();
-            }
-
-            // Rafraîchir la page pour afficher les modifications
-            header("Location: back_classementmma.php");
-
-
-        }
-    }
-    ?>
 </body>
 </html>

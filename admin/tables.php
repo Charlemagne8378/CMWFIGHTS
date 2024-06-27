@@ -40,11 +40,11 @@ if (isset($_GET['db'])) {
     <h2 class="text-center mb-4">Tables dans <?php echo $db ?? 'la Base de Données'; ?></h2>
     <div class="list-group">
         <?php foreach ($tables as $table): ?>
-            <a href="view_table.php?db=<?php echo urlencode($db); ?>&table=<?php echo urlencode($table); ?>" class="list-group-item list-group-item-action"><?php echo $table; ?></a>
+            <a href="voir_table?db=<?php echo urlencode($db); ?>&table=<?php echo urlencode($table); ?>" class="list-group-item list-group-item-action"><?php echo $table; ?></a>
         <?php endforeach; ?>
     </div>
     <div class="text-center mt-3">
-        <a href="bdd.php" class="btn btn-primary">Retour à la Liste des Bases de Données</a>
+        <a href="bdd" class="btn btn-primary">Retour à la Liste des Bases de Données</a>
     </div>
 </div>
 

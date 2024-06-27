@@ -5,19 +5,27 @@ session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+date_default_timezone_set('Europe/Paris');
 
 if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['type'] != 'admin') {
     header('Location: ../auth/connexion');
     exit();
 }
 
-$stmt = $pdo->prepare('SELECT pseudo, nom, adresse_email, type, derniere_connexion FROM UTILISATEUR');
-$stmt->execute();
-$utilisateurs = $stmt->fetchAll();
+$perPage = 10;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $perPage;
 
 $stmt = $pdo->prepare('SELECT COUNT(*) FROM UTILISATEUR WHERE type != "invite"');
 $stmt->execute();
-$utilisateurs_inscrits = $stmt->fetchColumn();
+$totalUsers = $stmt->fetchColumn();
+$totalPages = ceil($totalUsers / $perPage);
+
+$stmt = $pdo->prepare('SELECT pseudo, nom, adresse_email, type, derniere_connexion FROM UTILISATEUR LIMIT :offset, :perpage');
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+$stmt->bindValue(':perpage', $perPage, PDO::PARAM_INT);
+$stmt->execute();
+$utilisateurs = $stmt->fetchAll();
 
 $pdo = null;
 ?>
@@ -45,6 +53,7 @@ $pdo = null;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             z-index: 9999;
             text-align: center;
+            width: 300px;
         }
 
         #confirmation-input {
@@ -86,6 +95,11 @@ $pdo = null;
         .actions-column {
             width: 20%;
         }
+
+        .btn-disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -95,20 +109,20 @@ $pdo = null;
             <h1 class="mb-4">Administration</h1>
 
             <h2>Statistiques</h2>
-            <p>Nombre total d'utilisateurs inscrits : <?= htmlspecialchars($utilisateurs_inscrits) ?></p>
+            <p>Nombre total d'utilisateurs inscrits : <?= htmlspecialchars($totalUsers) ?></p>
 
             <h2 class="mb-3">Liste des utilisateurs</h2>
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead class="thead-dark">
-                        <tr>
-                            <th class="sortable" data-column="1">Pseudo</th>
-                            <th class="sortable" data-column="2">Nom</th>
-                            <th class="sortable" data-column="3">Adresse email</th>
-                            <th class="sortable" data-column="4">Type</th>
-                            <th class="sortable" data-column="5">Dernière connexion</th>
-                            <th class="text-center actions-column">Actions</th>
-                        </tr>
+                    <tr>
+                        <th class="sortable" data-column="1">Pseudo</th>
+                        <th class="sortable" data-column="2">Nom</th>
+                        <th class="sortable" data-column="3">Adresse email</th>
+                        <th class="sortable" data-column="4">Type</th>
+                        <th class="sortable" data-column="5">Dernière connexion</th>
+                        <th class="text-center actions-column">Actions</th>
+                    </tr>
                     </thead>
                     <tbody>
                     <?php foreach ($utilisateurs as $utilisateur): ?>
@@ -119,9 +133,15 @@ $pdo = null;
                             <td><?= htmlspecialchars($utilisateur['type']) ?></td>
                             <td><?= htmlspecialchars($utilisateur['derniere_connexion'] ?? '') ?></td>
                             <td class="text-center actions-column">
-                                <?php if ($utilisateur['type'] !== 'admin'): ?>
-                                    <a href="modifier_utilisateur.php?pseudo=<?php echo urlencode($utilisateur['pseudo']); ?>" class="btn btn-primary btn-sm">Modifier</a>
-                                    <button type="button" class="btn btn-danger btn-sm supprimer-btn" data-email="<?= htmlspecialchars($utilisateur['adresse_email']) ?>">Supprimer</button>
+                                <?php if ($utilisateur['type'] !== 'admin') : ?>
+                                    <a href="modifier_utilisateur.php?pseudo=<?= urlencode($utilisateur['pseudo']); ?>" class="btn btn-primary btn-sm">Modifier</a>
+                                    <?php if ($utilisateur['type'] !== 'banni') : ?>
+                                        <button type="button" class="btn btn-danger btn-sm supprimer-btn" data-email="<?= htmlspecialchars($utilisateur['adresse_email']) ?>">Supprimer</button>
+                                        <button type="button" class="btn btn-warning btn-sm ban-btn" data-email="<?= htmlspecialchars($utilisateur['adresse_email']) ?>">Ban</button>
+                                    <?php else : ?>
+                                        <button type="button" class="btn btn-danger btn-sm supprimer-btn btn-disabled">Supprimer</button>
+                                        <button type="button" class="btn btn-warning btn-sm ban-btn btn-disabled">Banni</button>
+                                    <?php endif; ?>
                                 <?php endif; ?>
                             </td>
                         </tr>
@@ -136,7 +156,7 @@ $pdo = null;
 
             <div id="ajouter-utilisateur-form-container" class="hidden mt-4">
                 <h2>Ajouter un utilisateur</h2>
-                <form id="ajouter-utilisateur-form" method="post" action="../process/traiter_ajout_utilisateur.php">
+                <form id="ajouter-utilisateur-form" method="post" action="../process/utilisateur/ajout_utilisateur.php">
                     <div class="row mb-3">
                         <div class="col-md-4">
                             <label for="pseudo">Pseudo</label>
@@ -172,100 +192,169 @@ $pdo = null;
                     </div>
                 </form>
             </div>
-        </div>
 
-        <div id="confirmation-dialog" class="hidden">
-            <p><input type="text" class="w-50 form-control" id="confirmation-input"></p>
-            <button type="button" id="confirm-btn" class="btn btn-danger btn-sm">Confirmer</button>
-            <button type="button" id="cancel-btn" class="btn btn-secondary btn-sm">Annuler</button>
-        </div>
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center mt-4">
+                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                        <li class="page-item<?= $i == $page ? ' active' : '' ?>">
+                            <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                        </li>
+                    <?php endfor; ?>
+                </ul>
+            </nav>
 
+            <div id="confirmation-dialog" class="hidden">
+                <p><input type="text" class="w-50 form-control" id="confirmation-input"></p>
+                <p class="instruction-text"></p>
+                <button type="button" id="confirm-btn" class="btn btn-danger btn-sm">Confirmer</button>
+                <button type="button" id="cancel-btn" class="btn btn-secondary btn-sm">Annuler</button>
+            </div>
+        </div>
     </div>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            $('.supprimer-btn').click(function() {
-                const email = $(this).data('email');
-                const confirmationDialog = $('#confirmation-dialog');
-                const confirmationInput = $('#confirmation-input');
-                const confirmBtn = $('#confirm-btn');
-                const cancelBtn = $('#cancel-btn');
+<script>
+    $(document).ready(function() {
+        $('#ajouter-utilisateur-btn').click(function() {
+            $('#ajouter-utilisateur-form-container').toggleClass('hidden');
+        });
 
-                confirmationDialog.removeClass('hidden');
-                confirmationInput.val('');
+        $('.ban-btn').click(function() {
+            const email = $(this).data('email');
+            const confirmationDialog = $('#confirmation-dialog');
+            const confirmationInput = $('#confirmation-input');
+            const confirmBtn = $('#confirm-btn');
+            const cancelBtn = $('#cancel-btn');
 
-                confirmBtn.off('click').on('click', () => {
-                    if (confirmationInput.val().toUpperCase() === 'SUPPRIMER') {
-                        supprimerUtilisateur(email);
-                        confirmationDialog.addClass('hidden');
-                    } else {
-                        alert('Veuillez entrer "SUPPRIMER" pour confirmer la suppression.');
-                    }
-                });
+            confirmationDialog.removeClass('hidden');
+            confirmationInput.val('');
+            confirmationInput.attr('data-action', 'ban');
+            $('.instruction-text').text('Pour confirmer, veuillez entrer "BAN".');
 
-                cancelBtn.off('click').on('click', () => {
+            confirmBtn.off('click').on('click', () => {
+                const confirmationValue = confirmationInput.val().toUpperCase();
+                if (confirmationValue === 'BAN') {
+                    banUtilisateur(email);
                     confirmationDialog.addClass('hidden');
-                });
-            });
-
-            $('#ajouter-utilisateur-btn').click(() => {
-                $('#ajouter-utilisateur-form-container').toggleClass('hidden');
-            });
-
-            async function supprimerUtilisateur(email) {
-                try {
-                    const response = await fetch('../process/supprimer_utilisateur.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body: `Adresse_email=${encodeURIComponent(email)}`
-                    });
-
-                    if (response.ok) {
-                        $(`tr:has(td:contains(${email}))`).remove();
-                    } else {
-                        console.error('Une erreur est survenue lors de la suppression de l\'utilisateur.');
-                    }
-                } catch (error) {
-                    console.error('Une erreur est survenue lors de la suppression de l\'utilisateur :', error);
+                } else {
+                    alert('Veuillez entrer "BAN" pour confirmer le ban.');
                 }
-            }
+            });
 
-            $('table').on('click', 'th.sortable', function() {
-                const columnIndex = $(this).data('column');
-                const rows = $('tbody tr').get();
-                const isSortedAsc = $(this).hasClass('sorted-asc');
-
-                rows.sort((a, b) => {
-                    const aValue = $(a).children('td').eq(columnIndex - 1).text().trim();
-                    const bValue = $(b).children('td').eq(columnIndex - 1).text().trim();
-
-                    if (columnIndex === 5) {
-                        const aValueDate = new Date(aValue);
-                        const bValueDate = new Date(bValue);
-
-                        return isSortedAsc
-                            ? aValueDate - bValueDate
-                            : bValueDate - aValueDate;
-                    } else {
-                        return isSortedAsc
-                            ? aValue.localeCompare(bValue)
-                            : bValue.localeCompare(aValue);
-                    }
-                });
-
-                $(this).toggleClass('sorted-asc sorted-desc');
-
-                $.each(rows, (index, row) => {
-                    $('tbody').append(row);
-                });
+            cancelBtn.off('click').on('click', () => {
+                confirmationDialog.addClass('hidden');
             });
         });
-    </script>
+
+        $('.supprimer-btn').click(function() {
+            const email = $(this).data('email');
+            const confirmationDialog = $('#confirmation-dialog');
+            const confirmationInput = $('#confirmation-input');
+            const confirmBtn = $('#confirm-btn');
+            const cancelBtn = $('#cancel-btn');
+
+            confirmationDialog.removeClass('hidden');
+            confirmationInput.val('');
+            confirmationInput.attr('data-action', 'supprimer');
+            $('.instruction-text').text('Pour confirmer, veuillez entrer "SUPPRIMER".');
+
+            confirmBtn.off('click').on('click', () => {
+                const confirmationValue = confirmationInput.val().toUpperCase();
+                if (confirmationValue === 'SUPPRIMER') {
+                    supprimerUtilisateur(email);
+                    confirmationDialog.addClass('hidden');
+                } else {
+                    alert('Veuillez entrer "SUPPRIMER" pour confirmer la suppression.');
+                }
+            });
+
+            cancelBtn.off('click').on('click', () => {
+                confirmationDialog.addClass('hidden');
+            });
+        });
+
+        async function banUtilisateur(email) {
+            try {
+                const response = await fetch('../process/utilisateur/ban_utilisateur.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `Adresse_email=${encodeURIComponent(email)}`
+                });
+
+                if (response.ok) {
+                    $(`tr:has(td:contains(${email}))`).find('.supprimer-btn, .ban-btn').prop('disabled', true).addClass('btn-disabled');
+                    $(`tr:has(td:contains(${email}))`).find('.ban-btn').text('Banni');
+                } else {
+                    console.error('Une erreur est survenue lors du ban de l\'utilisateur.');
+                }
+            } catch (error) {
+                console.error('Une erreur est survenue lors du ban de l\'utilisateur :', error);
+            }
+        }
+
+        async function supprimerUtilisateur(email) {
+            try {
+                const response = await fetch('../process/utilisateur/supprimer_utilisateur.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `Adresse_email=${encodeURIComponent(email)}`
+                });
+
+                if (response.ok) {
+                    $(`tr:has(td:contains(${email}))`).remove();
+                } else {
+                    console.error('Une erreur est survenue lors de la suppression de l\'utilisateur.');
+                }
+            } catch (error) {
+                console.error('Une erreur est survenue lors de la suppression de l\'utilisateur :', error);
+            }
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const table = document.querySelector('table');
+        const headers = table.querySelectorAll('th');
+        const rows = Array.from(table.querySelectorAll('tbody tr'));
+
+        headers.forEach(header => {
+            header.addEventListener('click', () => {
+                const headerIndex = Array.from(headers).indexOf(header);
+                const currentDirection = header.dataset.sortDirection || 'asc';
+
+                const sortedRows = rows.sort((rowA, rowB) => {
+                    const cellA = rowA.cells[headerIndex].textContent.trim();
+                    const cellB = rowB.cells[headerIndex].textContent.trim();
+
+                    if (headerIndex === 4) { // Pour la colonne "Dernière connexion" (index 4)
+                        const dateA = new Date(cellA).getTime() || 0;
+                        const dateB = new Date(cellB).getTime() || 0;
+                        return currentDirection === 'asc' ? dateA - dateB : dateB - dateA;
+                    } else {
+                        return currentDirection === 'asc' ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+                    }
+                });
+
+                headers.forEach(header => {
+                    header.dataset.sortDirection = null;
+                    header.classList.remove('sorted-asc', 'sorted-desc');
+                });
+
+                header.dataset.sortDirection = currentDirection === 'asc' ? 'desc' : 'asc';
+                header.classList.toggle('sorted-asc', currentDirection === 'asc');
+                header.classList.toggle('sorted-desc', currentDirection === 'desc');
+
+                sortedRows.forEach(row => table.querySelector('tbody').appendChild(row));
+            });
+        });
+    });
+</script>
 </body>
 </html>
