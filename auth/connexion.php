@@ -5,6 +5,16 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+if (isset($_SESSION['utilisateur_connecte']) && $_SESSION['utilisateur_connecte']['type'] === 'admin') {
+    header('Location: ../admin/admin');
+    exit();
+  }
+if (isset($_SESSION['utilisateur_connecte']) && $_SESSION['utilisateur_connecte']['type'] === 'banni') {
+    header('Location: ../banni');
+    exit();
+  }
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = isset($_POST["email"]) ? $_POST["email"] : '';
     $motDePasse = isset($_POST["mdp"]) ? $_POST["mdp"] : '';

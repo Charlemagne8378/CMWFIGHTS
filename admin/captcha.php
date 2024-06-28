@@ -1,7 +1,10 @@
 <?php
 require_once '../require/config/config.php';
-include '../require/sidebar.php';
+require_once '../require/sidebar.php';
 session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['type'] !== 'admin') {
     header('Location: ../auth/connexion.php');
@@ -41,7 +44,6 @@ try {
     $error = "Une erreur est survenue. Veuillez réessayer plus tard.";
 }
 
-// Generate a CSRF token
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
@@ -58,12 +60,17 @@ if (empty($_SESSION['csrf_token'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../style/sidebar.css">
+    <style>
+        .main-content {
+            width: 70%;
+            margin: 0 auto; /* Centre le contenu horizontalement */
+        }
+    </style>
 </head>
 
 <body>
     <div class="d-flex">
-        <?php include '../require/sidebar.php'; ?>
-        <div class="main-content flex-grow-1 p-4">
+        <div class="main-content flex-grow-1 p-4 mx-auto">
             <?php if (!empty($message)): ?>
                 <div class="alert alert-success"><?php echo $message; ?></div>
             <?php endif; ?>
@@ -72,8 +79,8 @@ if (empty($_SESSION['csrf_token'])) {
                 <div class="alert alert-danger"><?php echo $error; ?></div>
             <?php endif; ?>
 
-            <h1>Ajouter une question de captcha</h1>
-            <form action="" method="post">
+            <h1 class="text-center">Ajouter une question de captcha</h1>
+            <form action="" method="post" class="col-md-8 mx-auto">
                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                 <div class="form-group mb-3">
                     <label for="question">Question :</label>
@@ -86,8 +93,8 @@ if (empty($_SESSION['csrf_token'])) {
                 <button type="submit" class="btn btn-primary">Ajouter la question</button>
             </form>
 
-            <h2>Liste des questions de captcha</h2>
-            <div class="table-responsive">
+            <h2 class="text-center mt-4">Liste des questions de captcha</h2>
+            <div class="table-responsive col-md-8 mx-auto">
                 <table class="table">
                     <thead>
                         <tr>
@@ -128,9 +135,6 @@ if (empty($_SESSION['csrf_token'])) {
             </div>
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -143,10 +147,17 @@ if (empty($_SESSION['csrf_token'])) {
                 $('#modal_question').val(question);
                 $('#modal_answer').val(answer);
             });
+        });
+    </script>
+    <script>
+        function toggleAccountBox() {
+            var accountBox = document.querySelector('.account-box');
+            accountBox.classList.toggle('show');
+        }
 
-            $('.account-btn').click(function() {
-                $('.account-box').toggleClass('show');
-            });
+        document.addEventListener('DOMContentLoaded', function() {
+            var accountBtn = document.querySelector('.account-btn');
+            accountBtn.addEventListener('click', toggleAccountBox);
         });
     </script>
 </body>

@@ -118,10 +118,12 @@ function getFirstColumn($pdo, $table) {
         <a href="tables?db=<?php echo urlencode($db); ?>" class="btn btn-primary">Retour à la Liste des Tables</a>
     </div>
 </div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+<script>
+            $(document).ready(function() {
+                $('.account-btn').click(function() {
+                    $('.account-box').toggleClass('show');
+                });
+            });
+</script>
 </body>
 </html>

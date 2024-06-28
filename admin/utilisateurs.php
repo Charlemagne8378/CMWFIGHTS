@@ -5,7 +5,6 @@ session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-date_default_timezone_set('Europe/Paris');
 
 if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['type'] != 'admin') {
     header('Location: ../auth/connexion');
@@ -28,6 +27,15 @@ $stmt->execute();
 $utilisateurs = $stmt->fetchAll();
 
 $pdo = null;
+
+function adjustTime($datetime) {
+    if ($datetime) {
+        $date = new DateTime($datetime);
+        $date->modify('+2 hours');
+        return $date->format('Y-m-d H:i:s');
+    }
+    return '';
+}
 ?>
 
 <!DOCTYPE html>
@@ -131,7 +139,7 @@ $pdo = null;
                             <td><?= htmlspecialchars($utilisateur['nom']) ?></td>
                             <td><?= htmlspecialchars($utilisateur['adresse_email']) ?></td>
                             <td><?= htmlspecialchars($utilisateur['type']) ?></td>
-                            <td><?= htmlspecialchars($utilisateur['derniere_connexion'] ?? '') ?></td>
+                            <td><?= htmlspecialchars(adjustTime($utilisateur['derniere_connexion'] ?? '')) ?></td>
                             <td class="text-center actions-column">
                                 <?php if ($utilisateur['type'] !== 'admin') : ?>
                                     <a href="modifier_utilisateur.php?pseudo=<?= urlencode($utilisateur['pseudo']); ?>" class="btn btn-primary btn-sm">Modifier</a>

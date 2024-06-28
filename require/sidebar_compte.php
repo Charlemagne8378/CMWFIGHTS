@@ -1,6 +1,6 @@
 <nav class="sidebar">
     <div class="text-center mb-4">
-        <img src="../Images/cmw_icon.png" alt="Logo" width="128" height="128">
+        <img src="../../Images/cmw_icon.png" alt="Logo" width="128" height="128">
     </div>
     <ul class="nav flex-column">
         <?php
@@ -8,24 +8,9 @@
         $active_page = $current_page;
 
         $menuItems = [
-            'admin' => ['label' => 'Admin', 'icon' => 'bi bi-house-door'],
-            'utilisateurs' => ['label' => 'Utilisateurs', 'icon' => 'bi bi-person-lines-fill'],
-            'combat' => ['label' => 'Combats', 'icon' => 'bi bi-shield-fill', 'color' => 'btn-shield'],
-            'evenements' => ['label' => 'Événements', 'icon' => 'bi bi-calendar-event'],
-            'modifier_utilisateur' => ['label' => 'Modifier le compte', 'icon' => 'bi bi-pencil-square'],
-            'classement' => ['label' => 'Classement', 'icon' => 'bi bi-bar-chart'],
-            'combattants' => ['label' => 'Combattants', 'icon' => 'bi bi-people'],
-            'candidature' => ['label' => 'Candidature', 'icon' => 'bi bi-file-earmark-text'],
-            'billetterie' => ['label' => 'Billetterie', 'icon' => 'bi bi-ticket'],
-            'service_client' => ['label' => 'Service Client', 'icon' => 'bi bi-telephone'],
-            'image' => ['label' => 'Image', 'icon' => 'bi bi-image'],
-            'newsletters' => ['label' => 'Newsletters', 'icon' => 'bi bi-envelope'],
-            'captcha' => ['label' => 'Captcha', 'icon' => 'bi bi-shield-lock'],
-            'accueil' => ['label' => 'Accueil', 'icon' => 'bi bi-house-door'],
-            'logs' => ['label' => 'Logs', 'icon' => 'bi bi-journal'],
-            'permissions' => ['label' => 'Permissions utilisateurs', 'icon' => 'bi bi-shield-lock'],
-            'bdd' => ['label' => 'Base de données', 'icon' => 'bi bi-gear'],
-            'erreur' => ['label' => 'Log d\'erreur', 'icon' => 'bi bi-exclamation-circle'],
+            'settings' => ['label' => 'Paramètres', 'icon' => 'bi bi-house-door'],
+            'preferences' => ['label' => 'Préférence', 'icon' => 'bi bi-person-lines-fill'],
+            'z' => ['label' => 'Éz', 'icon' => 'bi bi-calendar-event'],
         ];
 
         foreach ($menuItems as $page => $item) {
@@ -47,8 +32,6 @@
 
 
     <div class="account-box collapse" id="account-box">
-        <a href="/">Page Utilisateur</a>
-        <a href="../pages/compte/settings">Paramètres</a>
         <a href="../auth/logout.php">Déconnexion</a>
     </div>
     <button class="btn btn-primary btn-block account-btn" data-bs-toggle="collapse" data-bs-target="#account-box">

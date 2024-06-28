@@ -80,7 +80,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Vérifier s'il n'y a pas d'erreurs de saisie avant d'insérer dans la base de données
     if(empty($image_url_err) && empty($nom_err) && empty($age_err) && empty($poids_err) && empty($taille_err) && empty($category_id_err) && empty($palmares_boxe_err) && empty($palmares_mma_err) && empty($discipline_id_err)){
         // Préparer une instruction d'insertion
-        $sql = "INSERT INTO Combattant (image_url, nom, age, poids, taille, category_id, palmares_boxe, palmares_mma, discipline_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO COMBATTANT (image_url, nom, age, poids, taille, category_id, palmares_boxe, palmares_mma, discipline_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         if($stmt = $pdo->prepare($sql)){
             // Liaison des variables à l'instruction préparée en tant que paramètres

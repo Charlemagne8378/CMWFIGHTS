@@ -2,18 +2,21 @@
 require_once '../require/config/config.php';
 session_start();
 
-if (isset($_SESSION['utilisateur_connecte']) && $_SESSION['utilisateur_connecte']['type'] === 'banni') {
-    header('Location: banni');
+// Vérification de l'authentification de l'utilisateur admin
+if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['type'] !== 'admin') {
+    header('Location: ../auth/connexion');
     exit();
-  }
+}
 
+// Définition des éléments de menu
 $menuItems = [
     'utilisateurs' => ['label' => 'Utilisateurs', 'icon' => 'fas fa-users', 'color' => 'btn-users'],
     'evenements' => ['label' => 'Événements', 'icon' => 'fas fa-calendar-alt', 'color' => 'btn-events'],
+    'combat' => ['label' => 'Combats', 'icon' => 'fas fa-shield-alt', 'color' => 'btn-shield'],
     'modifier_utilisateur' => ['label' => 'Modifier le compte', 'icon' => 'fas fa-key', 'color' => 'btn-password'],
     'classement' => ['label' => 'Classement', 'icon' => 'fas fa-trophy', 'color' => 'btn-ranking'],
     'combattants' => ['label' => 'Combattant', 'icon' => 'fas fa-fist-raised', 'color' => 'btn-fighter'],
-    'back_candidature' => ['label' => 'Candidature', 'icon' => 'fas fa-file-alt', 'color' => 'btn-application'],
+    'candidature' => ['label' => 'Candidature', 'icon' => 'fas fa-file-alt', 'color' => 'btn-application'],
     'billetterie' => ['label' => 'Billetterie', 'icon' => 'fas fa-ticket-alt', 'color' => 'btn-ticketing'],
     'service_client' => ['label' => 'Service Client', 'icon' => 'fas fa-headset', 'color' => 'btn-service-client'],
     'image' => ['label' => 'Image', 'icon' => 'fas fa-image', 'color' => 'btn-image'],
@@ -25,11 +28,10 @@ $menuItems = [
     'bdd' => ['label' => 'Bases de Données', 'icon' => 'fas fa-database', 'color' => 'btn-databases'],
     'erreur' => ['label' => 'Error', 'icon' => 'fas fa-exclamation-triangle', 'color' => 'btn-error'],
 ];
-
 ?>
-<!DOCTYPE html>
-<html lang="fr">
 
+<!DOCTYPE html>
+<html lang="fr" <?= isset($_COOKIE['theme']) && $_COOKIE['theme'] === 'dark' ? 'data-bs-theme="dark"' : 'data-bs-theme="light"' ?>>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,23 +69,7 @@ $menuItems = [
             margin-top: 10px;
         }
 
-        .btn-users,
-        .btn-events,
-        .btn-password,
-        .btn-ranking,
-        .btn-fighter,
-        .btn-application,
-        .btn-ticketing,
-        .btn-service-client,
-        .btn-image,
-        .btn-logout,
-        .btn-newsletters,
-        .btn-captcha,
-        .btn-accueil,
-        .btn-logs,
-        .btn-permissions,
-        .btn-databases,
-        .btn-error {
+        .btn {
             width: 100%;
             border: none;
             border-radius: 5px;
@@ -95,10 +81,16 @@ $menuItems = [
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            text-decoration: none;
+        }
+
+        .btn span {
+            margin-top: 5px;
         }
 
         .btn-users { background-color: #3498db; }
         .btn-events { background-color: #2ecc71; }
+        .btn-shield { background-color: #002BFF; }
         .btn-password { background-color: #e74c3c; }
         .btn-ranking { background-color: #9b59b6; }
         .btn-fighter { background-color: #f39c12; }
@@ -115,25 +107,8 @@ $menuItems = [
         .btn-databases { background-color: #d35400; }
         .btn-error { background-color: #e74c3c; }
 
-
         @media screen and (max-width: 770px) {
-            .btn-users,
-            .btn-events,
-            .btn-password,
-            .btn-ranking,
-            .btn-fighter,
-            .btn-application,
-            .btn-ticketing,
-            .btn-service-client,
-            .btn-image,
-            .btn-logout,
-            .btn-newsletters,
-            .btn-captcha,
-            .btn-accueil,
-            .btn-logs,
-            .btn-permissions,
-            .btn-databases,
-            .btn-error {
+            .btn {
                 font-size: 14px;
                 margin-top: 5px;
             }
@@ -144,59 +119,53 @@ $menuItems = [
         }
     </style>
 </head>
-
 <body>
 
-    <div class="container mt-5">
-        <h2 class="text-center mb-4">Page d'Administration</h2>
-        <div class="btn-container">
-            <?php foreach ($menuItems as $page => $item): ?>
-                <div class="col-md-4">
-                    <a href="<?= htmlspecialchars($page) ?>" class="btn <?= htmlspecialchars($item['color']) ?> btn-block mb-2 btn-square">
-                        <i class="<?= htmlspecialchars($item['icon']) ?> fa-3x"></i>
-                        <span><?= htmlspecialchars($item['label']) ?></span>
-                    </a>
-                </div>
-            <?php endforeach; ?>
-        </div>
-        <div class="logout-btn-container">
-            <a href="/auth/logout.php" class="btn btn-logout btn-square">
-                <i class="fas fa-sign-out-alt fa-3x"></i>
-                <span>Se déconnecter</span>
-            </a>
-        </div>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Page d'Administration</h2>
+    <div class="btn-container">
+        <?php foreach ($menuItems as $page => $item): ?>
+            <div class="col-md-4">
+                <a href="<?= htmlspecialchars($page) ?>" class="btn <?= htmlspecialchars($item['color']) ?> btn-block mb-2 btn-square">
+                    <i class="<?= htmlspecialchars($item['icon']) ?> fa-3x"></i>
+                    <span><?= htmlspecialchars($item['label']) ?></span>
+                </a>
+            </div>
+        <?php endforeach; ?>
     </div>
+    <div class="logout-btn-container">
+        <a href="/auth/logout.php" class="btn btn-logout btn-square">
+            <i class="fas fa-sign-out-alt fa-3x"></i>
+            <span>Se déconnecter</span>
+        </a>
+    </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+<script>
+    const applyTheme = (theme) => {
+        document.documentElement.setAttribute('data-bs-theme', theme);
+    };
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const darkModeBtn = document.getElementById('darkModeBtn');
-            const lightModeBtn = document.getElementById('lightModeBtn');
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    applyTheme(savedTheme);
 
-            darkModeBtn.addEventListener('click', () => {
-                document.body.classList.add('dark-mode');
-                document.body.classList.remove('light-mode');
-                localStorage.setItem('theme', 'dark');
-            });
+    document.addEventListener('DOMContentLoaded', () => {
+        const darkModeToggle = document.createElement('input');
+        darkModeToggle.setAttribute('type', 'checkbox');
+        darkModeToggle.id = 'darkModeToggle';
+        darkModeToggle.style.display = 'none'; // On cache le toggle checkbox
 
-            lightModeBtn.addEventListener('click', () => {
-                document.body.classList.add('light-mode');
-                document.body.classList.remove('dark-mode');
-                localStorage.setItem('theme', 'light');
-            });
+        document.body.appendChild(darkModeToggle);
 
-            const storedTheme = localStorage.getItem('theme');
-            if (storedTheme) {
-                if (storedTheme === 'dark') {
-                    darkModeBtn.click();
-                } else {
-                    lightModeBtn.click();
-                }
-            }
+        darkModeToggle.checked = savedTheme === 'dark';
+
+        darkModeToggle.addEventListener('change', () => {
+            const theme = darkModeToggle.checked ? 'dark' : 'light';
+            applyTheme(theme);
+            localStorage.setItem('theme', theme);
         });
-    </script>
-</body>
+    });
+</script>
 
+</body>
 </html>

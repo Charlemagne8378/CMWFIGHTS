@@ -15,8 +15,9 @@ $pdo = null;
 $error = "";
 $success = "";
 
+$targetDirectory = '../Images'; // Ensure $targetDirectory is defined here
+
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_FILES["image"])) {
-    $targetDirectory = '../Images';
     $originalFileName = basename($_FILES["image"]["name"]);
     $fileExtension = pathinfo($originalFileName, PATHINFO_EXTENSION);
 
@@ -44,11 +45,33 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_FILES["image"])) {
         }
     }
 }
+
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete_images"])) {
+    $imagesToDelete = $_POST["images"] ?? [];
+    foreach ($imagesToDelete as $image) {
+        $filePath = $targetDirectory . DIRECTORY_SEPARATOR . $image;
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
+    }
+    $success = "Les images sélectionnées ont été supprimées avec succès.";
+}
+
+// Lister les images existantes dans le répertoire
+$images = array();
+if (is_dir($targetDirectory)) {
+    $dir = opendir($targetDirectory);
+    while (($file = readdir($dir)) !== false) {
+        if ($file != '.' && $file != '..' && in_array(pathinfo($file, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif'])) {
+            $images[] = $file;
+        }
+    }
+    closedir($dir);
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -84,29 +107,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_FILES["image"])) {
             <button type="submit" class="btn btn-primary">Importer</button>
         </form>
 
+        <h3 class="mt-5 mb-4">Images Importées</h3>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <div class="row">
+                <?php foreach ($images as $image): ?>
+                    <div class="col-md-3 col-sm-4 col-6 mb-4">
+                        <div class="card">
+                            <img src="<?php echo $targetDirectory . '/' . $image; ?>" alt="<?php echo htmlspecialchars($image); ?>" class="card-img-top" style="max-height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <p class="card-text text-center"><?php echo htmlspecialchars($image); ?></p>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="images[]" value="<?php echo htmlspecialchars($image); ?>" id="image_<?php echo htmlspecialchars($image); ?>">
+                                    <label class="form-check-label" for="image_<?php echo htmlspecialchars($image); ?>">Sélectionner</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <button type="submit" name="delete_images" class="btn btn-danger mt-3">Supprimer les images sélectionnées</button>
+        </form>
+
         <a href="admin" class="btn btn-secondary mt-3">Retour</a>
     </div>
-
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                $('.modifier-question').click(function() {
-                    const questionId = $(this).data('id');
-                    const question = $(this).data('question');
-                    const answer = $(this).data('answer');
-
-                    $('#modal_question_id').val(questionId);
-                    $('#modal_question').val(question);
-                    $('#modal_answer').val(answer);
-                });
-
-                $('.account-btn').click(function() {
-                    $('.account-box').toggleClass('show');
-                });
-            });
-        </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         function updateFilename() {
             var fileInput = document.getElementById('image');
@@ -116,5 +140,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_FILES["image"])) {
         }
     </script>
 </body>
-
 </html>

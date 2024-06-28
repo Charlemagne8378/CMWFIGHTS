@@ -1,7 +1,3 @@
-<?php
-require_once '../require/sidebar.php';
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -17,7 +13,7 @@ require_once '../require/sidebar.php';
 
 <body>
     <?php require_once '../require/sidebar.php'; ?>
-    <div class="container mt-5">
+    <div class="container mt-5 mx-auto"> <!-- Ajout de la classe mx-auto pour centrer -->
         <?php
         $limit = 20;
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -130,9 +126,6 @@ require_once '../require/sidebar.php';
         echo '</form>';
         ?>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -158,8 +151,3 @@ require_once '../require/sidebar.php';
 </body>
 
 </html>
-
-</body>
-
-</html>
-

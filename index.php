@@ -224,7 +224,7 @@ if (isset($_SESSION['utilisateur_connecte']) && $_SESSION['utilisateur_connecte'
   <h2>Qui somme nous?</h2>
   <div class="textG">
       <p>
-      L'organisation CMW, abréviation pour "Combat Mixed Warrior", est une nouvelle entité dédiée à la promotion et au développement du MMA et de la boxe amateur. Notre objectif principal est d'offrir une plateforme dynamique et inclusive pour les combattants passionnés de sports de combat, où l'apprentissage, la compétition et le fair-play sont au cœur de nos activités.
+      L'organisation CMW, est une nouvelle entité dédiée à la promotion et au développement du MMA et de la boxe amateur. Notre objectif principal est d'offrir une plateforme dynamique et inclusive pour les combattants passionnés de sports de combat, où l'apprentissage, la compétition et le fair-play sont au cœur de nos activités.
       </p>
   </div>
   <div class="textM">

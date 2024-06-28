@@ -66,7 +66,7 @@
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         
-        $stmt_categories = $pdo->query("SELECT * FROM Categories");
+        $stmt_categories = $pdo->query("SELECT * FROM CATEGORIES");
         $categories = $stmt_categories->fetchAll(PDO::FETCH_ASSOC);
 
         
@@ -76,7 +76,7 @@
             echo '<div class="combattant-cards">';
 
             
-            $stmt_combattants = $pdo->prepare("SELECT * FROM Combattant WHERE category_id = ?");
+            $stmt_combattants = $pdo->prepare("SELECT * FROM COMBATTANT WHERE category_id = ?");
             $stmt_combattants->execute([$categorie['category_id']]);
             $combattants = $stmt_combattants->fetchAll(PDO::FETCH_ASSOC);
 
