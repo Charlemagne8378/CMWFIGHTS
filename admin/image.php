@@ -15,7 +15,56 @@ $pdo = null;
 $error = "";
 $success = "";
 
-$targetDirectory = '../Images'; // Ensure $targetDirectory is defined here
+$targetDirectory = '../Images';
+$thumbnailDirectory = $targetDirectory . '/thumbnails';
+
+if (!file_exists($thumbnailDirectory)) {
+    mkdir($thumbnailDirectory, 0777, true);
+}
+
+function createThumbnail($sourcePath, $destPath, $thumbWidth = 200) {
+    list($width, $height, $type) = getimagesize($sourcePath);
+    $thumbHeight = ($thumbWidth / $width) * $height;
+
+    // Convertir les dimensions en entier
+    $thumbWidth = (int) round($thumbWidth);
+    $thumbHeight = (int) round($thumbHeight);
+
+    $thumb = imagecreatetruecolor($thumbWidth, $thumbHeight);
+
+    switch ($type) {
+        case IMAGETYPE_JPEG:
+            $source = imagecreatefromjpeg($sourcePath);
+            break;
+        case IMAGETYPE_PNG:
+            $source = imagecreatefrompng($sourcePath);
+            break;
+        case IMAGETYPE_GIF:
+            $source = imagecreatefromgif($sourcePath);
+            break;
+        default:
+            return false;
+    }
+
+    imagecopyresampled($thumb, $source, 0, 0, 0, 0, $thumbWidth, $thumbHeight, $width, $height);
+
+    switch ($type) {
+        case IMAGETYPE_JPEG:
+            imagejpeg($thumb, $destPath);
+            break;
+        case IMAGETYPE_PNG:
+            imagepng($thumb, $destPath);
+            break;
+        case IMAGETYPE_GIF:
+            imagegif($thumb, $destPath);
+            break;
+    }
+
+    imagedestroy($thumb);
+    imagedestroy($source);
+
+    return true;
+}
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_FILES["image"])) {
     $originalFileName = basename($_FILES["image"]["name"]);
@@ -25,20 +74,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_FILES["image"])) {
     if (!in_array(strtolower($fileExtension), $allowedTypes)) {
         $error = "Seules les images sont autorisées.";
     } else if ($_FILES["image"]["size"] > 10000000) {
-        $error = "La taille de l'image dépasse la limite.";    
+        $error = "La taille de l'image dépasse la limite.";
     } else {
         $fileName = isset($_POST["filename"]) ? basename($_POST["filename"]) : "default";
         $targetFile = $targetDirectory . DIRECTORY_SEPARATOR . $fileName . '.' . $fileExtension;
-
-        if (!file_exists($targetDirectory)) {
-            mkdir($targetDirectory, 0777, true);
-        }
+        $thumbnailFile = $thumbnailDirectory . DIRECTORY_SEPARATOR . $fileName . '.' . $fileExtension;
 
         if ($_FILES["image"]["error"] > 0) {
             $error = "Erreur lors du téléchargement de l'image : " . $_FILES["image"]["error"];
         } else {
             if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
-                $success = "L'image a été importée avec succès.";
+                if (createThumbnail($targetFile, $thumbnailFile)) {
+                    $success = "L'image a été importée avec succès.";
+                } else {
+                    $error = "Erreur lors de la création de la miniature.";
+                }
             } else {
                 $error = "Erreur lors de l'importation de l'image. Vérifiez les permissions du répertoire cible.";
             }
@@ -50,17 +100,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete_images"])) {
     $imagesToDelete = $_POST["images"] ?? [];
     foreach ($imagesToDelete as $image) {
         $filePath = $targetDirectory . DIRECTORY_SEPARATOR . $image;
+        $thumbnailPath = $thumbnailDirectory . DIRECTORY_SEPARATOR . $image;
         if (file_exists($filePath)) {
             unlink($filePath);
+        }
+        if (file_exists($thumbnailPath)) {
+            unlink($thumbnailPath);
         }
     }
     $success = "Les images sélectionnées ont été supprimées avec succès.";
 }
 
-// Lister les images existantes dans le répertoire
-$images = array();
-if (is_dir($targetDirectory)) {
-    $dir = opendir($targetDirectory);
+$images = [];
+if (is_dir($thumbnailDirectory)) {
+    $dir = opendir($thumbnailDirectory);
     while (($file = readdir($dir)) !== false) {
         if ($file != '.' && $file != '..' && in_array(pathinfo($file, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif'])) {
             $images[] = $file;
@@ -113,7 +166,7 @@ if (is_dir($targetDirectory)) {
                 <?php foreach ($images as $image): ?>
                     <div class="col-md-3 col-sm-4 col-6 mb-4">
                         <div class="card">
-                            <img src="<?php echo $targetDirectory . '/' . $image; ?>" alt="<?php echo htmlspecialchars($image); ?>" class="card-img-top" style="max-height: 200px; object-fit: cover;">
+                            <img src="<?php echo $thumbnailDirectory . '/' . $image; ?>" alt="<?php echo htmlspecialchars($image); ?>" class="card-img-top" style="max-height: 200px; object-fit: cover;">
                             <div class="card-body">
                                 <p class="card-text text-center"><?php echo htmlspecialchars($image); ?></p>
                                 <div class="form-check">
@@ -139,5 +192,12 @@ if (is_dir($targetDirectory)) {
             filenameInput.value = fileNameWithoutExtension;
         }
     </script>
+<script>
+            $(document).ready(function() {
+                $('.account-btn').click(function() {
+                    $('.account-box').toggleClass('show');
+                });
+            });
+</script>
 </body>
 </html>

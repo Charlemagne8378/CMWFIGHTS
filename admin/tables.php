@@ -46,5 +46,12 @@ if (isset($_GET['db'])) {
         <a href="bdd" class="btn btn-primary">Retour à la Liste des Bases de Données</a>
     </div>
 </div>
+<script>
+            $(document).ready(function() {
+                $('.account-btn').click(function() {
+                    $('.account-box').toggleClass('show');
+                });
+            });
+</script>
 </body>
 </html>
