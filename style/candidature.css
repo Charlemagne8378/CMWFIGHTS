@@ -1,0 +1,55 @@
+body {
+    font-family: Arial, sans-serif;
+    color: #FFFFFF;
+    background-color: #888888;
+    margin-top: 100px;
+    }
+    .fiche{
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #696666;
+    box-shadow:6px 6px 25px #000000;
+
+
+    }
+    input{
+    width: 50%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    margin-left: 190px;
+    }
+    .form-group {
+    margin-bottom: 15px;
+    }
+    input[type="submit"]{
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #000000;
+    color: #FFFFFF;
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 0px;
+    }
+    label {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 20px;
+    text-align: center;
+    }
+    h1{
+    text-align: center;
+    text-decoration: underline #FFFFFF;
+    }
+    select{
+    width: 10%;
+    padding: 10px;
+    border-radius: 5px;
+    margin-left: 210px;
+
+    }
