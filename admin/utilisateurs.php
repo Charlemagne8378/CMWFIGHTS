@@ -48,67 +48,7 @@ function adjustTime($datetime) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../style/sidebar.css">
-    <style>
-        #confirmation-dialog {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: var(--bs-body-bg);
-            padding: 20px;
-            border: 1px solid var(--bs-border-color);
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            z-index: 9999;
-            text-align: center;
-            width: 300px;
-        }
-
-        #confirmation-input {
-            margin-bottom: 10px;
-        }
-
-        #confirm-btn,
-        #cancel-btn {
-            padding: 5px 10px;
-            margin: 0 5px;
-            cursor: pointer;
-            border: none;
-            border-radius: 3px;
-        }
-
-        #confirm-btn {
-            background-color: #dc3545;
-            color: #fff;
-        }
-
-        #cancel-btn {
-            background-color: #6c757d;
-            color: #fff;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        table th.sortable {
-            cursor: pointer;
-            user-select: none;
-        }
-
-        table th.sortable:hover {
-            text-decoration: underline;
-        }
-
-        .actions-column {
-            width: 20%;
-        }
-
-        .btn-disabled {
-            opacity: 0.5;
-            pointer-events: none;
-        }
-    </style>
+    <link rel="stylesheet" href="../style/utilisateurs.css">
 </head>
 <body>
 <div class="container mt-4">
