@@ -26,7 +26,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $discipline_id = $_POST["discipline_id"];
     
     // Préparer et exécuter la requête SQL de mise à jour
-    $sql = "UPDATE Combattant SET image_url = ?, nom = ?, age = ?, poids = ?, taille = ?, category_id = ?, palmares_boxe = ?, palmares_mma = ?, discipline_id = ? WHERE combattant_id = ?";
+    $sql = "UPDATE COMBATTANT SET image_url = ?, nom = ?, age = ?, poids = ?, taille = ?, category_id = ?, palmares_boxe = ?, palmares_mma = ?, discipline_id = ? WHERE combattant_id = ?";
     if($stmt = $pdo->prepare($sql)){
         $stmt->execute([$image_url, $nom, $age, $poids, $taille, $category_id, $palmares_boxe, $palmares_mma, $discipline_id, $combattant_id]);
         // Rediriger l'utilisateur vers une page de confirmation ou ailleurs après la mise à jour
@@ -43,7 +43,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
     $combattant_id = trim($_GET["id"]);
 
     // Préparer une instruction SELECT pour récupérer les informations du combattant à éditer
-    $sql = "SELECT * FROM Combattant WHERE combattant_id = ?";
+    $sql = "SELECT * FROM COMBATTANT WHERE combattant_id = ?";
     
     if($stmt = $pdo->prepare($sql)){
         // Liaison des variables à l'instruction préparée en tant que paramètres

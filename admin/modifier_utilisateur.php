@@ -157,15 +157,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <div class="d-flex justify-content-around mt-4">
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-secondary" id="darkModeBtn">
-                    <i class="bi bi-moon"></i> Dark Mode
-                </button>
-                <button type="button" class="btn btn-secondary" id="lightModeBtn">
-                    <i class="bi bi-sun"></i> Light Mode
-                </button>
-            </div>
-
-            <div class="btn-group" role="group">
                 <button type="button" class="btn btn-secondary" id="frLangBtn">
                     <i class="bi bi-flag-fill"></i> Français
                 </button>
@@ -194,10 +185,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="button" class="btn btn-primary mt-3" onclick="window.location.href='../process/download_data'">Télécharger les données utilisateur</button>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"></script>
-    <script src="../script/script.js"></script>
-
-
+    <script>
+            $(document).ready(function() {
+                $('.account-btn').click(function() {
+                    $('.account-box').toggleClass('show');
+                });
+            });
+</script>
 </body>
 </html>

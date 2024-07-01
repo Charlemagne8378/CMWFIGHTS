@@ -1,11 +1,18 @@
 # Activer la réécriture d'URL
 RewriteEngine On
 
+# Redirection HTTP vers HTTPS
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
 # Refuser l'accès au dossier config
 RewriteRule ^require/ - [F,L,NC]
 
 # Refuser l'accès aux fichiers cachés
 RewriteRule ^\. - [F,L]
+
+# Exclure les fichiers statiques comme CSS, JS, PNG et JPG de la réécriture
+RewriteCond %{REQUEST_URI} !\.(css|js|png|jpg|jpeg)$ [NC]
 
 # Retirer l'extension .php
 RewriteCond %{REQUEST_FILENAME} !-f

@@ -5,22 +5,37 @@ session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-date_default_timezone_set('Europe/Paris');
 
 if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['type'] != 'admin') {
     header('Location: ../auth/connexion');
     exit();
 }
 
-$stmt = $pdo->prepare('SELECT pseudo, nom, adresse_email, type, derniere_connexion FROM UTILISATEUR');
-$stmt->execute();
-$utilisateurs = $stmt->fetchAll();
+$perPage = 10;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $perPage;
 
 $stmt = $pdo->prepare('SELECT COUNT(*) FROM UTILISATEUR WHERE type != "invite"');
 $stmt->execute();
-$utilisateurs_inscrits = $stmt->fetchColumn();
+$totalUsers = $stmt->fetchColumn();
+$totalPages = ceil($totalUsers / $perPage);
+
+$stmt = $pdo->prepare('SELECT pseudo, nom, adresse_email, type, derniere_connexion FROM UTILISATEUR LIMIT :offset, :perpage');
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+$stmt->bindValue(':perpage', $perPage, PDO::PARAM_INT);
+$stmt->execute();
+$utilisateurs = $stmt->fetchAll();
 
 $pdo = null;
+
+function adjustTime($datetime) {
+    if ($datetime) {
+        $date = new DateTime($datetime);
+        $date->modify('+2 hours');
+        return $date->format('Y-m-d H:i:s');
+    }
+    return '';
+}
 ?>
 
 <!DOCTYPE html>
@@ -102,7 +117,7 @@ $pdo = null;
             <h1 class="mb-4">Administration</h1>
 
             <h2>Statistiques</h2>
-            <p>Nombre total d'utilisateurs inscrits : <?= htmlspecialchars($utilisateurs_inscrits) ?></p>
+            <p>Nombre total d'utilisateurs inscrits : <?= htmlspecialchars($totalUsers) ?></p>
 
             <h2 class="mb-3">Liste des utilisateurs</h2>
             <div class="table-responsive">
@@ -124,7 +139,7 @@ $pdo = null;
                             <td><?= htmlspecialchars($utilisateur['nom']) ?></td>
                             <td><?= htmlspecialchars($utilisateur['adresse_email']) ?></td>
                             <td><?= htmlspecialchars($utilisateur['type']) ?></td>
-                            <td><?= htmlspecialchars($utilisateur['derniere_connexion'] ?? '') ?></td>
+                            <td><?= htmlspecialchars(adjustTime($utilisateur['derniere_connexion'] ?? '')) ?></td>
                             <td class="text-center actions-column">
                                 <?php if ($utilisateur['type'] !== 'admin') : ?>
                                     <a href="modifier_utilisateur.php?pseudo=<?= urlencode($utilisateur['pseudo']); ?>" class="btn btn-primary btn-sm">Modifier</a>
@@ -185,13 +200,23 @@ $pdo = null;
                     </div>
                 </form>
             </div>
-        </div>
 
-        <div id="confirmation-dialog" class="hidden">
-            <p><input type="text" class="w-50 form-control" id="confirmation-input"></p>
-            <p class="instruction-text"></p>
-            <button type="button" id="confirm-btn" class="btn btn-danger btn-sm">Confirmer</button>
-            <button type="button" id="cancel-btn" class="btn btn-secondary btn-sm">Annuler</button>
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center mt-4">
+                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                        <li class="page-item<?= $i == $page ? ' active' : '' ?>">
+                            <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                        </li>
+                    <?php endfor; ?>
+                </ul>
+            </nav>
+
+            <div id="confirmation-dialog" class="hidden">
+                <p><input type="text" class="w-50 form-control" id="confirmation-input"></p>
+                <p class="instruction-text"></p>
+                <button type="button" id="confirm-btn" class="btn btn-danger btn-sm">Confirmer</button>
+                <button type="button" id="cancel-btn" class="btn btn-secondary btn-sm">Annuler</button>
+            </div>
         </div>
     </div>
 </div>

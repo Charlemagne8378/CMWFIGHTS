@@ -42,17 +42,18 @@ try {
         <a href="admin" class="btn btn-primary">Retour à la Page d'Administration</a>
     </div>
 </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-            $(document).ready(function() {
-                $('.account-btn').click(function() {
-                    $('.account-box').toggleClass('show');
-                });
-            });
-        </script>
+    function toggleAccountBox() {
+        var accountBox = document.querySelector('.account-box');
+        accountBox.classList.toggle('show');
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var accountBtn = document.querySelector('.account-btn');
+        accountBtn.addEventListener('click', toggleAccountBox);
+    });
+</script>
+
 
 </body>
 </html>

@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt_insert->execute([$classement_id, $combattant_id, $ranking]);
 
         // Rediriger vers une page de confirmation ou autre
-        header('Location: classement.php');
+        header('Location: ../admin/classement.php');
         exit();
     } else {
         // Catégorie non trouvée dans le classement, afficher un message d'erreur

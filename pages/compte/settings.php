@@ -9,6 +9,7 @@ if (!isset($_SESSION['utilisateur_connecte'])) {
     header('Location: ../../auth/connexion');
     exit();
 }
+require_once '../../require/sidebar_compte.php';
 
 $user_to_edit = $_SESSION['utilisateur_connecte'];
 $current_page = 'settings';
@@ -25,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newsletter = isset($_POST['newsletter']) ? 1 : 0;
 
     if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
-        $avatar_url = saveAvatar($_FILES['avatar']);
+        $avatar_url = saveAvatar($_FILES['avatar'], $pseudo);
     } else {
         $avatar_url = $user_to_edit['avatar_url'];
     }
@@ -64,16 +65,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-function saveAvatar($file) {
+function saveAvatar($file, $pseudo) {
     $target_dir = "/var/www/html/Images/avatar/";
-    $target_file = $target_dir . basename($file["name"]);
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    $imageFileType = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
+    $target_file = $target_dir . $pseudo . '.' . $imageFileType;
 
-    // Verify if the image file is an actual image or fake image
+    // Delete old avatar if it exists
+    $old_avatar = glob($target_dir . $pseudo . ".*");
+    if ($old_avatar) {
+        foreach ($old_avatar as $avatar) {
+            unlink($avatar);
+        }
+    }
+
     $check = getimagesize($file["tmp_name"]);
     if ($check !== false) {
         if (move_uploaded_file($file["tmp_name"], $target_file)) {
-            return "/Images/avatar/" . basename($file["name"]);
+            return "/Images/avatar/" . $pseudo . '.' . $imageFileType;
         } else {
             return '';
         }
@@ -91,6 +99,7 @@ function saveAvatar($file) {
     <link rel="icon" type="image/png" sizes="64x64" href="../Images/cmwicon.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/sidebar.css">
     <style>
         body {
             background-color: #f8f9fa;
@@ -99,30 +108,6 @@ function saveAvatar($file) {
             margin-left: 250px;
             padding: 20px;
             width: calc(100% - 250px);
-        }
-        .sidebar {
-            width: 250px;
-            height: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: #343a40;
-            padding-top: 20px;
-        }
-        .sidebar a {
-            color: #fff;
-            display: block;
-            padding: 10px 20px;
-            text-decoration: none;
-        }
-        .sidebar a.active {
-            background-color: #212529;
-        }
-        .account-btn {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
         }
         .avatar-image {
             width: 150px;
@@ -146,27 +131,6 @@ function saveAvatar($file) {
     </style>
 </head>
 <body>
-    <nav class="sidebar">
-        <div class="text-center mb-3">
-            <img src="../Images/cmwnoir.png" alt="Logo" class="img-fluid">
-        </div>
-        <a class="nav-link active" href="settings">
-            <i class="bi bi-gear"></i>
-            <span class="ml-2 d-none d-sm-inline">Paramètres</span>
-        </a>
-        <a class="nav-link" href="preferences">
-            <i class="bi bi-sliders"></i>
-            <span class="ml-2 d-none d-sm-inline">Préférences</span>
-        </a>
-        <div class="account-box">
-            <a href="../compte/settings">Paramètres</a>
-            <a href="../auth/logout.php">Déconnexion</a>
-        </div>
-        <button class="btn btn-primary btn-block account-btn">
-            Compte
-        </button>
-    </nav>
-
     <div class="main-content">
         <div class="container">
             <h1 class="my-4 text-center">Paramètres du profil</h1>
@@ -244,4 +208,3 @@ function saveAvatar($file) {
     </div>
 </body>
 </html>
-

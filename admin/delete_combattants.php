@@ -12,7 +12,7 @@ if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte
 }
 
 // Récupérer les combattants depuis la base de données
-$sql = "SELECT * FROM Combattant";
+$sql = "SELECT * FROM COMBATTANT";
 $stmt = $pdo->query($sql);
 $combattants = $stmt->fetchAll();
 
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif (isset($_POST['delete'])) {
         // Supprimer le combattant avec l'ID correspondant
         $id = $_POST['id'];
-        $sql = "DELETE FROM Combattant WHERE combattant_id = :id";
+        $sql = "DELETE FROM COMBATTANT WHERE combattant_id = :id";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         if ($stmt->execute()) {

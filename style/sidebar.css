@@ -1,121 +1,155 @@
+:root {
+  --sidebar-light-bg: #f8f9fa;
+  --sidebar-dark-bg: #343a40;
+  --sidebar-light-text: #212529;
+  --sidebar-dark-text: #f8f9fa;
+  --sidebar-active-bg-light: rgba(0, 123, 255, 0.1);
+  --sidebar-active-bg-dark: rgba(0, 123, 255, 0.1);
+  --sidebar-active-text-light: #007bff;
+  --sidebar-active-text-dark: #007bff;
+}
+
+body {
+  transition: background-color 0.3s ease;
+}
+
+[data-bs-theme="light"] body {
+  background-color: var(--sidebar-light-bg);
+  color: var(--sidebar-light-text);
+}
+
+[data-bs-theme="dark"] body {
+  background-color: var(--sidebar-dark-bg);
+  color: var(--sidebar-dark-text);
+}
+
 .sidebar {
+  width: 10%;
+  font-size: 80%;
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
-  box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
-  width: 250px;
-  background-color: #f8f9fa;
+  z-index: 100;
+  padding-top: 3.5rem;
   transition: all 0.3s ease;
-  overflow-x: hidden;
 }
 
-.sidebar.dark-mode {
-  background-color: #333;
-  color: #fff;
+[data-bs-theme="light"] .sidebar {
+  background-color: var(--sidebar-light-bg);
+  color: var(--sidebar-light-text);
+}
+
+[data-bs-theme="dark"] .sidebar {
+  background-color: var(--sidebar-dark-bg);
+  color: var(--sidebar-dark-text);
 }
 
 .sidebar .nav-link {
-  color: #333;
   padding: 0.5rem 1rem;
   transition: all 0.3s ease;
+}
+
+[data-bs-theme="light"] .sidebar .nav-link {
+  color: var(--sidebar-light-text);
+}
+
+[data-bs-theme="dark"] .sidebar .nav-link {
+  color: var(--sidebar-dark-text);
 }
 
 .sidebar .nav-link i {
   margin-right: 0.5rem;
 }
 
-.sidebar.collapsed {
-  width: 60px;
+[data-bs-theme="light"] .sidebar .nav-link.active {
+  color: var(--sidebar-active-text-light);
+  background-color: var(--sidebar-active-bg-light);
 }
 
-.main-content.collapsed {
-  margin-left: 600px;
+[data-bs-theme="dark"] .sidebar .nav-link.active {
+  color: var(--sidebar-active-text-dark);
+  background-color: var(--sidebar-active-bg-dark);
 }
 
-
-.sidebar.collapsed .nav-link {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  text-align: center;
-}
-
-.sidebar.collapsed .nav-link i {
-  font-size: 1.5rem;
-}
-
-.sidebar .nav-link.active {
-  color: #007bff;
-  background-color: rgba(0, 123, 255, 0.1);
-}
-
-.main-content {
-  transition: margin-left 0.3s ease;
-  margin-left: 200px;
-}
-
-.main-content.collapsed {
-  margin-left: 60px;
-}
-
-.sidebar-content {
-  height: calc(100vh - 128px - 3rem - 2rem);
-}
-
-.account-box {
+.sidebar .account-box {
   position: absolute;
   bottom: 3rem;
   left: 0;
   width: 100%;
-  background-color: #f8f9fa;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.account-box.show {
-  display: block;
+[data-bs-theme="light"] .sidebar .account-box {
+  background-color: var(--sidebar-light-bg);
 }
 
-.account-box a {
-  color: #333;
+[data-bs-theme="dark"] .sidebar .account-box {
+  background-color: var(--sidebar-dark-bg);
+}
+
+.sidebar .account-box a {
   display: block;
   padding: 0.5rem 1rem;
   text-decoration: none;
   transition: all 0.3s ease;
 }
 
-.account-box a:hover {
-  background-color: rgba(0, 123, 255, 0.1);
+[data-bs-theme="light"] .sidebar .account-box a {
+  color: var(--sidebar-light-text);
 }
 
-.account-btn {
+[data-bs-theme="dark"] .sidebar .account-box a {
+  color: var(--sidebar-dark-text);
+}
+
+.sidebar .account-btn {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   height: 3rem;
   border-radius: 0;
+  background-color: var(--bs-primary);
+  color: var(--bs-light);
+}
+
+.sidebar img {
+  width: 50%; 
+  height: auto; 
+}
+
+@media (max-width: 1280px) {
+  .sidebar {
+    font-size: 75%;
+    width: 10%;
+  }
 }
 
 @media (max-width: 768px) {
   .sidebar {
     width: 0;
     padding: 0;
+    overflow-x: hidden;
+  }
+
+  .sidebar.collapsed {
+    width: 250px;
   }
 
   .main-content {
     margin-left: 0;
   }
 
-  .account-box {
-    bottom: 63px;
+  .sidebar-toggle {
+    display: block;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1100;
+  }
+
+  .main-content.collapsed {
+    margin-left: 250px;
   }
 }
-.main-content {
-  transition: margin-left 0.3s ease;
-  margin-left: 250px;
-}
-
-.main-content.collapsed {
-  margin-left: 600px;
-}
-

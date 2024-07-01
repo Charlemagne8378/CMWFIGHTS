@@ -31,7 +31,6 @@ if (isset($_GET['db'])) {
     <link rel="icon" type="image/png" sizes="64x64" href="../Images/cmwicon.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../style/sidebar.css">
 </head>
 <body>
@@ -47,8 +46,12 @@ if (isset($_GET['db'])) {
         <a href="bdd" class="btn btn-primary">Retour à la Liste des Bases de Données</a>
     </div>
 </div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
+<script>
+            $(document).ready(function() {
+                $('.account-btn').click(function() {
+                    $('.account-box').toggleClass('show');
+                });
+            });
+</script>
 </body>
 </html>

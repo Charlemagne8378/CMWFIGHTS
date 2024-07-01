@@ -1,6 +1,6 @@
 <nav class="sidebar">
     <div class="text-center mb-4">
-        <img src="../Images/cmwnoir.png" alt="Logo" width="128" height="128">
+        <img src="../Images/cmw_icon.png" alt="Logo" width="128" height="128">
     </div>
     <ul class="nav flex-column">
         <?php
@@ -10,6 +10,7 @@
         $menuItems = [
             'admin' => ['label' => 'Admin', 'icon' => 'bi bi-house-door'],
             'utilisateurs' => ['label' => 'Utilisateurs', 'icon' => 'bi bi-person-lines-fill'],
+            'combat' => ['label' => 'Combats', 'icon' => 'bi bi-shield-fill', 'color' => 'btn-shield'],
             'evenements' => ['label' => 'Événements', 'icon' => 'bi bi-calendar-event'],
             'modifier_utilisateur' => ['label' => 'Modifier le compte', 'icon' => 'bi bi-pencil-square'],
             'classement' => ['label' => 'Classement', 'icon' => 'bi bi-bar-chart'],
@@ -38,11 +39,12 @@
         }
         ?>
     </ul>
-    <div class="form-check form-switch d-flex justify-content-center align-items-center">
+    <div class="d-flex align-items-center justify-content-center mt-4 mb-4">
         <i class="bi bi-sun-fill text-warning me-2"></i>
         <input class="form-check-input" type="checkbox" id="darkModeToggle">
-        <i class="bi bi-moon-fill text-dark ms-2"></i>
+        <label class="ms-2 mb-0" for="darkModeToggle"><i class="bi bi-moon-fill text-dark"></i></label>
     </div>
+
 
     <div class="account-box collapse" id="account-box">
         <a href="/">Page Utilisateur</a>
@@ -56,13 +58,20 @@
 
 <script>
     const darkModeToggle = document.getElementById('darkModeToggle');
-    
+    const applyTheme = (theme) => {
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        if (theme === 'dark') {
+            darkModeToggle.checked = true;
+        } else {
+            darkModeToggle.checked = false;
+        }
+    };
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    applyTheme(savedTheme);
 
     darkModeToggle.addEventListener('change', () => {
-        if (darkModeToggle.checked) {
-            document.documentElement.setAttribute('data-bs-theme', 'dark');
-        } else {
-            document.documentElement.setAttribute('data-bs-theme', 'light');
-        }
+        const theme = darkModeToggle.checked ? 'dark' : 'light';
+        applyTheme(theme);
+        localStorage.setItem('theme', theme);
     });
 </script>

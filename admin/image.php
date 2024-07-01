@@ -15,8 +15,58 @@ $pdo = null;
 $error = "";
 $success = "";
 
+$targetDirectory = '../Images';
+$thumbnailDirectory = $targetDirectory . '/thumbnails';
+
+if (!file_exists($thumbnailDirectory)) {
+    mkdir($thumbnailDirectory, 0777, true);
+}
+
+function createThumbnail($sourcePath, $destPath, $thumbWidth = 200) {
+    list($width, $height, $type) = getimagesize($sourcePath);
+    $thumbHeight = ($thumbWidth / $width) * $height;
+
+    // Convertir les dimensions en entier
+    $thumbWidth = (int) round($thumbWidth);
+    $thumbHeight = (int) round($thumbHeight);
+
+    $thumb = imagecreatetruecolor($thumbWidth, $thumbHeight);
+
+    switch ($type) {
+        case IMAGETYPE_JPEG:
+            $source = imagecreatefromjpeg($sourcePath);
+            break;
+        case IMAGETYPE_PNG:
+            $source = imagecreatefrompng($sourcePath);
+            break;
+        case IMAGETYPE_GIF:
+            $source = imagecreatefromgif($sourcePath);
+            break;
+        default:
+            return false;
+    }
+
+    imagecopyresampled($thumb, $source, 0, 0, 0, 0, $thumbWidth, $thumbHeight, $width, $height);
+
+    switch ($type) {
+        case IMAGETYPE_JPEG:
+            imagejpeg($thumb, $destPath);
+            break;
+        case IMAGETYPE_PNG:
+            imagepng($thumb, $destPath);
+            break;
+        case IMAGETYPE_GIF:
+            imagegif($thumb, $destPath);
+            break;
+    }
+
+    imagedestroy($thumb);
+    imagedestroy($source);
+
+    return true;
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_FILES["image"])) {
-    $targetDirectory = '../Images';
     $originalFileName = basename($_FILES["image"]["name"]);
     $fileExtension = pathinfo($originalFileName, PATHINFO_EXTENSION);
 
@@ -24,31 +74,57 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_FILES["image"])) {
     if (!in_array(strtolower($fileExtension), $allowedTypes)) {
         $error = "Seules les images sont autorisées.";
     } else if ($_FILES["image"]["size"] > 10000000) {
-        $error = "La taille de l'image dépasse la limite.";    
+        $error = "La taille de l'image dépasse la limite.";
     } else {
         $fileName = isset($_POST["filename"]) ? basename($_POST["filename"]) : "default";
         $targetFile = $targetDirectory . DIRECTORY_SEPARATOR . $fileName . '.' . $fileExtension;
-
-        if (!file_exists($targetDirectory)) {
-            mkdir($targetDirectory, 0777, true);
-        }
+        $thumbnailFile = $thumbnailDirectory . DIRECTORY_SEPARATOR . $fileName . '.' . $fileExtension;
 
         if ($_FILES["image"]["error"] > 0) {
             $error = "Erreur lors du téléchargement de l'image : " . $_FILES["image"]["error"];
         } else {
             if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
-                $success = "L'image a été importée avec succès.";
+                if (createThumbnail($targetFile, $thumbnailFile)) {
+                    $success = "L'image a été importée avec succès.";
+                } else {
+                    $error = "Erreur lors de la création de la miniature.";
+                }
             } else {
                 $error = "Erreur lors de l'importation de l'image. Vérifiez les permissions du répertoire cible.";
             }
         }
     }
 }
+
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete_images"])) {
+    $imagesToDelete = $_POST["images"] ?? [];
+    foreach ($imagesToDelete as $image) {
+        $filePath = $targetDirectory . DIRECTORY_SEPARATOR . $image;
+        $thumbnailPath = $thumbnailDirectory . DIRECTORY_SEPARATOR . $image;
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
+        if (file_exists($thumbnailPath)) {
+            unlink($thumbnailPath);
+        }
+    }
+    $success = "Les images sélectionnées ont été supprimées avec succès.";
+}
+
+$images = [];
+if (is_dir($thumbnailDirectory)) {
+    $dir = opendir($thumbnailDirectory);
+    while (($file = readdir($dir)) !== false) {
+        if ($file != '.' && $file != '..' && in_array(pathinfo($file, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif'])) {
+            $images[] = $file;
+        }
+    }
+    closedir($dir);
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -84,29 +160,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_FILES["image"])) {
             <button type="submit" class="btn btn-primary">Importer</button>
         </form>
 
+        <h3 class="mt-5 mb-4">Images Importées</h3>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <div class="row">
+                <?php foreach ($images as $image): ?>
+                    <div class="col-md-3 col-sm-4 col-6 mb-4">
+                        <div class="card">
+                            <img src="<?php echo $thumbnailDirectory . '/' . $image; ?>" alt="<?php echo htmlspecialchars($image); ?>" class="card-img-top" style="max-height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <p class="card-text text-center"><?php echo htmlspecialchars($image); ?></p>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="images[]" value="<?php echo htmlspecialchars($image); ?>" id="image_<?php echo htmlspecialchars($image); ?>">
+                                    <label class="form-check-label" for="image_<?php echo htmlspecialchars($image); ?>">Sélectionner</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <button type="submit" name="delete_images" class="btn btn-danger mt-3">Supprimer les images sélectionnées</button>
+        </form>
+
         <a href="admin" class="btn btn-secondary mt-3">Retour</a>
     </div>
-
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                $('.modifier-question').click(function() {
-                    const questionId = $(this).data('id');
-                    const question = $(this).data('question');
-                    const answer = $(this).data('answer');
-
-                    $('#modal_question_id').val(questionId);
-                    $('#modal_question').val(question);
-                    $('#modal_answer').val(answer);
-                });
-
-                $('.account-btn').click(function() {
-                    $('.account-box').toggleClass('show');
-                });
-            });
-        </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         function updateFilename() {
             var fileInput = document.getElementById('image');
@@ -115,6 +192,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_FILES["image"])) {
             filenameInput.value = fileNameWithoutExtension;
         }
     </script>
+<script>
+            $(document).ready(function() {
+                $('.account-btn').click(function() {
+                    $('.account-box').toggleClass('show');
+                });
+            });
+</script>
 </body>
-
 </html>
