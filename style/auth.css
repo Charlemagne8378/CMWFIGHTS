@@ -1,0 +1,257 @@
+/* Styles communs */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgb(116, 115, 115);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+
+/* Formulaire d'inscription */
+.signup-container {
+    max-width: 650px;
+    padding: 28px;
+    margin: 0 28px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.6);
+}
+
+.signup-container h2 {
+    font-size: 26px;
+    font-weight: bold;
+    text-align: left;
+    color: aliceblue;
+    padding-bottom: 8px;
+    border-bottom: 1px solid white;
+}
+
+.signup-container .content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+
+.signup-container .input-box {
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+    padding-bottom: 15px;
+}
+
+.signup-container .input-box:nth-child(2n) {
+    justify-content: end;
+}
+
+.signup-container .input-box label, 
+.signup-container .gender-title {
+    width: 95%;
+    color: aliceblue;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.signup-container .gender-title {
+    font-size: 16px;
+}
+
+.signup-container .input-box input {
+    height: 40px;
+    width: 95%;
+    padding: 0 10px;
+    border-radius: 5px;
+    border: 1px solid white;
+    outline: none;
+}
+
+.signup-container .input-box input:is(:focus,:valid) {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.signup-container .gender-category label {
+    padding: 0 20px 0 5px;
+    font-size: 14px;
+}
+
+.signup-container .gender-category {
+    color: gainsboro;
+}
+
+.signup-container .gender-category label, 
+.signup-container .gender-category input {
+    cursor: pointer;
+}
+
+.signup-container .alert p {
+    font-size: 14px;
+    font-style: italic;
+    color: aliceblue;
+    margin: 5px 0;
+    padding: 10px;
+    line-height: 1.5;
+}
+
+.signup-container .button-container {
+    margin: 15px 0;
+}
+
+.signup-container .button-container button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    display: block;
+    font-size: 20px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    background-color: black;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.signup-container .button-container button:hover {
+    background-color: aliceblue;
+    color: black;
+}
+
+/* Media Queries */
+@media (max-width: 600px) {
+    .signup-container {
+        min-width: 280px;
+    }
+    .signup-container .content {
+        max-height: 380px;
+        overflow: auto;
+    }
+    .signup-container .input-box {
+        margin-bottom: 12px;
+        width: 100%;
+    }
+    .signup-container .input-box:nth-child(2n) {
+        justify-content: space-between;
+    }
+    .signup-container .gender-category {
+        display: flex;
+        justify-content: space-between;
+        width: 60%;
+    }
+    .signup-container .content::-webkit-scrollbar {
+        width: 0;
+    }
+}
+
+/* Formulaire de connexion */
+.login-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.login-container form {
+    width: 380px;
+    height: auto;
+    border: 3px solid white;
+    border-radius: 10px;
+    box-shadow: 0 12px 20px wheat;
+    overflow: hidden;
+}
+
+.login-container h2 {
+    text-align: center;
+    color: aliceblue;
+}
+
+.login-container .container {
+    padding: 16px;
+}
+
+.login-container input[type=text], 
+.login-container input[type=password] {
+    width: 100%;
+    border: 1px solid white;
+    border-radius: 5px;
+    margin: 8px 0;
+    padding: 12px 20px;
+    box-sizing: border-box;
+}
+
+.login-container input[type=text]:focus, 
+.login-container input[type=password]:focus {
+    outline: 1px solid white;
+}
+
+.login-container button {
+    border: none;
+    cursor: pointer;
+    margin: 8px 0;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    background-color: black;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.login-container #login-btn {
+    width: 100%;
+    text-transform: uppercase;
+    padding: 14px 20px;
+    background-image: linear-gradient(to right, black, white);
+}
+
+.login-container #login-btn:hover {
+    background-image: linear-gradient(to right, white, black);
+}
+
+.login-container label[for=remember] {
+    font-size: 14px;
+    color: aliceblue;
+}
+
+.login-container #forgot-password {
+    font-size: 14px;
+    float: right;
+    padding-top: 3px;
+    text-decoration: none;
+    color: wheat;
+}
+
+.login-container #forgot-password:hover {
+    text-decoration: underline;
+}
+
+.login-container .member {
+    text-align: center;
+    padding: 14px;
+    border-top: 2px solid white;
+}
+
+.login-container #create-btn {
+    padding: 12px 14px;
+    background-color: wheat;
+    color: black;
+}
+
+.login-container #create-btn:hover {
+    background-color: black;
+    color: wheat;
+}
+
+.login-container #create-btn a {
+    text-decoration: none;
+    color: black;
+}
+
+.login-container #create-btn a:hover {
+    color: wheat;
+}
