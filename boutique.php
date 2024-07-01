@@ -1,5 +1,5 @@
 <?php
-//session_start();
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -126,7 +126,7 @@
             <div class="content">
                 <h4 class="name"><?=$row['name']?></h4>
                 <h2 class="price"><?=$row['price']?>€</h2>
-                <a href="#" class="id_product">Ajouter au panier</a>
+                <a href="ajouter_panier.php" class="id_product">Ajouter au panier</a>
             </div>
         </form>
         <?php } ?>

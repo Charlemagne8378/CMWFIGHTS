@@ -79,7 +79,7 @@
                 <th>Action</th>
             </tr>
             <tr>
-                <td><img src="/Images/tshirtCMW.JPG"></td>
+                <td><img src="tshirtCMW.JPG"></td>
                 <td>Tshirt en Jersey CMW X INOFLEX</td>
                 <td>50€</td>
                 <td>5</td>

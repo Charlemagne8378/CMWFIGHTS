@@ -10,7 +10,7 @@
         $menuItems = [
             'settings' => ['label' => 'Paramètres', 'icon' => 'bi bi-house-door'],
             'preferences' => ['label' => 'Préférence', 'icon' => 'bi bi-person-lines-fill'],
-            'dessin' => ['label' => 'Dessin', 'icon' => 'bi bi-calendar-event'],
+            'z' => ['label' => 'Éz', 'icon' => 'bi bi-calendar-event'],
         ];
 
         foreach ($menuItems as $page => $item) {
