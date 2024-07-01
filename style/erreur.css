@@ -1,0 +1,22 @@
+.pre-scrollable {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+.card {
+    margin: 20px auto;
+    max-width: 95%;
+    margin-left: 2.5%;
+}
+.card-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+@media (max-width: 768px) {
+    .pre-scrollable {
+        max-height: 50vh;
+    }
+    .card {
+        max-width: 90%;
+        margin-left: 5%;
+    }
+}

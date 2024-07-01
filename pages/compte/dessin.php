@@ -24,22 +24,7 @@ require_once '../../require/sidebar_compte.php';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/sidebar.css">
-    <style>
-        .canvas-container {
-            display: none;
-            text-align: center;
-            margin-top: 20px;
-        }
-        .controls-container {
-            display: none;
-            text-align: center;
-            margin-top: 10px;
-        }
-        #canvas {
-            border: 1px solid #000;
-            background-color: #fff;
-        }
-    </style>
+    <link rel="stylesheet" href="../../style/dessin.css">
 </head>
 <body>
     <div class="container">

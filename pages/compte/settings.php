@@ -100,35 +100,7 @@ function saveAvatar($file, $pseudo) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/sidebar.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .main-content {
-            margin-left: 250px;
-            padding: 20px;
-            width: calc(100% - 250px);
-        }
-        .avatar-image {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 50%;
-            margin: 0 auto;
-            display: block;
-            position: relative;
-        }
-        .avatar-button {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            padding: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="../../style/settings.css">
 </head>
 <body>
     <div class="main-content">

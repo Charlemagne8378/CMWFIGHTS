@@ -7,30 +7,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../style/sidebar.css">
-    <style>
-        .pre-scrollable {
-            max-height: 70vh;
-            overflow-y: auto;
-        }
-        .card {
-            margin: 20px auto;
-            max-width: 95%;
-            margin-left: 2.5%;
-        }
-        .card-footer {
-            display: flex;
-            justify-content: flex-end;
-        }
-        @media (max-width: 768px) {
-            .pre-scrollable {
-                max-height: 50vh;
-            }
-            .card {
-                max-width: 90%;
-                margin-left: 5%;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../style/erreur.css">
 </head>
 <body>
     <div class="container-fluid mt-5">
