@@ -19,8 +19,8 @@ try {
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (isset($_POST["csrf_token"], $_POST["question"], $_POST["answer"]) && hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
-            $question = htmlspecialchars(trim($_POST["question"]));
-            $answer = htmlspecialchars(trim($_POST["answer"]));
+            $question = trim($_POST["question"]);
+            $answer = trim($_POST["answer"]);
 
             if (!empty($question) && !empty($answer)) {
                 $stmt = $pdo->prepare("INSERT INTO CAPTCHA (question, answer) VALUES (:question, :answer)");
@@ -30,7 +30,7 @@ try {
                 if ($stmt->execute()) {
                     $message = "La question a été ajoutée avec succès.";
                 } else {
-                    $error = "Erreur lors de l'ajout de la question.";
+                    $error = "Erreur lors de l'ajout de la question : " . $stmt->errorInfo()[2];
                 }
             } else {
                 $error = "Les champs de question et de réponse ne peuvent pas être vides.";
