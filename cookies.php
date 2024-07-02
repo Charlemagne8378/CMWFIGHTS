@@ -3,28 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Cookies</title>
-    <style>
-        .cookie-banner {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #333;
-    color: #fff;
-    padding: 10px;
-    text-align: center;
-}
-
-.accept-cookies-btn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-    </style>
+    <link rel="stylesheet" href="style/cookies.css">
 </head>
 <body>
     <div id="cookieBanner" class="cookie-banner">
