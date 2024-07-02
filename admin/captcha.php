@@ -47,6 +47,20 @@ try {
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
+
+$limit = 10;
+$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+$offset = ($page - 1) * $limit;
+
+$sql_count = "SELECT COUNT(*) FROM CAPTCHA";
+$total_results = $pdo->query($sql_count)->fetchColumn();
+$total_pages = ceil($total_results / $limit);
+
+$sql = "SELECT id, question, answer FROM CAPTCHA LIMIT :limit OFFSET :offset";
+$stmt = $pdo->prepare($sql);
+$stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+$stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+$stmt->execute();
 ?>
 
 <!DOCTYPE html>
@@ -100,9 +114,6 @@ if (empty($_SESSION['csrf_token'])) {
                     </thead>
                     <tbody>
                         <?php
-                        $sql = "SELECT id, question, answer FROM CAPTCHA";
-                        $stmt = $pdo->query($sql);
-
                         if ($stmt->rowCount() > 0) {
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                 echo "<tr>";
@@ -110,8 +121,7 @@ if (empty($_SESSION['csrf_token'])) {
                                 echo "<td>" . htmlspecialchars($row["question"]) . "</td>";
                                 echo "<td>" . htmlspecialchars($row["answer"]) . "</td>";
                                 echo '<td>
-                                        <button class="btn btn-primary btn-sm modifier-question" data-bs-toggle="modal" data-bs-target="#modifierQuestionModal"
-                                        data-id="' . $row["id"] . '" data-question="' . htmlspecialchars($row["question"]) . '" data-answer="' . htmlspecialchars($row["answer"]) . '">Modifier</button>
+                                        <a href="../process/captcha/modifier_question.php?id=' . $row["id"] . '" class="btn btn-primary btn-sm">Modifier</a>
                                         <form action="../process/supprimer_question.php" method="post" style="display: inline-block;">
                                             <input type="hidden" name="csrf_token" value="' . $_SESSION['csrf_token'] . '">
                                             <input type="hidden" name="question_id" value="' . $row["id"] . '">
@@ -127,33 +137,17 @@ if (empty($_SESSION['csrf_token'])) {
                     </tbody>
                 </table>
             </div>
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                        <li class="page-item <?php echo ($i == $page) ? 'active' : ''; ?>">
+                            <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                        </li>
+                    <?php endfor; ?>
+                </ul>
+            </nav>
         </div>
     </div>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('.modifier-question').click(function() {
-                const questionId = $(this).data('id');
-                const question = $(this).data('question');
-                const answer = $(this).data('answer');
-
-                $('#modal_question_id').val(questionId);
-                $('#modal_question').val(question);
-                $('#modal_answer').val(answer);
-            });
-        });
-    </script>
-    <script>
-        function toggleAccountBox() {
-            var accountBox = document.querySelector('.account-box');
-            accountBox.classList.toggle('show');
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            var accountBtn = document.querySelector('.account-btn');
-            accountBtn.addEventListener('click', toggleAccountBox);
-        });
-    </script>
 </body>
 
 </html>

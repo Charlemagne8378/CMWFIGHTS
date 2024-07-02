@@ -2,6 +2,7 @@
 // Inclure le fichier de configuration de la base de données
 require_once '../require/config/config.php';
 session_start();
+require_once '../require/sidebar/sidebar.php';
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -151,7 +152,9 @@ unset($stmt);
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Backend - Créer un combattant</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../style/sidebar.css">
     <link rel="stylesheet" href="../style/combattant.css">
 </head>
 <body>
