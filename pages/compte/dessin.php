@@ -11,7 +11,7 @@ if (!isset($_SESSION['utilisateur_connecte'])) {
     header('Location: ../../auth/connexion');
     exit();
 }
-require_once '../../require/sidebar_compte.php';
+require_once '../../require/sidebar/sidebar_compte.php';
 ?>
 
 <!DOCTYPE html>

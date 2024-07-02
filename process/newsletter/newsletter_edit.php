@@ -1,6 +1,6 @@
 <?php
 require_once '../../require/config/config.php';
-require_once '../../require/sidebar_newsletters.php';
+require_once '../../require/sidebar/sidebar_newsletters.php';
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $stmt = $pdo->prepare("SELECT * FROM NEWSLETTERS WHERE id = :id");

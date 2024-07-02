@@ -12,8 +12,8 @@
 </head>
 
 <body>
-    <?php require_once '../require/sidebar.php'; ?>
-    <div class="container mt-5 mx-auto"> <!-- Ajout de la classe mx-auto pour centrer -->
+    <?php require_once '../require/sidebar/sidebar.php'; ?>
+    <div class="container mt-5 mx-auto"> 
         <?php
         $limit = 20;
         $page = isset($_GET['page']) ? $_GET['page'] : 1;

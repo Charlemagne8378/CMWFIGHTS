@@ -1,6 +1,6 @@
 <?php
 require_once '../require/config/config.php';
-require_once '../require/sidebar.php';
+require_once '../require/sidebar/sidebar.php';
 
 $limit = 5;
 $page_drafts = isset($_GET['page_drafts']) ? (int)$_GET['page_drafts'] : 1;

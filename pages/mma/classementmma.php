@@ -24,46 +24,7 @@ $classementmma = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Classement MMA</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: 'Arial', sans-serif;
-        }
-        .wrapper {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .section-title {
-            margin-top: 40px;
-            font-size: 28px;
-            font-weight: bold;
-            text-transform: uppercase;
-            border-bottom: 2px solid #f8f9fa;
-            padding-bottom: 10px;
-        }
-        .champion-photo {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #f8f9fa;
-            margin-bottom: 20px;
-        }
-        .table {
-            color: #ffffff;
-            background-color: #1f1f1f;
-            margin-top: 20px;
-        }
-        .table th, .table td {
-            vertical-align: middle;
-        }
-
-        h2{
-            margin-top : 150px;
-        }
-    </style>
+    <link rel="stylesheet" href="../../style/classementboxe.css">
 </head>
 <body>
     <?php include '../../header.php' ?>

@@ -9,7 +9,7 @@ if (!isset($_SESSION['utilisateur_connecte'])) {
     header('Location: ../../auth/connexion');
     exit();
 }
-require_once '../../require/sidebar_compte.php';
+require_once '../../require/sidebar/sidebar_compte.php';
 ?>
 
 <!DOCTYPE html>
@@ -22,93 +22,7 @@ require_once '../../require/sidebar_compte.php';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/sidebar.css">
-    <style>
-        :root {
-            --btn-primary-bg: #ff7043;
-            --btn-primary-hover-bg: #ff5722;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: auto;
-        }
-
-        .preferences-container {
-            margin-top: 20px;
-        }
-
-        .data-access-container, .info-comm-container {
-            border: 1px solid #e0e0e0;
-            border-radius: 5px;
-            padding: 20px;
-            background-color: var(--sidebar-light-bg);
-            margin-top: 20px;
-        }
-
-        .data-access-container h2, .info-comm-container h2 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        .data-access-container p, .info-comm-container p {
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-
-        .data-access-container button, .info-comm-container button {
-            background-color: var(--btn-primary-bg);
-            border: none;
-            padding: 10px 20px;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .data-access-container button:hover, .info-comm-container button:hover {
-            background-color: var(--btn-primary-hover-bg);
-        }
-
-        .info-comm-container label {
-            display: flex;
-            align-items: center;
-            font-size: 16px;
-            margin-bottom: 10px;
-        }
-
-        .info-comm-container input[type="checkbox"] {
-            margin-right: 10px;
-        }
-
-        .info-comm-container a {
-            color: var(--btn-primary-bg);
-            text-decoration: none;
-        }
-
-        .info-comm-container a:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 768px) {
-            .d-flex {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .btn-group {
-                flex-direction: column;
-                margin-bottom: 10px;
-            }
-        }
-
-        [data-bs-theme="dark"] .data-access-container, [data-bs-theme="dark"] .info-comm-container {
-            background-color: var(--sidebar-dark-bg);
-            color: var(--sidebar-dark-text);
-        }
-
-        [data-bs-theme="dark"] .info-comm-container a {
-            color: var(--sidebar-dark-text);
-        }
-    </style>
+    <link rel="stylesheet" href="../../style/preference.css">
 </head>
 <body>
     <div class="d-flex">

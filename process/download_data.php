@@ -49,13 +49,18 @@ class PDF extends FPDF
                 $this->Cell(0, 10, $label, 0, 1, 'L');
                 $this->SetFont('Arial', '', 12);
                 $value = '';
+                
                 if ($key === 'email_verifie') {
-                    $value = $user[$key] ? 'Vérifié' : 'Non vérifié';
+                    $value = $user[$key] ? 'Verifie' : 'Non verifie';
                 } elseif ($key === 'newsletter') {
                     $value = $user[$key] ? 'Inscrit' : 'Non inscrit';
                 } else {
                     $value = $user[$key];
                 }
+                
+                // Convertir la valeur en minuscules
+                $value = mb_strtolower($value, 'UTF-8');
+                
                 $this->MultiCell(0, 10, $value, 1, 'L', true);
                 $this->SetFillColor(180, 180, 180);
                 $this->Cell(0, 0, '', 'T', 1, 'L', true);
@@ -75,7 +80,7 @@ $custom_header = [
     'genre' => 'Genre',
     'type' => 'Type',
     'email_verifie' => 'Statut de l\'e-mail',
-    'newsletter' => 'Inscription à la newsletter'
+    'newsletter' => 'Inscription a la newsletter'
 ];
 
 $stmt = $pdo->prepare('SELECT pseudo, nom, adresse_email, genre, type, email_verifie, newsletter FROM UTILISATEUR WHERE id = :user_id');

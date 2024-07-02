@@ -1,5 +1,5 @@
 <?php
-require_once '../require/sidebar.php';
+require_once '../require/sidebar/sidebar.php';
 ?>
 
 <!DOCTYPE html>

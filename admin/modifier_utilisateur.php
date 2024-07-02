@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 
 session_start();
 require_once '../require/config/config.php';
-require_once '../require/sidebar.php';
+require_once '../require/sidebar/sidebar.php';
 
 if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte']['type'] != 'admin') {
     header('Location: ../auth/connexion');
