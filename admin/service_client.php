@@ -1,5 +1,6 @@
 <?php
 require_once '../require/config/config.php';
+require_once '../require/sidebar.php';
 session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -21,16 +22,13 @@ try {
         $response = $_POST['response'];
         $id = $_POST['id'];
         
-      
         $stmt = $pdo->prepare("SELECT email FROM MESSAGES WHERE id = :id");
         $stmt->execute(['id' => $id]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         $userEmail = $row['email'];
 
-        
         $stmt = $pdo->prepare("UPDATE MESSAGES SET response = :response WHERE id = :id");
         $stmt->execute(['response' => $response, 'id' => $id]);
-        
         
         $to = $userEmail;
         $subject = "Réponse à votre message";
@@ -56,29 +54,39 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>Messages Reçus</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../style/sidebar.css">
 </head>
 <body>
-    <h1>Messages Reçus</h1>
-    <?php
-    if (count($messages) > 0) {
-        foreach ($messages as $row) {
-            echo "<div class='message'>";
-            echo "<p><strong>Email:</strong> " . htmlspecialchars($row["email"]) . "</p>";
-            echo "<p><strong>Message:</strong> " . htmlspecialchars($row["message"]) . "</p>";
-            if ($row["response"]) {
-                echo "<p><strong>Réponse:</strong> " . htmlspecialchars($row["response"]) . "</p>";
-            } else {
-                echo "<form method='post' action='service_client.php'>";
-                echo "<input type='hidden' name='id' value='" . htmlspecialchars($row["id"]) . "'>";
-                echo "<textarea name='response' required></textarea><br>";
-                echo "<input type='submit' value='Répondre'>";
-                echo "</form>";
+    <div class="container mt-5">
+        <h1 class="mb-4">Messages Reçus</h1>
+        <?php
+        if (count($messages) > 0) {
+            foreach ($messages as $row) {
+                echo "<div class='card mb-3'>";
+                echo "<div class='card-body'>";
+                echo "<h5 class='card-title'>Email: " . htmlspecialchars($row["email"]) . "</h5>";
+                echo "<p class='card-text'><strong>Message:</strong> " . htmlspecialchars($row["message"]) . "</p>";
+                if ($row["response"]) {
+                    echo "<p class='card-text'><strong>Réponse:</strong> " . htmlspecialchars($row["response"]) . "</p>";
+                } else {
+                    echo "<form method='post' action='service_client.php'>";
+                    echo "<input type='hidden' name='id' value='" . htmlspecialchars($row["id"]) . "'>";
+                    echo "<div class='mb-3'>";
+                    echo "<label for='response' class='form-label'>Réponse</label>";
+                    echo "<textarea class='form-control' name='response' rows='3' required></textarea>";
+                    echo "</div>";
+                    echo "<button type='submit' class='btn btn-primary'>Répondre</button>";
+                    echo "</form>";
+                }
+                echo "</div>";
+                echo "</div>";
             }
-            echo "</div>";
+        } else {
+            echo "<p>Aucun message reçu.</p>";
         }
-    } else {
-        echo "Aucun message reçu.";
-    }
-    ?>
+        ?>
+    </div>
 </body>
 </html>

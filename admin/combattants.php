@@ -152,12 +152,7 @@ unset($stmt);
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Backend - Créer un combattant</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        .wrapper {
-            width: 600px;
-            margin: 0 auto;
-        }
-    </style>
+    <link rel="stylesheet" href="../style/combattant.css">
 </head>
 <body>
     <div class="wrapper">

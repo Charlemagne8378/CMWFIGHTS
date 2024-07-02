@@ -183,7 +183,6 @@ if (is_dir($thumbnailDirectory)) {
 
         <a href="admin" class="btn btn-secondary mt-3">Retour</a>
     </div>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         function updateFilename() {
             var fileInput = document.getElementById('image');
@@ -192,12 +191,5 @@ if (is_dir($thumbnailDirectory)) {
             filenameInput.value = fileNameWithoutExtension;
         }
     </script>
-<script>
-            $(document).ready(function() {
-                $('.account-btn').click(function() {
-                    $('.account-box').toggleClass('show');
-                });
-            });
-</script>
 </body>
 </html>
