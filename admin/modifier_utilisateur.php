@@ -185,12 +185,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="button" class="btn btn-primary mt-3" onclick="window.location.href='../process/download_data'">Télécharger les données utilisateur</button>
         </div>
     </div>
-    <script>
-            $(document).ready(function() {
-                $('.account-btn').click(function() {
-                    $('.account-box').toggleClass('show');
-                });
-            });
-</script>
+    <script src="../scripts/compte.js"></script>
 </body>
 </html>

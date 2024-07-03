@@ -66,5 +66,6 @@ $categories = $stmt_categories->fetchAll(PDO::FETCH_ASSOC);
             <a href="back_classementboxe.php" class="btn btn-primary">Modifier classement Boxe</a>
         </form>
     </div>
+    <script src="../scripts/compte.js"></script>
 </body>
 </html>

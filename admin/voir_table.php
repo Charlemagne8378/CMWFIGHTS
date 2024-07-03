@@ -105,12 +105,6 @@ function getFirstColumn($pdo, $table) {
         <a href="tables?db=<?php echo urlencode($db); ?>" class="btn btn-primary">Retour à la Liste des Tables</a>
     </div>
 </div>
-<script>
-            $(document).ready(function() {
-                $('.account-btn').click(function() {
-                    $('.account-box').toggleClass('show');
-                });
-            });
-</script>
+<script src="../scripts/compte.js"></script>
 </body>
 </html>

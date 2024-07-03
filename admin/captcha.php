@@ -148,6 +148,7 @@ $stmt->execute();
             </nav>
         </div>
     </div>
+    <script src="../scripts/compte.js"></script>
 </body>
 
 </html>

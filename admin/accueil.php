@@ -296,5 +296,6 @@ catch (PDOException $e) {
         <input type="submit" value="Modifier la nouvelle">
         <input type="hidden" id="news_id" name="news_id1" value="3">
     </form>
+    <script src="../scripts/compte.js"></script>
 </body>
 </html>

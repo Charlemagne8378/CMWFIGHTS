@@ -55,6 +55,8 @@ require_once '../../require/sidebar/sidebar_compte.php';
             </div>
         </div>
     </div>
-<script src="../../js/dessin.js"></script>
+<script src="../../scripts/dessin.js"></script>
+<script src="../../scripts/compte.js"></script>
+<script src="../../scripts/easter_egg.js"></script>
 </body>
 </html>

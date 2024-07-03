@@ -160,12 +160,6 @@ function renderPagination($total, $limit, $page, $param) {
         </div>
     </div>
 </div>
-<script>
-            $(document).ready(function() {
-                $('.account-btn').click(function() {
-                    $('.account-box').toggleClass('show');
-                });
-            });
-</script>
+<script src="../scripts/compte.js"></script>
 </body>
 </html>

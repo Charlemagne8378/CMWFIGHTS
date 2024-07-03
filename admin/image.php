@@ -191,5 +191,6 @@ if (is_dir($thumbnailDirectory)) {
             filenameInput.value = fileNameWithoutExtension;
         }
     </script>
+    <script src="../scripts/compte.js"></script>
 </body>
 </html>

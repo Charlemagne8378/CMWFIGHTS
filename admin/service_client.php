@@ -88,5 +88,6 @@ try {
         }
         ?>
     </div>
+    <script src="../scripts/compte.js"></script>
 </body>
 </html>

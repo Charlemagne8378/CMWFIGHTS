@@ -32,6 +32,7 @@
 
 
     <div class="account-box collapse" id="account-box">
+        <a href="/">Page d'accueil</a>
         <a href="../auth/logout.php">Déconnexion</a>
     </div>
     <button class="btn btn-primary btn-block account-btn" data-bs-toggle="collapse" data-bs-target="#account-box">

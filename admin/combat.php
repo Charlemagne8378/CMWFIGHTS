@@ -179,5 +179,6 @@ $combats = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </tbody>
         </table>
     </div>
+    <script src="../scripts/compte.js"></script>
 </body>
 </html>

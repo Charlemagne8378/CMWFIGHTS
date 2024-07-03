@@ -126,7 +126,6 @@
         echo '</form>';
         ?>
     </div>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         var modifierButtons = document.querySelectorAll('.modifier-question');
@@ -140,14 +139,9 @@
                 document.getElementById('modal_answer').value = answer;
             });
         });
-
-        var accountButton = document.querySelector('.account-btn');
-        accountButton.addEventListener('click', function() {
-            var accountBox = document.querySelector('.account-box');
-            accountBox.classList.toggle('show');
-        });
     });
 </script>
+<script src="../scripts/compte.js"></script>
 </body>
 
 </html>

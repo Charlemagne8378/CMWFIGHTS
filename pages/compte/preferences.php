@@ -87,5 +87,6 @@ require_once '../../require/sidebar/sidebar_compte.php';
             </div>
         </div>
     </div>
+<script src="../../scripts/compte.js"></script>
 </body>
 </html>
