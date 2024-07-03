@@ -59,32 +59,6 @@ $menuItems = [
         </a>
     </div>
 </div>
-
-<script>
-    const applyTheme = (theme) => {
-        document.documentElement.setAttribute('data-bs-theme', theme);
-    };
-
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    applyTheme(savedTheme);
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const darkModeToggle = document.createElement('input');
-        darkModeToggle.setAttribute('type', 'checkbox');
-        darkModeToggle.id = 'darkModeToggle';
-        darkModeToggle.style.display = 'none';
-
-        document.body.appendChild(darkModeToggle);
-
-        darkModeToggle.checked = savedTheme === 'dark';
-
-        darkModeToggle.addEventListener('change', () => {
-            const theme = darkModeToggle.checked ? 'dark' : 'light';
-            applyTheme(theme);
-            localStorage.setItem('theme', theme);
-        });
-    });
-</script>
-
+<script src="../scripts/compte.js"></script>
 </body>
 </html>

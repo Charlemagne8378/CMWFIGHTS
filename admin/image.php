@@ -183,14 +183,7 @@ if (is_dir($thumbnailDirectory)) {
 
         <a href="admin" class="btn btn-secondary mt-3">Retour</a>
     </div>
-    <script>
-        function updateFilename() {
-            var fileInput = document.getElementById('image');
-            var filenameInput = document.getElementById('filename');
-            var fileNameWithoutExtension = fileInput.files[0].name.replace(/\.[^/.]+$/, '');
-            filenameInput.value = fileNameWithoutExtension;
-        }
-    </script>
+    <script src="../scripts/image.js"></script>
     <script src="../scripts/compte.js"></script>
 </body>
 </html>

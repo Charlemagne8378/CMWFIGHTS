@@ -1,23 +1,25 @@
 document.addEventListener('DOMContentLoaded', function() {
     const addUserBtn = document.getElementById('ajouter-utilisateur-btn');
     const addUserFormContainer = document.getElementById('ajouter-utilisateur-form-container');
+    const table = document.getElementById('utilisateurs-table');
+    const pagination = document.getElementById('pagination');
 
     addUserBtn.addEventListener('click', function() {
         addUserFormContainer.classList.toggle('hidden');
     });
 
-    document.querySelectorAll('.ban-btn').forEach(banBtn => {
-        banBtn.addEventListener('click', function() {
-            const email = banBtn.getAttribute('data-email');
-            showConfirmationDialog('BAN', email, banUtilisateur);
-        });
-    });
+    table.addEventListener('click', function(event) {
+        const target = event.target;
 
-    document.querySelectorAll('.supprimer-btn').forEach(supprimerBtn => {
-        supprimerBtn.addEventListener('click', function() {
-            const email = supprimerBtn.getAttribute('data-email');
+        if (target.classList.contains('supprimer-btn')) {
+            const email = target.getAttribute('data-email');
             showConfirmationDialog('SUPPRIMER', email, supprimerUtilisateur);
-        });
+        }
+
+        if (target.classList.contains('ban-btn')) {
+            const email = target.getAttribute('data-email');
+            showConfirmationDialog('BAN', email, banUtilisateur);
+        }
     });
 
     function showConfirmationDialog(action, email, actionFunction) {
@@ -58,12 +60,8 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             if (response.ok) {
-                const row = document.querySelector(`tr:has(td:contains(${email}))`);
-                row.querySelector('.supprimer-btn').disabled = true;
-                row.querySelector('.ban-btn').disabled = true;
-                row.querySelector('.ban-btn').textContent = 'Banni';
-                row.querySelector('.supprimer-btn').classList.add('btn-disabled');
-                row.querySelector('.ban-btn').classList.add('btn-disabled');
+                alert('Utilisateur banni avec succès.');
+                window.location.reload();
             } else {
                 console.error('Une erreur est survenue lors du ban de l\'utilisateur.');
             }
@@ -83,8 +81,8 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             if (response.ok) {
-                const row = document.querySelector(`tr:has(td:contains(${email}))`);
-                row.remove();
+                alert('Utilisateur supprimé avec succès.');
+                window.location.reload();
             } else {
                 console.error('Une erreur est survenue lors de la suppression de l\'utilisateur.');
             }
@@ -93,7 +91,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    const table = document.querySelector('table');
     const headers = table.querySelectorAll('th');
     const rows = Array.from(table.querySelectorAll('tbody tr'));
 

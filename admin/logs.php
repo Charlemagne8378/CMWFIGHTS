@@ -126,21 +126,6 @@
         echo '</form>';
         ?>
     </div>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var modifierButtons = document.querySelectorAll('.modifier-question');
-        modifierButtons.forEach(function(button) {
-            button.addEventListener('click', function() {
-                var questionId = this.getAttribute('data-id');
-                var question = this.getAttribute('data-question');
-                var answer = this.getAttribute('data-answer');
-                document.getElementById('modal_question_id').value = questionId;
-                document.getElementById('modal_question').value = question;
-                document.getElementById('modal_answer').value = answer;
-            });
-        });
-    });
-</script>
 <script src="../scripts/compte.js"></script>
 </body>
 

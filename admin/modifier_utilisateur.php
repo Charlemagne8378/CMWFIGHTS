@@ -87,17 +87,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../style/sidebar.css">
 </head>
-    <style>
-        body.dark-mode {
-            background-color: #212529;
-            color: #f8f9fa;
-        }
-
-        body.light-mode {
-            background-color: #f8f9fa;
-            color: #212529;
-        }
-    </style>
 <body>
     <div class="container">
         <h1 class="my-4">Modifier le profil</h1>
