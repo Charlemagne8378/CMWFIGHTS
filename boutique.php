@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "con_dbb.php";
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -61,9 +62,7 @@ session_start();
             border-radius: 6px;
             overflow: hidden;
             transition: 0.5s;
-
         }
-
         .image_product{
             height: 200px;
             width: 100%;
@@ -77,7 +76,6 @@ session_start();
             object-fit: cover;
             margin-top: 100px;
             padding: 20px;
-
         }
         .content{
             margin-top: 300px;
@@ -105,31 +103,39 @@ session_start();
             padding: 10px 10%;
             border-radius: 6px;
         }
-
     </style>
 </head>
 <body>
-
-    <a href="panier.php" class="link">Panier<span><?=array_sum($_SESSION['panier'])?></span></a>
+    <a href="panier.php" class="link">Panier<span><?=array_sum($_SESSION['panier'] ?? [])?></span></a>
     <section class="products_list">
         <?php
-            include_once "back-boutique.php";
-
-            //afficher la liste des produits
-
-            while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            try {
+                $stmt = $pdo->prepare('SELECT * FROM products');
+                $stmt->execute();
+                $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if ($rows) {
+                    foreach ($rows as $row) {
+                        ?>
+                        <form action="ajouter_panier.php" method="GET" class="produit">
+                            <div class="image_product">
+                                <img src="<?=$row['img']?>" alt="Product Image">
+                            </div>
+                            <div class="content">
+                                <h4 class="name"><?=$row['name']?></h4>
+                                <h2 class="price"><?=$row['price']?>€</h2>
+                                <input type="hidden" name="id" value="<?=$row['id']?>">
+                                <button type="submit" class="id_product">Ajouter au panier</button>
+                            </div>
+                        </form>
+                        <?php
+                    }
+                } else {
+                    echo "Aucun produit trouvé.";
+                }
+            } catch (PDOException $e) {
+                echo "Erreur de requête : " . $e->getMessage();
+            }
         ?>
-        <form action="" class="produit">
-            <div class="image_product">
-                <img src="<?=$row['img']?>">
-            </div>
-            <div class="content">
-                <h4 class="name"><?=$row['name']?></h4>
-                <h2 class="price"><?=$row['price']?>€</h2>
-                <a href="ajouter_panier.php" class="id_product">Ajouter au panier</a>
-            </div>
-        </form>
-        <?php } ?>
     </section>
 </body>
 </html>

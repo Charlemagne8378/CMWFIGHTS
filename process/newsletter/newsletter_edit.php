@@ -1,6 +1,7 @@
 <?php
 require_once '../../require/config/config.php';
 require_once '../../require/sidebar/sidebar_process.php';
+
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $stmt = $pdo->prepare("SELECT * FROM NEWSLETTERS WHERE id = :id");
@@ -36,8 +37,8 @@ if (isset($_GET['id'])) {
                     <textarea class="form-control" id="subject" name="subject" rows="3"><?= htmlspecialchars($newsletter['sujet']) ?></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="schedule">Date d'envoi</label>
-                    <input type="datetime-local" class="form-control" id="schedule" name="schedule" value="<?= date('Y-m-d\TH:i', strtotime($newsletter['date_envoi'])) ?>">
+                    <label for="schedule">Programmer l'envoi</label>
+                    <input type="datetime-local" class="form-control" id="schedule" name="schedule" value="<?= isset($newsletter['date_programmation']) ? date('Y-m-d\TH:i', strtotime($newsletter['date_programmation'])) : '' ?>">
                 </div>
                 <button type="submit" name="action" value="send" class="btn btn-primary">Envoyer</button>
                 <button type="submit" name="action" value="save" class="btn btn-secondary">Enregistrer</button>
