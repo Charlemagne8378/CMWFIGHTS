@@ -1,9 +1,9 @@
 <?php
+require_once '../require/function/function.php'; 
+require_once '../require/config/config.php';
 
-require_once __DIR__ . '/../require/function/function.php'; 
-require_once __DIR__ . '/../require/config/config.php'; 
-
-$duree_inactivite = 30;
+$config_inactivite = include('../require/config/config_inactivite.php');
+$duree_inactivite = isset($config_inactivite['duree_inactivite']) ? $config_inactivite['duree_inactivite'] : 90;
 
 try {
     $pdo = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);

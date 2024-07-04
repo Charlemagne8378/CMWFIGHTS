@@ -11,6 +11,35 @@ if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte
     exit();
 }
 
+$config_inactivite = include('../require/config/config_inactivite.php');
+$duree_inactivite = isset($config_inactivite['duree_inactivite']) ? $config_inactivite['duree_inactivite'] : 30;
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['duree_inactivite'])) {
+    $duree_inactivite = (int)$_POST['duree_inactivite'];
+    
+    // Enregistrer la nouvelle valeur dans le fichier de configuration
+    $config_inactivite['duree_inactivite'] = $duree_inactivite;
+    file_put_contents('../require/config/config_inactivite.php', '<?php return ' . var_export($config_inactivite, true) . ';');
+}
+$ajout_utilisateur_success = false;
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pseudo'], $_POST['nom'], $_POST['adresse_email'], $_POST['mot_de_passe'], $_POST['confirmation_mot_de_passe'], $_POST['type'])) {
+    $pseudo = $_POST['pseudo'];
+    $nom = $_POST['nom'];
+    $adresse_email = $_POST['adresse_email'];
+    $mot_de_passe = $_POST['mot_de_passe'];
+    $confirmation_mot_de_passe = $_POST['confirmation_mot_de_passe'];
+    $type = $_POST['type'];
+
+    if (!empty($pseudo) && !empty($nom) && !empty($adresse_email) && !empty($mot_de_passe) && !empty($confirmation_mot_de_passe) && ($mot_de_passe === $confirmation_mot_de_passe)) {
+        $hashed_password = password_hash($mot_de_passe, PASSWORD_DEFAULT);
+        $stmt = $pdo->prepare('INSERT INTO UTILISATEUR (pseudo, nom, adresse_email, mot_de_passe, type) VALUES (?, ?, ?, ?, ?)');
+        $stmt->execute([$pseudo, $nom, $adresse_email, $hashed_password, $type]);
+
+        $ajout_utilisateur_success = true;
+    } else {
+        $ajout_utilisateur_success = false;
+    }
+}
+
 $perPage = 10;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $perPage;
@@ -43,17 +72,24 @@ function adjustTime($datetime) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Administration</title>
+    <title>Administration - Utilisateurs</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="../style/sidebar.css">
-    <link rel="stylesheet" href="../style/utilisateurs.css">
+    <link rel="stylesheet" href="../../style/sidebar.css">
+    <link rel="stylesheet" href="../../style/utilisateurs.css">
 </head>
 <body>
 <div class="container mt-4">
     <div class="row">
         <div class="col-12 mx-auto">
-            <h1 class="mb-4">Administration</h1>
+            <h1 class="mb-4">Administration - Utilisateurs</h1>
+
+            <?php if ($ajout_utilisateur_success): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    Utilisateur ajouté avec succès.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
 
             <h2>Statistiques</h2>
             <p>Nombre total d'utilisateurs inscrits : <?= htmlspecialchars($totalUsers) ?></p>
@@ -97,13 +133,13 @@ function adjustTime($datetime) {
                 </table>
             </div>
 
-            <div class="d-flex justify-content-center">
+            <div class="mb-5">
                 <button type="button" class="btn btn-success" id="ajouter-utilisateur-btn">Ajouter un utilisateur</button>
             </div>
 
-            <div id="ajouter-utilisateur-form-container" class="hidden mt-4">
+            <div id="ajouter-utilisateur-form-container" class="hidden">
                 <h2>Ajouter un utilisateur</h2>
-                <form id="ajouter-utilisateur-form" method="post" action="../process/utilisateur/ajout_utilisateur.php">
+                <form id="ajouter-utilisateur-form" method="post" action="">
                     <div class="mb-3">
                         <label for="pseudo" class="form-label">Pseudo</label>
                         <input type="text" class="form-control" id="pseudo" name="pseudo" required>
@@ -137,6 +173,14 @@ function adjustTime($datetime) {
                 </form>
             </div>
 
+            <form method="post" action="">
+                <div class="mb-3">
+                    <label for="duree_inactivite" class="form-label">Durée d'inactivité (en jours)</label>
+                    <input type="number" class="form-control" id="duree_inactivite" name="duree_inactivite" value="<?= htmlspecialchars($duree_inactivite) ?>" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+            </form>
+
             <nav aria-label="Pagination" class="mt-4">
                 <ul class="pagination justify-content-center" id="pagination">
                     <?php for ($i = 1; $i <= $totalPages; $i++): ?>
@@ -161,8 +205,7 @@ function adjustTime($datetime) {
     </div>
 </div>
 
-<script src="../scripts/utilisateurs.js"></script>
-<script src="../scripts/compte.js"></script>
+<script src="../../scripts/utilisateurs.js"></script>
+<script src="../../scripts/compte.js"></script>
 </body>
 </html>
-
