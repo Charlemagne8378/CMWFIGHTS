@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../../Images/cmwicon.png">
     <title>Delon</title>
     <style>
         html, body {
@@ -14,11 +15,10 @@
         .background-image {
             height: 100%;
             width: 100%;
-            background-image: url('delon.jpg');
-            background-repeat: repeat; /* Duplique l'image pour remplir la page */
+            background-image: url('../../Images/delon.jpg');
+            background-repeat: repeat;
         }
 
-        /* Animation de rotation et changement de couleur */
         @keyframes rotateAndChangeColor {
             0% {
                 transform: rotate(0deg);
@@ -42,7 +42,7 @@
 
         .alter-table-text {
             position: absolute;
-            font-size: 100px; /* Taille du texte augmentée */
+            font-size: 100px;
             font-weight: bold;
             animation: rotateAndChangeColor 5s infinite;
         }
@@ -74,9 +74,6 @@
 </head>
 <body>
     <div class="background-image"></div>
-    <div class="alter-table-text text1">ALTER TABLE</div>
-    <div class="alter-table-text text1">ALTER TABLE</div>
-    <div class="alter-table-text text1">ALTER TABLE</div>
     <div class="alter-table-text text1">ALTER TABLE</div>
     <div class="alter-table-text text2">ALTER TABLE</div>
     <div class="alter-table-text text3">ALTER TABLE</div>

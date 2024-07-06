@@ -16,7 +16,7 @@ if (isset($_SESSION['utilisateur_connecte']) && $_SESSION['utilisateur_connecte'
     exit();
 }
 
-$is_moderator_or_admin = isset($_SESSION['utilisateur_connecte']) && in_array($_SESSION['utilisateur_connecte']['type'], ['moderateur', 'admin']);
+$modo_admin = isset($_SESSION['utilisateur_connecte']) && in_array($_SESSION['utilisateur_connecte']['type'], ['moderateur', 'admin']);
 $pseudo = $_SESSION['utilisateur_connecte']['pseudo'];
 $mutes_file = 'mutes.txt';
 
@@ -72,7 +72,7 @@ if (file_exists($mutes_file)) {
                         echo '<strong>' . htmlspecialchars($pseudo) . '</strong> <small class="text-muted">' . htmlspecialchars($timestamp) . '</small><br>'; // Date et heure à côté du pseudo
                         echo '<span>' . htmlspecialchars($content) . '</span>';
                         echo '</div>';
-                        if ($is_moderator_or_admin) {
+                        if ($modo_admin) {
                             echo '<div>';
                             echo '<button class="btn btn-danger btn-sm ml-2" onclick="deleteMessage(' . $index . ')">Supprimer</button>';
                             echo '<button class="btn btn-warning btn-sm ml-2" onclick="muteUser(\'' . htmlspecialchars($pseudo) . '\')">Mute</button>';

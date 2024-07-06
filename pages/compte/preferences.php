@@ -33,34 +33,6 @@ require_once '../../require/sidebar/sidebar_compte.php';
     <div class="d-flex">
         <div class="container px-4">
             <h1 class="my-4">Préférences</h1>
-            <div class="d-flex justify-content-around mt-4">
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-secondary" id="frLangBtn">
-                        <i class="bi bi-flag-fill"></i> Français
-                    </button>
-                    <button type="button" class="btn btn-secondary" id="enLangBtn">
-                        <i class="bi bi-flag-fill"></i> Anglais
-                    </button>
-                </div>
-
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-secondary" id="kgsWeightBtn">
-                        <i class="bi bi-weight"></i> Kgs
-                    </button>
-                    <button type="button" class="btn btn-secondary" id="lbsWeightBtn">
-                        <i class="bi bi-weight"></i> Lbs
-                    </button>
-                </div>
-
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-secondary" id="mHeightBtn">
-                        <i class="bi bi-ruler"></i> Mètres
-                    </button>
-                    <button type="button" class="btn btn-secondary" id="inchHeightBtn">
-                        <i class="bi bi-ruler"></i> Pouces
-                    </button>
-                </div>
-            </div>
 
             <div class="info-comm-container mt-5">
                 <h2>Mes informations et communications</h2>

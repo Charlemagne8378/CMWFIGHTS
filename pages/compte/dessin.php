@@ -2,9 +2,7 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-require_once '/var/www/html/require/config/config.php';
-
-header("Permissions-Policy: camera=(), microphone=(), geolocation=()"); // Adjust the features as needed
+require_once '../../require/config/config.php';
 
 session_start();
 if (!isset($_SESSION['utilisateur_connecte'])) {

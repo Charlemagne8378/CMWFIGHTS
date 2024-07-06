@@ -1,6 +1,6 @@
 <?php
 require_once '../require/config/config.php';
-require_once '../requirefunction/function.php';
+require_once '../require/function/function.php';
 use PHPMailer\PHPMailer\PHPMailer;
 
 session_start();
@@ -35,12 +35,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $confirm_password = $_POST["confirm_password"];
 
     if (empty($new_password) || empty($confirm_password)) {
-        echo "Veuillez entrer votre nouveau mot de passe et le confirmer.";
+        echo '<div class="alert alert-danger" role="alert">Veuillez entrer votre nouveau mot de passe et le confirmer.</div>';
         exit();
     }
 
     if ($new_password !== $confirm_password) {
-        echo "Les mots de passe ne correspondent pas.";
+        echo '<div class="alert alert-danger" role="alert">Les mots de passe ne correspondent pas.</div>';
         exit();
     }
 
@@ -52,9 +52,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bindValue(2, $email);
 
     if ($stmt->execute()) {
-        echo 'Votre mot de passe a été réinitialisé avec succès. Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.';
+        echo '<div id="success-message" class="alert alert-success" role="alert">Votre mot de passe a été réinitialisé avec succès. Vous allez être redirigé vers la page de connexion.</div>';
+        echo '<script>
+                setTimeout(function() {
+                    window.location.href = "connexion";
+                }, 3000);
+              </script>';
+        exit();
     } else {
-        echo "Erreur lors de la réinitialisation du mot de passe : " . print_r($pdo->errorInfo(), true);
+        echo '<div class="alert alert-danger" role="alert">Erreur lors de la réinitialisation du mot de passe : ' . print_r($pdo->errorInfo(), true) . '</div>';
     }
 
     $stmt->closeCursor();
@@ -68,7 +74,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Réinitialisation de mot de passe</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../Images/cmwicon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
 <body class="bg-light">
     <div class="container">
@@ -80,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="card-body">
                         <?php if ($_SERVER["REQUEST_METHOD"] != "POST"): ?>
-                            <form action="reset_password?code=<?php echo urlencode($verification_code); ?>&email=<?php echo urlencode($email); ?>" method="post">
+                            <form action="reset_password.php?code=<?php echo urlencode($verification_code); ?>&email=<?php echo urlencode($email); ?>" method="post">
                                 <div class="form-group">
                                     <label for="new_password">Nouveau mot de passe:</label>
                                     <input type="password" name="new_password" id="new_password" class="form-control" required>

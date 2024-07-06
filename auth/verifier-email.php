@@ -23,15 +23,13 @@ if ($result) {
     $stmt->bindValue(2, $pseudo);
 
     if ($stmt->execute()) {
-        echo "<h2>Votre adresse e-mail a été vérifiée avec succès !</h2>";
-        echo "<p>Vous pouvez maintenant vous connecter avec votre compte.</p>";
-        echo "<a href='../auth/connexion'>Se connecter</a>";
+        $message = "<div class='alert alert-success' role='alert'>Votre adresse e-mail a été vérifiée avec succès ! Vous pouvez maintenant vous connecter à votre compte.</div>";
+        $link = "<a href='../auth/connexion' class='btn btn-primary'>Se connecter</a>";
     } else {
-        echo "<h2>Erreur lors de la vérification de l'adresse e-mail.</h2>";
-        echo "<p>Veuillez contacter l'administrateur pour obtenir de l'aide.</p>";
+        $message = "<div class='alert alert-danger' role='alert'>Erreur lors de la vérification de l'adresse e-mail. Veuillez contacter l'administrateur pour obtenir de l'aide.</div>";
     }
 } else {
-    echo "<h2>Lien invalide ou déjà utilisé.</h2>";
+    $message = "<div class='alert alert-warning' role='alert'>Lien invalide ou déjà utilisé.</div>";
 }
 
 $stmt->closeCursor();
@@ -44,7 +42,11 @@ $pdo = null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vérification d'email</title>
+    <link rel="icon" type="image/png" href="../Images/cmwicon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
 <body style="text-align: center; padding: 2em;">
+    <?php echo $message; ?>
+    <?php if(isset($link)) echo $link; ?>
 </body>
 </html>

@@ -82,7 +82,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modifier le profil</title>
     <link rel="icon" type="image/png" sizes="64x64" href="../Images/cmwicon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../style/sidebar.css">
@@ -143,34 +142,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="submit" class="btn btn-primary">Mettre à jour</button>
             <a href="admin" class="btn btn-secondary">Retour</a>
         </form>
-
-        <div class="d-flex justify-content-around mt-4">
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-secondary" id="frLangBtn">
-                    <i class="bi bi-flag-fill"></i> Français
-                </button>
-                <button type="button" class="btn btn-secondary" id="enLangBtn">
-                    <i class="bi bi-flag-fill"></i> Anglais
-                </button>
-            </div>
-
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-secondary" id="kgsWeightBtn">
-                    <i class="bi bi-weight"></i> Kgs
-                </button>
-                <button type="button" class="btn btn-secondary" id="lbsWeightBtn">
-                    <i class="bi bi-weight"></i> Lbs
-                </button>
-            </div>
-
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-secondary" id="mHeightBtn">
-                    <i class="bi bi-ruler"></i> Mètres
-                </button>
-                <button type="button" class="btn btn-secondary" id="inchHeightBtn">
-                    <i class="bi bi-ruler"></i> Pouces
-                </button>
-            </div>
             <button type="button" class="btn btn-primary mt-3" onclick="window.location.href='../process/download_data'">Télécharger les données utilisateur</button>
         </div>
     </div>
