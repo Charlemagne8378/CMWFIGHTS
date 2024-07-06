@@ -11,12 +11,14 @@
             'settings' => ['label' => 'Paramètres', 'icon' => 'bi bi-house-door'],
             'preferences' => ['label' => 'Préférence', 'icon' => 'bi bi-person-lines-fill'],
             'dessin' => ['label' => 'Dessin', 'icon' => 'bi bi-calendar-event'],
+            'chat' => ['label' => 'Chat', 'icon' => 'bi bi-chat-dots', 'url' => '../forum/chat'], // Nouvelle entrée pour le chat
         ];
 
         foreach ($menuItems as $page => $item) {
             $activeClass = ($active_page == $page) ? 'active' : '';
+            $url = isset($item['url']) ? $item['url'] : $page; // Utiliser l'URL spécifiée ou le nom de la page par défaut
             echo "<li class='nav-item'>";
-            echo "<a class='nav-link $activeClass' href='$page'>";
+            echo "<a class='nav-link $activeClass' href='$url'>";
             echo "<i class='{$item['icon']}'></i>";
             echo "<span class='ms-2'>{$item['label']}</span>";
             echo "</a>";
@@ -29,7 +31,6 @@
         <input class="form-check-input" type="checkbox" id="darkModeToggle">
         <label class="ms-2 mb-0" for="darkModeToggle"><i class="bi bi-moon-fill text-dark"></i></label>
     </div>
-
 
     <div class="account-box collapse" id="account-box">
         <a href="/">Page d'accueil</a>

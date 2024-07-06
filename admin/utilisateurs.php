@@ -72,7 +72,7 @@ function adjustTime($datetime) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Administration - Utilisateurs</title>
+    <title>Utilisateurs</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../../style/sidebar.css">
@@ -82,7 +82,7 @@ function adjustTime($datetime) {
 <div class="container mt-4">
     <div class="row">
         <div class="col-12 mx-auto">
-            <h1 class="mb-4">Administration - Utilisateurs</h1>
+            <h1 class="mb-4">Utilisateurs</h1>
 
             <?php if ($ajout_utilisateur_success): ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
