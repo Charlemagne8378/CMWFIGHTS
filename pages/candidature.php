@@ -11,6 +11,11 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+if (isset($_SESSION['utilisateur_connecte']) && $_SESSION['utilisateur_connecte']['type'] === 'banni') {
+    header('Location: ../banni');
+    exit();
+  }
+
         try {
             // Préparer la requête d'insertion
             $stmt = $pdo->prepare("INSERT INTO Candidature (nom, prenom, pseudo, email, poids, taille, experience) VALUES (:nom, :prenom, :pseudo, :email, :poids, :taille, :experience)");

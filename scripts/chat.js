@@ -20,3 +20,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+function deleteMessage(index) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce message ?')) {
+        fetch('delete_message.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'index=' + index
+        }).then(response => {
+            if (response.ok) {
+                location.reload();
+            }
+        });
+    }
+}
+
+function muteUser(pseudo) {
+    if (confirm('Êtes-vous sûr de vouloir muter cet utilisateur ?')) {
+        fetch('mute_user.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'pseudo=' + encodeURIComponent(pseudo)
+        }).then(response => {
+            if (response.ok) {
+                location.reload();
+            }
+        });
+    }
+}

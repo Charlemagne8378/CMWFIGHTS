@@ -9,6 +9,11 @@ if (!isset($_SESSION['utilisateur_connecte'])) {
     header('Location: ../../auth/connexion');
     exit();
 }
+
+if (isset($_SESSION['utilisateur_connecte']) && $_SESSION['utilisateur_connecte']['type'] === 'banni') {
+    header('Location: ../banni');
+    exit();
+}
 require_once '../../require/sidebar/sidebar_compte.php';
 ?>
 
@@ -85,8 +90,36 @@ require_once '../../require/sidebar/sidebar_compte.php';
                 </p>
                 <button onclick="window.location.href='../../process/download_data'">Accéder à mes données</button>
             </div>
+
+            <div class="delete-account-container mt-5">
+                <h2>Supprimer mon compte</h2>
+                <p>
+                    En supprimant ton compte, tu perdras toutes tes données et aucun retour ne sera possible.
+                    Nous serons très tristes de te voir partir :(
+                </p>
+                <form action="../../process/supprimer_compte.php" method="POST">
+                    <div class="mb-3">
+                        <label for="confirmDelete" class="form-label">Confirmer en écrivant supprimer *</label>
+                        <input type="text" class="form-control" id="confirmDelete" placeholder="supprimer" name="confirmDelete">
+                    </div>
+                    <button type="submit" class="btn btn-danger" id="deleteAccountBtn" disabled>
+                        <i class="bi bi-trash"></i> Supprimer mon compte
+                    </button>
+                </form>
+            </div>
+
         </div>
     </div>
+<script>
+    document.getElementById('confirmDelete').addEventListener('input', function() {
+        var deleteBtn = document.getElementById('deleteAccountBtn');
+        if (this.value === 'supprimer') {
+            deleteBtn.disabled = false;
+        } else {
+            deleteBtn.disabled = true;
+        }
+    });
+</script>
 <script src="../../scripts/compte.js"></script>
 </body>
 </html>

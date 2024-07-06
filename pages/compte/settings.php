@@ -2,11 +2,16 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-require_once '/var/www/html/require/config/config.php';
+require_once '../../require/config/config.php';
 
 session_start();
 if (!isset($_SESSION['utilisateur_connecte'])) {
     header('Location: ../../auth/connexion');
+    exit();
+}
+
+if (isset($_SESSION['utilisateur_connecte']) && $_SESSION['utilisateur_connecte']['type'] === 'banni') {
+    header('Location: ../banni');
     exit();
 }
 require_once '../../require/sidebar/sidebar_compte.php';
@@ -37,6 +42,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "L'ancien mot de passe est incorrect.";
     } else {
         $query = "UPDATE UTILISATEUR SET nom = :nom, adresse_email = :email, genre = :genre, newsletter = :newsletter, avatar_url = :avatar_url WHERE pseudo = :pseudo";
+        if (!empty($new_password)) {
+            $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+            $query = "UPDATE UTILISATEUR SET nom = :nom, adresse_email = :email, genre = :genre, newsletter = :newsletter, avatar_url = :avatar_url, Mot_de_passe = :new_password WHERE pseudo = :pseudo";
+        }
         $stmt = $pdo->prepare($query);
 
         $stmt->bindParam(':nom', $nom);
@@ -45,10 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bindParam(':newsletter', $newsletter);
         $stmt->bindParam(':avatar_url', $avatar_url);
         $stmt->bindParam(':pseudo', $pseudo);
-
         if (!empty($new_password)) {
-            $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
-            $query .= ", Mot_de_passe = :new_password";
             $stmt->bindParam(':new_password', $hashed_password);
         }
 
@@ -70,23 +76,16 @@ function saveAvatar($file, $pseudo) {
     $imageFileType = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
     $target_file = $target_dir . $pseudo . '.' . $imageFileType;
 
-    // Delete old avatar if it exists
-    $old_avatar = glob($target_dir . $pseudo . ".*");
-    if ($old_avatar) {
-        foreach ($old_avatar as $avatar) {
-            unlink($avatar);
-        }
-    }
-
     $check = getimagesize($file["tmp_name"]);
     if ($check !== false) {
         if (move_uploaded_file($file["tmp_name"], $target_file)) {
             return "/Images/avatar/" . $pseudo . '.' . $imageFileType;
         } else {
-            return '';
+            return '../../Images/pp_defaut.jpg';
+
         }
     } else {
-        return '';
+        return '../../Images/pp_defaut.jpg';
     }
 }
 ?>
@@ -107,21 +106,13 @@ function saveAvatar($file, $pseudo) {
         <div class="container">
             <h1 class="my-4 text-center">Paramètres du profil</h1>
             <div class="text-center mb-4">
-                <?php if (!empty($user_to_edit['avatar_url'])): ?>
-                    <div class="position-relative d-inline-block">
-                        <img src="<?php echo htmlspecialchars($user_to_edit['avatar_url']); ?>" alt="Avatar" class="img-thumbnail avatar-image">
-                        <button type="button" class="avatar-button" onclick="document.getElementById('avatar').click();">
-                            <i class="bi bi-pencil-fill"></i>
-                        </button>
-                    </div>
-                <?php else: ?>
-                    <div class="position-relative d-inline-block">
-                        <img src="../../Images/pp_defaut.jpg" alt="Default Avatar" class="img-thumbnail avatar-image">
-                        <button type="button" class="avatar-button" onclick="document.getElementById('avatar').click();">
-                            <i class="bi bi-pencil-fill"></i>
-                        </button>
-                    </div>
-                <?php endif; ?>
+                <div class="position-relative d-inline-block">
+                <img src="<?php echo htmlspecialchars($user_to_edit['avatar_url']); ?>" alt="Avatar" class="img-thumbnail avatar-image">
+
+                    <button type="button" class="avatar-button" onclick="document.getElementById('avatar').click();">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                </div>
             </div>
             <?php if ($error): ?>
                 <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>

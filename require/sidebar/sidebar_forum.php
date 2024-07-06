@@ -8,10 +8,10 @@
         $active_page = $current_page;
 
         $menuItems = [
-            'settings' => ['label' => 'Paramètres', 'icon' => 'bi bi-house-door'],
-            'preferences' => ['label' => 'Préférence', 'icon' => 'bi bi-person-lines-fill'],
-            'dessin' => ['label' => 'Dessin', 'icon' => 'bi bi-calendar-event'],
-            'chat' => ['label' => 'Chat', 'icon' => 'bi bi-chat-dots', 'url' => '../forum/chat'], // Nouvelle entrée pour le chat
+            'settings' => ['label' => 'Paramètres', 'icon' => 'bi bi-house-door', 'url' => '../compte/settings'],
+            'preferences' => ['label' => 'Préférence', 'icon' => 'bi bi-person-lines-fill', 'url' => '../compte/preferences'],
+            'dessin' => ['label' => 'Dessin', 'icon' => 'bi bi-calendar-event', 'url' => '../compte/dessin'],
+            'chat' => ['label' => 'Chat', 'icon' => 'bi bi-chat-dots', 'url' => 'chat'], // Nouvelle entrée pour le chat
         ];
 
         foreach ($menuItems as $page => $item) {

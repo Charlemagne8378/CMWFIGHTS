@@ -11,6 +11,12 @@ if (!isset($_SESSION['utilisateur_connecte'])) {
     header('Location: ../../auth/connexion');
     exit();
 }
+
+if (isset($_SESSION['utilisateur_connecte']) && $_SESSION['utilisateur_connecte']['type'] === 'banni') {
+    header('Location: ../banni');
+    exit();
+  }
+  
 require_once '../../require/sidebar/sidebar_compte.php';
 ?>
 
