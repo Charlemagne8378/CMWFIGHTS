@@ -125,6 +125,9 @@
         echo '<button type="submit" class="btn btn-primary mb-2">Aller à la page</button>';
         echo '</form>';
         ?>
+        <a class="nav-link btn btn-outline-primary" href="logstat">
+            <i class="bi bi-file-text"></i> LogStat
+        </a>
     </div>
 <script src="../scripts/compte.js"></script>
 </body>
