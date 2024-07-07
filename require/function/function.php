@@ -1,21 +1,66 @@
 <?php
+require_once '../require/config/config.php'; // Assurez-vous que ce chemin est correct
+require_once '../require/phpmailer/Exception.php';
+require_once '../require/phpmailer/PHPMailer.php';
+require_once '../require/phpmailer/SMTP.php';
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require __DIR__ . '/../phpmailer/Exception.php';
-require __DIR__ . '/../phpmailer/PHPMailer.php';
-require __DIR__ . '/../phpmailer/SMTP.php';
-
-function getRandomCaptchaQuestion($pdo)
+// Récupérer les rôles
+function getRoles()
 {
-    $sql = "SELECT * FROM CAPTCHA ORDER BY RAND() LIMIT 1";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    return $result;
+    global $pdo;
+    $stmt = $pdo->query("SELECT * FROM ROLES");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+// Récupérer les permissions
+function getPermissions()
+{
+    global $pdo;
+    $stmt = $pdo->query("SELECT * FROM PERMISSIONS");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Vérifier si un rôle a une certaine permission
+function roleHasPermission($roleId, $permissionId)
+{
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM ROLES_PERMISSIONS WHERE ID_ROLE = :roleId AND ID_PERMISSION = :permissionId");
+    $stmt->execute(['roleId' => $roleId, 'permissionId' => $permissionId]);
+    return $stmt->fetchColumn() > 0;
+}
+
+function supprimerRole($roleId, $pdo) {
+    $stmt = $pdo->prepare('DELETE FROM ROLES WHERE ID = ?');
+    $stmt->execute([$roleId]);
+}
+
+// Ajouter un rôle
+function ajouterRole($nomRole)
+{
+    global $pdo;
+    $stmt = $pdo->prepare("INSERT INTO ROLES (NOM_ROLE) VALUES (:nomRole)");
+    $stmt->execute(['nomRole' => $nomRole]);
+}
+
+// Associer des permissions à un rôle
+function associerRolePermissions($roleId, $permissions)
+{
+    global $pdo;
+    // Supprimer les anciennes associations de permissions pour ce rôle
+    $stmt = $pdo->prepare("DELETE FROM ROLES_PERMISSIONS WHERE ID_ROLE = :roleId");
+    $stmt->execute(['roleId' => $roleId]);
+
+    // Ajouter les nouvelles associations
+    foreach ($permissions as $permissionId) {
+        $stmt = $pdo->prepare("INSERT INTO ROLES_PERMISSIONS (ID_ROLE, ID_PERMISSION) VALUES (:roleId, :permissionId)");
+        $stmt->execute(['roleId' => $roleId, 'permissionId' => $permissionId]);
+    }
+}
+
+// Fonction pour envoyer un email
 function sendEmail($to, $subject, $content)
 {
     $mail = new PHPMailer(true);

@@ -8,11 +8,14 @@
         $active_page = $current_page;
 
         $menuItems = [
-            'settings' => ['label' => 'Paramètres', 'icon' => 'bi bi-house-door', 'url' => '../compte/settings'],
-            'preferences' => ['label' => 'Préférence', 'icon' => 'bi bi-person-lines-fill', 'url' => '../compte/preferences'],
-            'dessin' => ['label' => 'Dessin', 'icon' => 'bi bi-calendar-event', 'url' => '../compte/dessin'],
-            'chat' => ['label' => 'Chat', 'icon' => 'bi bi-chat-dots', 'url' => 'chat'], // Nouvelle entrée pour le chat
+            'settings' => ['label' => 'Paramètres', 'icon' => 'bi bi-gear', 'url' => '../compte/settings'],
+            'preferences' => ['label' => 'Préférences', 'icon' => 'bi bi-sliders', 'url' => '../compte/preferences'],
+            'dessin' => ['label' => 'Dessin', 'icon' => 'bi bi-pencil', 'url' => '../compte/dessin'],
+            'chat' => ['label' => 'Tchat en direct', 'icon' => 'bi bi-chat-dots', 'url' => 'chat'],
+            'forum' => ['label' => 'Forum', 'icon' => 'bi bi-chat-dots', 'url' => 'forum'], 
         ];
+        
+        
 
         foreach ($menuItems as $page => $item) {
             $activeClass = ($active_page == $page) ? 'active' : '';

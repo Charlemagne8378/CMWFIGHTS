@@ -9,9 +9,10 @@
 
         $menuItems = [
             'settings' => ['label' => 'Paramètres', 'icon' => 'bi bi-house-door'],
-            'preferences' => ['label' => 'Préférence', 'icon' => 'bi bi-person-lines-fill'],
-            'dessin' => ['label' => 'Dessin', 'icon' => 'bi bi-calendar-event'],
-            'chat' => ['label' => 'Chat', 'icon' => 'bi bi-chat-dots', 'url' => '../forum/chat'], // Nouvelle entrée pour le chat
+            'preferences' => ['label' => 'Préférences', 'icon' => 'bi bi-sliders'],
+            'dessin' => ['label' => 'Dessin', 'icon' => 'bi bi-pencil'],
+            'chat' => ['label' => 'Tchat en direct', 'icon' => 'bi bi-chat-dots', 'url' => '../forum/chat'], 
+            'forum' => ['label' => 'Forum', 'icon' => 'bi bi-chat-dots', 'url' => '../forum/forum'], 
         ];
 
         foreach ($menuItems as $page => $item) {

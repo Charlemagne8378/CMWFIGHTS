@@ -4,7 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once '/var/www/html/require/config/config.php';
 session_start();
-require_once '../../require/sidebar/sidebar_compte.php';
+require_once '../../require/sidebar/sidebar_forum.php';
 
 if (!isset($_SESSION['utilisateur_connecte'])) {
     header('Location: ../../auth/connexion');
@@ -20,7 +20,7 @@ $modo_admin = isset($_SESSION['utilisateur_connecte']) && in_array($_SESSION['ut
 $pseudo = $_SESSION['utilisateur_connecte']['pseudo'];
 $mutes_file = 'mutes.txt';
 
-// Vérifier si l'utilisateur est muté
+// verif si l'utilisateur est muté
 $is_muted = false;
 if (file_exists($mutes_file)) {
     $mutes = file($mutes_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -39,8 +39,8 @@ if (file_exists($mutes_file)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="5"> <!-- Rafraîchir toutes les 5 secondes -->
-    <title>Chat en Direct</title>
+    <meta http-equiv="refresh" content="5">
+    <title>Tchat en Direct</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/sidebar.css">
@@ -48,19 +48,14 @@ if (file_exists($mutes_file)) {
 </head>
 <body>
     <div class="container">
-        <h1 class="my-4">Chat en Direct</h1>
+        <h1 class="my-4">Tchat en Direct</h1>
         <div id="chat-container">
             <div id="messages" class="border rounded p-3 mb-3" style="height: 300px; overflow-y: scroll;">
                 <?php
-                // Chemin vers le fichier de messages
                 $messages_file = 'messages.txt';
-
-                // Vérifier si le fichier existe, sinon le créer
                 if (!file_exists($messages_file)) {
                     file_put_contents($messages_file, '');
                 }
-
-                // Charger les messages depuis le fichier
                 $messages = file($messages_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
                 foreach ($messages as $index => $message) {
                     $parts = explode('|', $message);
