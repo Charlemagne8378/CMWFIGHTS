@@ -17,7 +17,7 @@ for ($i = 0; $i < substr_count($_SERVER['REQUEST_URI'], '/'); $i++) {
                 <h5 class="text-uppercase">Service Client</h5>
                 <ul class="list-unstyled">
                     <li><a href="#" class="text-white">Contactez-nous</a></li>
-                    <li><a href="#" class="text-white">FAQ</a></li>
+                    <li><a href="boutique.php" class="text-white">Achetez nos vetement</a></li>
                 </ul>
             </div>
         </div>

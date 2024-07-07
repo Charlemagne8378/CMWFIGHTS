@@ -11,9 +11,7 @@ if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte
     exit();
 }
 
-// Vérifier si le formulaire a été soumis
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-    // Valider et récupérer les données du formulaire
     $combattant_id = $_POST["combattant_id"];
     $image_url = $_POST["image_url"];
     $nom = $_POST["nom"];
@@ -25,11 +23,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $palmares_mma = $_POST["palmares_mma"];
     $discipline_id = $_POST["discipline_id"];
     
-    // Préparer et exécuter la requête SQL de mise à jour
     $sql = "UPDATE COMBATTANT SET image_url = ?, nom = ?, age = ?, poids = ?, taille = ?, category_id = ?, palmares_boxe = ?, palmares_mma = ?, discipline_id = ? WHERE combattant_id = ?";
     if($stmt = $pdo->prepare($sql)){
         $stmt->execute([$image_url, $nom, $age, $poids, $taille, $category_id, $palmares_boxe, $palmares_mma, $discipline_id, $combattant_id]);
-        // Rediriger l'utilisateur vers une page de confirmation ou ailleurs après la mise à jour
         header("location: delete_combattants.php");
         exit();
     } else{
@@ -37,22 +33,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 }
 
-// Afficher les informations du combattant à éditer
 if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
-    // Récupérer l'ID du combattant depuis l'URL
     $combattant_id = trim($_GET["id"]);
 
-    // Préparer une instruction SELECT pour récupérer les informations du combattant à éditer
     $sql = "SELECT * FROM COMBATTANT WHERE combattant_id = ?";
     
     if($stmt = $pdo->prepare($sql)){
-        // Liaison des variables à l'instruction préparée en tant que paramètres
         $stmt->bindParam(1, $combattant_id, PDO::PARAM_INT);
         
-        // Tentative d'exécution de la déclaration préparée
         if($stmt->execute()){
             if($stmt->rowCount() == 1){
-                // Récupérer les informations du combattant
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 $image_url = $row["image_url"];
                 $nom = $row["nom"];
@@ -64,7 +54,6 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
                 $palmares_mma = $row["palmares_mma"];
                 $discipline_id = $row["discipline_id"];
             } else{
-                // Aucun combattant trouvé avec cet ID, rediriger vers une page d'erreur
                 header("location: error.php");
                 exit();
             }
@@ -72,14 +61,11 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
             echo "Oops! Quelque chose s'est mal passé. Veuillez réessayer plus tard.";
         }
 
-        // Fermer la déclaration
         unset($stmt);
     }
     
-    // Fermer la connexion
     unset($pdo);
 } else{
-    // Aucun ID de combattant fourni dans l'URL, rediriger vers une page d'erreur
     header("location: error.php");
     exit();
 }

@@ -5,7 +5,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Récupérer les événements existants avec leurs combats associés
 $sql = "SELECT E.evenement_id, E.date, E.lieu, E.heure, 
                C.combat_id, C1.nom AS combattant1_nom, C1.image_url AS combattant1_photo, C1.palmares_boxe AS combattant1_palmares_boxe, C1.palmares_mma AS combattant1_palmares_mma,
                C2.nom AS combattant2_nom, C2.image_url AS combattant2_photo, C2.palmares_boxe AS combattant2_palmares_boxe, C2.palmares_mma AS combattant2_palmares_mma,
@@ -21,7 +20,6 @@ $sql = "SELECT E.evenement_id, E.date, E.lieu, E.heure,
 $stmt = $pdo->query($sql);
 $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Grouper les combats par événement
 $groupedEvents = [];
 foreach ($events as $event) {
     $groupedEvents[$event['evenement_id']]['details'] = [
@@ -89,6 +87,7 @@ foreach ($events as $event) {
         }
         h2 {
             text-align: center;
+            margin-top: 100px;
         }
         .my-4{
             margin-top : 10rem !important;
@@ -149,5 +148,6 @@ foreach ($events as $event) {
             });
         });
     </script>
+    <?php include '../../footer.php' ?>
 </body>
 </html>

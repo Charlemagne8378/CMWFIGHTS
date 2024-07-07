@@ -6,27 +6,22 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Récupérer les événements existants
 $sql = "SELECT * FROM EVENEMENT";
 $stmt = $pdo->query($sql);
 $evenements = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Récupérer les combattants existants
 $sql = "SELECT * FROM COMBATTANT";
 $stmt = $pdo->query($sql);
 $combattants = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Récupérer les catégories existantes
 $sql = "SELECT * FROM CATEGORIES";
 $stmt = $pdo->query($sql);
 $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Récupérer les disciplines existantes
 $sql = "SELECT * FROM DISCIPLINE";
 $stmt = $pdo->query($sql);
 $disciplines = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Fonction pour ajouter un combat
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['addCombat'])) {
     $evenement_id = $_POST['evenement_id'];
     $combattant1_id = $_POST['combattant1_id'];
@@ -50,7 +45,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['addCombat'])) {
     exit();
 }
 
-// Fonction pour supprimer un combat
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['deleteCombat'])) {
     $combat_id = $_POST['combat_id'];
 
@@ -63,7 +57,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['deleteCombat'])) {
     exit();
 }
 
-// Récupérer les combats existants avec les informations des événements, combattants, catégories et disciplines
 $sql = "SELECT C.combat_id, E.date, E.heure, C1.nom AS combattant1_nom, C2.nom AS combattant2_nom, 
                CAT.category_name AS categorie_nom, D.discipline_name AS discipline_nom
         FROM COMBAT C

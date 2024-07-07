@@ -5,13 +5,16 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Récupérer les données du formulaire
-$email = $_POST['email'];
-$message = $_POST['message'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = $_POST['email'];
+    $message = $_POST['message'];
+    $date_creation = date('Y-m-d H:i:s');
 
-// Insérer le message dans la base de données
-$stmt = $pdo->prepare("INSERT INTO SERVICECLIENT (email_client, message) VALUES (?, ?)");
-$stmt->execute([$email, $message]);
+    // Insertion du message dans la base de données avec date_creation
+    $stmt = $pdo->prepare("INSERT INTO SERVICECLIENT (email_client, message, date_creation) VALUES (?, ?, ?)");
+    $stmt->execute([$email, $message, $date_creation]);
 
-echo "Message envoyé avec succès.";
+    header('Location: success.php');
+    exit;
+}
 ?>

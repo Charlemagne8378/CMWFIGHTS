@@ -1,6 +1,9 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
 include_once "con_dbb.php";
+require '/var/www/html/stripe/config.php';
 
 // Supprimer les produits
 if (isset($_GET['del'])) {
@@ -116,6 +119,9 @@ if (isset($_GET['del'])) {
                 }
             } ?>
         </table>
+        <div>
+            <a href="/stripe/pay.php" class="link">Payer</a>
+        </div>
     </section>
 </body>
 </html>

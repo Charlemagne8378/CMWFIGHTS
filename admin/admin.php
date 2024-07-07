@@ -39,6 +39,7 @@ $menuItems = [
     <link rel="stylesheet" href="../style/admin.css">
 </head>
 <body>
+
 <div class="container mt-5">
     <h2 class="text-center mb-4">Page d'Administration</h2>
     <div class="btn-container">

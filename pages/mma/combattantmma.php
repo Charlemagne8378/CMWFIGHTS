@@ -54,5 +54,7 @@
         echo "Erreur : " . $e->getMessage();
     }
     ?>
+        <?php include '../../footer.php' ?>
+
 </body>
 </html>

@@ -1,5 +1,8 @@
 <?php
 require_once 'require/config/config.php';
+require_once 'require/function/function.php'; 
+use PHPMailer\PHPMailer\PHPMailer;
+
 session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -20,9 +23,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reponse']) && isset($
     $stmt->execute([$reponse, $message_id]);
 
     // Envoyer un email de réponse au client
-    mail($email_client, "Réponse du Service Client", $reponse);
-
-    echo "Réponse envoyée avec succès.";
+    if (sendEmail($email_client, "Réponse du Service Client", $reponse)) {
+        echo "Réponse envoyée avec succès.";
+    } else {
+        echo "Erreur lors de l'envoi de la réponse.";
+    }
 }
 
 // Récupérer tous les messages

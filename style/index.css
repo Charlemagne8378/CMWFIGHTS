@@ -28,7 +28,7 @@ body{
   }
 
   .animated-title:hover {
-      color: black; /* Changement de couleur au survol */
+      color: black; 
   }
   .quoi{
     margin-top: 300px;
@@ -39,6 +39,10 @@ body{
     text-align: center;
     font-family: Georgia, 'Times New Roman', Times, serif;
 
+  }
+
+  .quoi a{
+    text-decoration: none;
   }
 
   .quoi .textG{

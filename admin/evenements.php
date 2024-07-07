@@ -6,7 +6,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Fonction pour ajouter un événement
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['addEvent'])) {
     $date = $_POST['date'];
     $heure = $_POST['heure'];
@@ -25,7 +24,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['addEvent'])) {
     exit();
 }
 
-// Fonction pour modifier un événement
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editEvent'])) {
     $evenement_id = $_POST['evenement_id'];
     $date = $_POST['date'];
@@ -46,7 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editEvent'])) {
     exit();
 }
 
-// Fonction pour supprimer un événement
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['deleteEvent'])) {
     $evenement_id = $_POST['evenement_id'];
 
@@ -59,7 +56,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['deleteEvent'])) {
     exit();
 }
 
-// Récupérer tous les événements
 $sql = "SELECT * FROM EVENEMENT";
 $stmt = $pdo->query($sql);
 $evenements = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -117,7 +113,6 @@ $evenements = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
-    <!-- Modal de modification -->
     <div class="modal fade" id="editModal<?php echo $evenement['evenement_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel<?php echo $evenement['evenement_id']; ?>" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

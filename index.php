@@ -74,6 +74,11 @@ if (isset($_SESSION['utilisateur_connecte']) && $_SESSION['utilisateur_connecte'
   <link rel="icon" type="image/png" sizes="32x32" href="Images/cmwicon.png">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="style/index.css">
+  <style>
+    .quoi a{
+      text-decoration : none;
+    }
+  </style>
 </head>
 <body>
   <?php include 'cookies.php'?>
@@ -111,7 +116,10 @@ if (isset($_SESSION['utilisateur_connecte']) && $_SESSION['utilisateur_connecte'
   </a>
 </div>
 
+
+
 <div class="quoi">
+  <h2><a href="boutique">Shop</a></h2>
   <h2>Qui somme nous?</h2>
   <div class="textG">
       <p>
@@ -187,11 +195,11 @@ if (isset($_SESSION['utilisateur_connecte']) && $_SESSION['utilisateur_connecte'
 </div>
 
 <div id="nav">
-    <!-- Contenu de la section nav -->
+    
 </div>
 
 <div id="foot">
-    <!-- Contenu de la section foot -->
+   
 </div>
 
 

@@ -5,7 +5,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Récupérer les données des classements MMA depuis la base de données
 $sql = "SELECT CLASSEMENTMMA.classementmma_id, CLASSEMENTMMA.classement_id, CLASSEMENTMMA.combattant_id, CLASSEMENTMMA.ranking, CLASSEMENT.classement_name AS classement_name, COMBATTANT.nom AS combattant_name, COMBATTANT.palmares_mma AS combattant_palmares, COMBATTANT.image_url AS combattant_photo
 FROM CLASSEMENTMMA
 JOIN CLASSEMENT ON CLASSEMENTMMA.classement_id = CLASSEMENT.classement_id
@@ -67,5 +66,7 @@ $classementmma = $stmt->fetchAll(PDO::FETCH_ASSOC);
         endif;
         ?>
     </div>
+    <?php include '../../footer.php' ?>
+
 </body>
 </html>

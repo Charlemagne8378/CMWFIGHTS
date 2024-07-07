@@ -1,5 +1,4 @@
 <?php
-// Inclure le fichier de configuration de la base de données
 require_once '../require/config/config.php';
 session_start();
 ini_set('display_errors', 1);
@@ -11,25 +10,20 @@ if (!isset($_SESSION['utilisateur_connecte']) || $_SESSION['utilisateur_connecte
     exit();
 }
 
-// Récupérer les combattants depuis la base de données
 $sql = "SELECT * FROM COMBATTANT";
 $stmt = $pdo->query($sql);
 $combattants = $stmt->fetchAll();
 
-// Gérer les actions de modification ou de suppression
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['edit'])) {
-        // Rediriger vers la page d'édition avec l'ID du combattant à modifier
         header("location: edit_combattants.php?id=" . $_POST['id']);
         exit();
     } elseif (isset($_POST['delete'])) {
-        // Supprimer le combattant avec l'ID correspondant
         $id = $_POST['id'];
         $sql = "DELETE FROM COMBATTANT WHERE combattant_id = :id";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         if ($stmt->execute()) {
-            // Rediriger vers la page backend après la suppression
             header("location: delete_combattants.php");
             exit();
         } else {

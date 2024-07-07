@@ -6,12 +6,10 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Récupérer la liste des combattants depuis la base de données
 $sql_combattants = "SELECT combattant_id, nom FROM COMBATTANT";
 $stmt_combattants = $pdo->query($sql_combattants);
 $combattants = $stmt_combattants->fetchAll(PDO::FETCH_ASSOC);
 
-// Récupérer la liste des catégories depuis la base de données
 $sql_categories = "SELECT category_id, category_name FROM CATEGORIES";
 $stmt_categories = $pdo->query($sql_categories);
 $categories = $stmt_categories->fetchAll(PDO::FETCH_ASSOC);
